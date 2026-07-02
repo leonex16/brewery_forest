@@ -1,0 +1,14 @@
+{
+  "debug.internalConsoleOptions": "openOnSessionStart",
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.rulers": [
+      100
+    ],
+    "editor.selectionHighlight": false,
+    "editor.tabCompletion": "onlySnippets",
+    "editor.wordBasedSuggestions": "off"
+  },
+  "dart.flutterSdkPath": ".fvm/versions/stable"
+}
