@@ -1,0 +1,31 @@
+## https://www.openbrewerydb.org/documentation#list-breweries
+
+GET https://api.openbrewerydb.org/v1/breweries
+
+## https://www.openbrewerydb.org/documentation#single-brewery
+
+### OK
+GET https://api.openbrewerydb.org/v1/breweries/ae7b3174-8be8-4d53-a3a5-9b8240970eea
+
+### NOK
+GET https://api.openbrewerydb.org/v1/breweries/not-found
+
+## https://www.openbrewerydb.org/documentation#search-breweries
+
+### OK
+GET https://api.openbrewerydb.org/v1/breweries/search
+    ?query=abc
+    &per_page=20
+    &page=1
+
+### OK but empty
+GET https://api.openbrewerydb.org/v1/breweries/search
+    ?query=chileeee
+    &per_page=20
+    &page=1
+
+### OK but empty. Only page 2 is empty
+GET https://api.openbrewerydb.org/v1/breweries/search
+    ?query=not-found
+    &per_page=20
+    &page=2
