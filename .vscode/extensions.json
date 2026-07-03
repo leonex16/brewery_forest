@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "anweber.vscode-httpyac",
-        "dart-code.flutter"
+        "dart-code.flutter",
+        "ms-vscode.makefile-tools"
     ]
 }

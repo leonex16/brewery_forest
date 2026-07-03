@@ -6,7 +6,13 @@ sealed class InfraEx extends AppEx {
 }
 
 final class NetworkEx extends InfraEx {
-  NetworkEx(super.message, {super.cause});
+  NetworkEx({super.cause}) : super('Network error');
+}
+
+final class ServerEx extends InfraEx {
+  final int? statusCode;
+  ServerEx({this.statusCode, super.cause})
+    : super('Server error with status code $statusCode');
 }
 
 final class ParsingEx extends InfraEx {

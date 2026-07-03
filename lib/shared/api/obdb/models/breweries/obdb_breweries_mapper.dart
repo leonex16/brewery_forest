@@ -1,5 +1,5 @@
 import 'package:brewery_forest/core/index.dart';
-import 'package:brewery_forest/shared/api/obdb/models/breweries/obdb_brewires_res.dart'
+import 'package:brewery_forest/shared/api/obdb/models/breweries/obdb_breweries_res.dart'
     as res;
 import 'package:brewery_forest/shared/api/obdb/models/obdb_mapper_helpers.dart';
 
@@ -21,4 +21,3 @@ extension ObdbBreweriesMapper on res.ObdbBreweriesRes {
     );
   }
 }
-

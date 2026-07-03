@@ -1,0 +1,24 @@
+import 'package:brewery_forest/core/errors/infra_ex.dart';
+import 'package:dio/dio.dart';
+
+InfraEx mapDioException(DioException e) {
+  return switch (e.type) {
+    DioExceptionType.connectionTimeout ||
+    DioExceptionType.sendTimeout ||
+    DioExceptionType.receiveTimeout ||
+    DioExceptionType.connectionError => NetworkEx(cause: e),
+    DioExceptionType.badResponse => ServerEx(
+      statusCode: e.response?.statusCode,
+      cause: e,
+    ),
+    _ => NetworkEx(cause: e),
+  };
+}
+
+Future<T> guardDio<T>(Future<T> Function() call) async {
+  try {
+    return await call();
+  } on DioException catch (e) {
+    throw mapDioException(e);
+  }
+}
