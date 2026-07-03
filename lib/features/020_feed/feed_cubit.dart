@@ -21,8 +21,10 @@ final class FeedError extends FeedState {
 @injectable
 class FeedCubit extends Cubit<FeedState> {
   final BreweryRepository _repository;
+  final ErrorReporter _errorReporter;
 
-  FeedCubit({required this._repository}) : super(FeedLoading()) {
+  FeedCubit({required this._repository, required this._errorReporter})
+    : super(FeedLoading()) {
     _onStart();
   }
 
@@ -30,8 +32,24 @@ class FeedCubit extends Cubit<FeedState> {
     try {
       final breweries = await _repository.getAll();
       emit(FeedReady(breweries: breweries));
-    } on AppEx catch (e) {
+    } on AppEx catch (e, st) {
+      _errorReporter.reportError(e, st);
       emit(FeedError(error: e));
+    }
+  }
+
+  Future<List<Brewery>> search({required String query}) async {
+    if (query.isEmpty || query.length < 3) {
+      return [];
+    }
+
+    try {
+      final breweries = await _repository.search(query);
+      return breweries;
+    } on AppEx catch (e, st) {
+      _errorReporter.reportError(e, st, context: {'query': query});
+      emit(FeedError(error: e));
+      return [];
     }
   }
 }

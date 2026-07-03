@@ -14,7 +14,10 @@ final class ObdbDatasource {
   ObdbDatasource(this._dio);
 
   Future<List<ObdbBreweriesRes>> getAll() => guardDio(() async {
-    final response = await _dio.get("/breweries");
+    final response = await _dio.get(
+      "/breweries",
+      queryParameters: {'page': 1, 'per_page': 14, 'sort': 'asc'},
+    );
     final data = response.data as List;
 
     return data

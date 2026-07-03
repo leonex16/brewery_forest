@@ -29,7 +29,7 @@ final appRouter = GoRouter(
     ),
 
     GoRoute(
-      path: "/brewery-detail",
+      path: "/brewery-detail/:id",
       name: 'brewery-detail',
       builder: (context, state) => BlocProvider(
         create: (_) =>

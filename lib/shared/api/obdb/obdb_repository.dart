@@ -1,3 +1,4 @@
+import 'package:brewery_forest/core/errors/domain_ex.dart';
 import 'package:brewery_forest/core/index.dart';
 import 'package:brewery_forest/shared/api/obdb/models/breweries/obdb_breweries_mapper.dart';
 import 'package:brewery_forest/shared/api/obdb/models/brewery/obdb_brewery_mapper.dart';
@@ -8,13 +9,28 @@ import 'package:injectable/injectable.dart';
 @LazySingleton(as: BreweryRepository)
 final class ObdbRepository implements BreweryRepository {
   final ObdbDatasource _datasource;
+  final ErrorReporter _errorReporter;
 
-  ObdbRepository(this._datasource);
+  ObdbRepository(this._datasource, this._errorReporter);
 
   @override
   Future<List<Brewery>> getAll() async {
     final res = await _datasource.getAll();
-    return res.map((b) => b.toEntity()).toList();
+    final breweries = <Brewery>[];
+
+    for (final brewery in res) {
+      try {
+        breweries.add(brewery.toEntity());
+      } on DomainEx catch (e, stackTrace) {
+        _errorReporter.reportError(
+          e,
+          stackTrace,
+          context: {'brewery_id': brewery.id},
+        );
+      }
+    }
+
+    return breweries;
   }
 
   @override
@@ -30,6 +46,20 @@ final class ObdbRepository implements BreweryRepository {
     int? perPage = 10,
   }) async {
     final res = await _datasource.search(q, page: page, perPage: perPage);
-    return res.map((b) => b.toEntity()).toList();
+    final breweries = <Brewery>[];
+
+    for (final brewery in res) {
+      try {
+        breweries.add(brewery.toEntity());
+      } on DomainEx catch (e, stackTrace) {
+        _errorReporter.reportError(
+          e,
+          stackTrace,
+          context: {'brewery_id': brewery.id},
+        );
+      }
+    }
+
+    return breweries;
   }
 }

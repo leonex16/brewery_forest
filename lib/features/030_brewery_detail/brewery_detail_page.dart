@@ -20,7 +20,19 @@ class BreweryDetailPage extends StatelessWidget {
             child: Text(error.message),
           ),
           BreweryDetailReady(:final brewery) => Center(
-            child: Text(brewery.name),
+            child: Column(
+              mainAxisAlignment: .center,
+              crossAxisAlignment: .start,
+              children: [
+                Text("id: ${brewery.id}"),
+                Text("name: ${brewery.name}"),
+                Text("breweryType: ${brewery.breweryType}"),
+                Text("address: ${brewery.address}"),
+                Text("country: ${brewery.address?.country}"),
+                Text("websiteUrl: ${brewery.contact.websiteUrl}"),
+                Text("phone: ${brewery.contact.phone}"),
+              ],
+            ),
           ),
         },
       ),
