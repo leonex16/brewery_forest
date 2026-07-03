@@ -1,4 +1,4 @@
-import 'package:brewery_forest/core/errors/domain_ex.dart';
+import 'package:brewery_forest/core/errors/app_ex.dart';
 
 enum BreweryType { unknown, brewpub, closed, large, micro, proprietor }
 

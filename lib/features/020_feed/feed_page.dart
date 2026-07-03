@@ -1,3 +1,4 @@
+import 'package:brewery_forest/core/index.dart';
 import 'package:brewery_forest/features/020_feed/feed_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +50,7 @@ class FeedPage extends StatelessWidget {
       body: BlocBuilder<FeedCubit, FeedState>(
         builder: (context, state) => switch (state) {
           FeedLoading() => const Center(child: CircularProgressIndicator()),
-          FeedError(:final error) => Center(child: Text(error.message)),
+          FeedError(:final error) => Center(child: Text(userMessage(error))),
           FeedReady(:final breweries) => ListView.separated(
             itemCount: breweries.length,
             separatorBuilder: (_, _) => const Divider(),

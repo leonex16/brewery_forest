@@ -1,4 +1,4 @@
-import 'package:brewery_forest/core/errors/app_ex.dart';
+part of 'app_ex.dart';
 
 sealed class ApplicationEx extends AppEx {
   ApplicationEx(super.message);

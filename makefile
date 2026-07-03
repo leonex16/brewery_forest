@@ -5,3 +5,8 @@ build:
 
 watch:
 	dart run build_runner watch
+
+## Dart
+
+anlz:
+	dart analyze lib

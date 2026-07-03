@@ -1,3 +1,4 @@
+import 'package:brewery_forest/core/errors/error_messages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'brewery_detail_cubit.dart';
@@ -17,7 +18,7 @@ class BreweryDetailPage extends StatelessWidget {
             child: Text('Brewery not found'),
           ),
           BreweryDetailError(:final error) => Center(
-            child: Text(error.message),
+            child: Text(userMessage(error)),
           ),
           BreweryDetailReady(:final brewery) => Center(
             child: Column(

@@ -1,4 +1,3 @@
-import 'package:brewery_forest/core/errors/domain_ex.dart';
 import 'package:brewery_forest/core/index.dart';
 import 'package:brewery_forest/shared/api/obdb/models/breweries/obdb_breweries_mapper.dart';
 import 'package:brewery_forest/shared/api/obdb/models/brewery/obdb_brewery_mapper.dart';

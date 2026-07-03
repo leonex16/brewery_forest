@@ -1,4 +1,4 @@
-import 'package:brewery_forest/core/errors/infra_ex.dart';
+import 'package:brewery_forest/core/errors/app_ex.dart';
 import 'package:dio/dio.dart';
 
 InfraEx mapDioException(DioException e) {
