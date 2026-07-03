@@ -22,7 +22,8 @@ import 'package:brewery_forest/features/020_feed/feed_cubit.dart' as _i347;
 import 'package:brewery_forest/features/030_brewery_detail/brewery_detail_cubit.dart'
     as _i931;
 import 'package:brewery_forest/shared/api/obdb/obdb_datasource.dart' as _i609;
-import 'package:brewery_forest/shared/api/obdb/obdb_repository.dart' as _i525;
+import 'package:brewery_forest/shared/api/obdb/obdb_brewery_repository.dart'
+    as _i525;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -47,7 +48,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i609.ObdbDatasource(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i496.BreweryRepository>(
-      () => _i525.ObdbRepository(
+      () => _i525.ObdbBreweryRepository(
         gh<_i609.ObdbDatasource>(),
         gh<_i496.ErrorReporter>(),
       ),

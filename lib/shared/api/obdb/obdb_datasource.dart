@@ -13,17 +13,18 @@ final class ObdbDatasource {
 
   ObdbDatasource(this._dio);
 
-  Future<List<ObdbBreweriesRes>> getAll() => guardDio(() async {
-    final response = await _dio.get(
-      "/breweries",
-      queryParameters: {'page': 1, 'per_page': 14, 'sort': 'asc'},
-    );
-    final data = response.data as List;
+  Future<List<ObdbBreweriesRes>> getAll({int? page = 1, int? perPage = 10}) =>
+      guardDio(() async {
+        final response = await _dio.get(
+          "/breweries",
+          queryParameters: {'page': page, 'per_page': perPage, 'sort': 'asc'},
+        );
+        final data = response.data as List;
 
-    return data
-        .map((b) => ObdbBreweriesRes.fromJson(b as _BreweryRaw))
-        .toList();
-  });
+        return data
+            .map((b) => ObdbBreweriesRes.fromJson(b as _BreweryRaw))
+            .toList();
+      });
 
   Future<ObdbBreweryRes?> getById(String id) async {
     try {

@@ -6,15 +6,15 @@ import 'package:brewery_forest/shared/api/obdb/obdb_datasource.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: BreweryRepository)
-final class ObdbRepository implements BreweryRepository {
+final class ObdbBreweryRepository implements BreweryRepository {
   final ObdbDatasource _datasource;
   final ErrorReporter _errorReporter;
 
-  ObdbRepository(this._datasource, this._errorReporter);
+  ObdbBreweryRepository(this._datasource, this._errorReporter);
 
   @override
-  Future<List<Brewery>> getAll() async {
-    final res = await _datasource.getAll();
+  Future<List<Brewery>> getAll({int? page = 1, int? perPage = 10}) async {
+    final res = await _datasource.getAll(page: page, perPage: perPage);
     final breweries = <Brewery>[];
 
     for (final brewery in res) {
