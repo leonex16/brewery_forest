@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "anweber.vscode-httpyac"
+        "anweber.vscode-httpyac",
+        "dart-code.flutter"
     ]
 }
