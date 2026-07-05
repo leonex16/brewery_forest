@@ -3,6 +3,7 @@ import 'package:brewery_forest/features/010_location_onboarding/location_onboard
 import 'package:brewery_forest/features/010_location_onboarding/location_onboarding_page.dart';
 import 'package:brewery_forest/features/020_feed/feed_cubit.dart';
 import 'package:brewery_forest/features/020_feed/feed_page.dart';
+import 'package:brewery_forest/features/020_feed/search_bloc.dart';
 import 'package:brewery_forest/features/030_brewery_detail/brewery_detail_cubit.dart';
 import 'package:brewery_forest/features/030_brewery_detail/brewery_detail_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,8 +23,11 @@ final appRouter = GoRouter(
     GoRoute(
       path: "/feed",
       name: 'feed',
-      builder: (context, state) => BlocProvider(
-        create: (_) => getIt<FeedCubit>(),
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => getIt<FeedCubit>()),
+          BlocProvider(create: (_) => getIt<SearchBloc>()),
+        ],
         child: const FeedPage(),
       ),
     ),

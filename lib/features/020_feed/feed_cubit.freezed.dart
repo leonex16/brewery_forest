@@ -56,13 +56,13 @@ extension FeedStatePatterns on FeedState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( FeedLoading value)?  loading,TResult Function( FeedError value)?  error,TResult Function( FeedOk value)?  ok,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( FeedLoading value)?  loading,TResult Function( FeedError value)?  failure,TResult Function( FeedOk value)?  success,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case FeedLoading() when loading != null:
-return loading(_that);case FeedError() when error != null:
-return error(_that);case FeedOk() when ok != null:
-return ok(_that);case _:
+return loading(_that);case FeedError() when failure != null:
+return failure(_that);case FeedOk() when success != null:
+return success(_that);case _:
   return orElse();
 
 }
@@ -80,13 +80,13 @@ return ok(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( FeedLoading value)  loading,required TResult Function( FeedError value)  error,required TResult Function( FeedOk value)  ok,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( FeedLoading value)  loading,required TResult Function( FeedError value)  failure,required TResult Function( FeedOk value)  success,}){
 final _that = this;
 switch (_that) {
 case FeedLoading():
 return loading(_that);case FeedError():
-return error(_that);case FeedOk():
-return ok(_that);}
+return failure(_that);case FeedOk():
+return success(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -100,13 +100,13 @@ return ok(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( FeedLoading value)?  loading,TResult? Function( FeedError value)?  error,TResult? Function( FeedOk value)?  ok,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( FeedLoading value)?  loading,TResult? Function( FeedError value)?  failure,TResult? Function( FeedOk value)?  success,}){
 final _that = this;
 switch (_that) {
 case FeedLoading() when loading != null:
-return loading(_that);case FeedError() when error != null:
-return error(_that);case FeedOk() when ok != null:
-return ok(_that);case _:
+return loading(_that);case FeedError() when failure != null:
+return failure(_that);case FeedOk() when success != null:
+return success(_that);case _:
   return null;
 
 }
@@ -123,12 +123,12 @@ return ok(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loading,TResult Function( AppEx error)?  error,TResult Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError,  GeoCoordinates? userPosition)?  ok,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loading,TResult Function( AppEx error)?  failure,TResult Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError,  GeoCoordinates? userPosition)?  success,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case FeedLoading() when loading != null:
-return loading();case FeedError() when error != null:
-return error(_that.error);case FeedOk() when ok != null:
-return ok(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError,_that.userPosition);case _:
+return loading();case FeedError() when failure != null:
+return failure(_that.error);case FeedOk() when success != null:
+return success(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError,_that.userPosition);case _:
   return orElse();
 
 }
@@ -146,12 +146,12 @@ return ok(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginat
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loading,required TResult Function( AppEx error)  error,required TResult Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError,  GeoCoordinates? userPosition)  ok,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loading,required TResult Function( AppEx error)  failure,required TResult Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError,  GeoCoordinates? userPosition)  success,}) {final _that = this;
 switch (_that) {
 case FeedLoading():
 return loading();case FeedError():
-return error(_that.error);case FeedOk():
-return ok(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError,_that.userPosition);}
+return failure(_that.error);case FeedOk():
+return success(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError,_that.userPosition);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -165,12 +165,12 @@ return ok(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginat
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loading,TResult? Function( AppEx error)?  error,TResult? Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError,  GeoCoordinates? userPosition)?  ok,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loading,TResult? Function( AppEx error)?  failure,TResult? Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError,  GeoCoordinates? userPosition)?  success,}) {final _that = this;
 switch (_that) {
 case FeedLoading() when loading != null:
-return loading();case FeedError() when error != null:
-return error(_that.error);case FeedOk() when ok != null:
-return ok(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError,_that.userPosition);case _:
+return loading();case FeedError() when failure != null:
+return failure(_that.error);case FeedOk() when success != null:
+return success(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError,_that.userPosition);case _:
   return null;
 
 }
@@ -238,7 +238,7 @@ int get hashCode => Object.hash(runtimeType,error);
 
 @override
 String toString() {
-  return 'FeedState.error(error: $error)';
+  return 'FeedState.failure(error: $error)';
 }
 
 
@@ -314,7 +314,7 @@ int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(
 
 @override
 String toString() {
-  return 'FeedState.ok(breweries: $breweries, currentPage: $currentPage, paginationStatus: $paginationStatus, paginationError: $paginationError, userPosition: $userPosition)';
+  return 'FeedState.success(breweries: $breweries, currentPage: $currentPage, paginationStatus: $paginationStatus, paginationError: $paginationError, userPosition: $userPosition)';
 }
 
 

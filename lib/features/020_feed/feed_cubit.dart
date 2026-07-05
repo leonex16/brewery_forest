@@ -10,9 +10,9 @@ enum PaginationStatus { idle, loadingMore, error, reachedEnd }
 @freezed
 sealed class FeedState with _$FeedState {
   const factory FeedState.loading() = FeedLoading;
-  const factory FeedState.error({required AppEx error}) = FeedError;
+  const factory FeedState.failure({required AppEx error}) = FeedError;
 
-  const factory FeedState.ok({
+  const factory FeedState.success({
     required List<Brewery> breweries,
     required int currentPage,
     @Default(PaginationStatus.idle) PaginationStatus paginationStatus,
@@ -34,12 +34,12 @@ class FeedCubit extends Cubit<FeedState> {
     required this._repository,
     required this._locationRepository,
     required this._errorReporter,
-  }) : super(const FeedLoading()) {
+  }) : super(FeedState.loading()) {
     _onStart();
   }
 
   Future<void> refreshLocation() async {
-    emit(const FeedLoading());
+    emit(FeedState.loading());
     await _onStart();
   }
 
@@ -53,13 +53,18 @@ class FeedCubit extends Cubit<FeedState> {
     }
 
     try {
-      final (breweries, hasMore) = await _repository.getAll(
+      final result = await _repository.getAll(
         page: 1,
         perPage: _perPage,
         near: position,
       );
+
+      if (result == null) return;
+
+      final (breweries, hasMore) = result;
+
       emit(
-        FeedOk(
+        FeedState.success(
           breweries: breweries,
           currentPage: 1,
           userPosition: position,
@@ -70,7 +75,7 @@ class FeedCubit extends Cubit<FeedState> {
       );
     } on AppEx catch (e, st) {
       _errorReporter.reportError(e, st);
-      emit(FeedError(error: e));
+      emit(FeedState.failure(error: e));
     }
   }
 
@@ -87,11 +92,15 @@ class FeedCubit extends Cubit<FeedState> {
 
     try {
       final nextPage = state.currentPage + 1;
-      final (newBreweries, hasMore) = await _repository.getAll(
+      final result = await _repository.getAll(
         page: nextPage,
         perPage: _perPage,
         near: state.userPosition,
       );
+
+      if (result == null) return;
+
+      final (newBreweries, hasMore) = result;
 
       final newState = state.copyWith(
         breweries: [...state.breweries, ...newBreweries],
@@ -118,21 +127,6 @@ class FeedCubit extends Cubit<FeedState> {
       emit(newState);
     } finally {
       _isFetchingNextPage = false;
-    }
-  }
-
-  Future<List<Brewery>> search({required String query}) async {
-    if (query.isEmpty || query.length < 3) {
-      return [];
-    }
-
-    try {
-      final breweries = await _repository.search(query);
-      return breweries;
-    } on AppEx catch (e, st) {
-      _errorReporter.reportError(e, st, context: {'query': query});
-      emit(FeedError(error: e));
-      return [];
     }
   }
 }

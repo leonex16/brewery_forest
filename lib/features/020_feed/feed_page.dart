@@ -1,5 +1,6 @@
 import 'package:brewery_forest/core/index.dart';
 import 'package:brewery_forest/features/020_feed/feed_cubit.dart';
+import 'package:brewery_forest/features/020_feed/search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -40,12 +41,13 @@ class _FeedPageState extends State<FeedPage> {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<FeedCubit>();
+    final feedCubit = context.read<FeedCubit>();
+    final searchBloc = context.read<SearchBloc>();
 
     return Scaffold(
       appBar: AppBar(
         title: SearchAnchor(
-          builder: (context, controller) {
+          builder: (_, controller) {
             return SearchBar(
               controller: controller,
               hintText: 'Search breweries...',
@@ -55,25 +57,50 @@ class _FeedPageState extends State<FeedPage> {
             );
           },
           suggestionsBuilder: ((context, controller) async {
-            final queryResult = await cubit.search(query: controller.text);
+            final query = controller.text;
 
-            if (queryResult.isEmpty) {
-              return const [ListTile(title: Text('Sin resultados'))];
-            }
+            searchBloc.add(SearchQueryChanged(query));
 
-            return queryResult.map(
-              (brewery) => ListTile(
-                title: Text(brewery.name),
-                subtitle: Text(brewery.breweryType.name),
-                onTap: () {
-                  controller.closeView(brewery.name);
-                  context.pushNamed(
-                    'brewery-detail',
-                    pathParameters: {'id': brewery.id},
-                  );
+            return [
+              BlocBuilder<SearchBloc, SearchState>(
+                bloc: searchBloc,
+                builder: (context, state) {
+                  return switch (state) {
+                    SearchIdle() => const SizedBox.shrink(),
+
+                    SearchLoading() => const Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
+
+                    SearchFailure(:final error) => ListTile(
+                      title: Text(userMessage(error)),
+                    ),
+
+                    SearchSuccess(:final breweries) when breweries.isEmpty =>
+                      const ListTile(title: Text('No breweries found')),
+
+                    SearchSuccess(:final breweries) => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        for (final brewery in breweries)
+                          ListTile(
+                            title: Text(brewery.name),
+                            subtitle: Text(brewery.breweryType.name),
+                            onTap: () {
+                              controller.closeView(brewery.name);
+                              context.pushNamed(
+                                'brewery-detail',
+                                pathParameters: {'id': brewery.id},
+                              );
+                            },
+                          ),
+                      ],
+                    ),
+                  };
                 },
               ),
-            );
+            ];
           }),
         ),
 
@@ -81,13 +108,13 @@ class _FeedPageState extends State<FeedPage> {
           IconButton(
             icon: const Icon(Icons.my_location),
             tooltip: 'Search on current location',
-            onPressed: () => cubit.refreshLocation(),
+            onPressed: () => feedCubit.refreshLocation(),
           ),
         ],
       ),
 
       body: BlocBuilder<FeedCubit, FeedState>(
-        builder: (context, state) => switch (state) {
+        builder: (_, state) => switch (state) {
           FeedLoading() => const Center(child: CircularProgressIndicator()),
           FeedError(:final error) => Center(child: Text(userMessage(error))),
 
@@ -100,7 +127,7 @@ class _FeedPageState extends State<FeedPage> {
             itemCount: breweries.length + 1,
             separatorBuilder: (_, _) => const Divider(),
 
-            itemBuilder: (context, index) {
+            itemBuilder: (_, index) {
               if (index < breweries.length) {
                 final brewery = breweries[index];
                 return ListTile(
@@ -131,7 +158,7 @@ class _FeedPageState extends State<FeedPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: TextButton(
-                      onPressed: () => context.read<FeedCubit>().loadNextPage(),
+                      onPressed: () => feedCubit.loadNextPage(),
                       child: Text(
                         'Reintentar (${userMessage(state.paginationError!)})',
                       ),

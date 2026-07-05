@@ -3,6 +3,7 @@ import 'package:brewery_forest/shared/api/obdb/models/breweries/obdb_breweries_m
 import 'package:brewery_forest/shared/api/obdb/models/brewery/obdb_brewery_mapper.dart';
 import 'package:brewery_forest/shared/api/obdb/models/search/obdb_search_mapper.dart';
 import 'package:brewery_forest/shared/api/obdb/obdb_datasource.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: BreweryRepository)
@@ -13,16 +14,21 @@ final class ObdbBreweryRepository implements BreweryRepository {
   ObdbBreweryRepository(this._datasource, this._errorReporter);
 
   @override
-  Future<(List<Brewery> breweries, bool hasMore)> getAll({
+  Future<(List<Brewery> breweries, bool hasMore)?> getAll({
     int? page = 1,
     int? perPage = 10,
     GeoCoordinates? near,
+    CancelToken? cancelToken,
   }) async {
     final res = await _datasource.getAll(
       page: page,
       perPage: perPage,
       near: near,
+      cancelToken: cancelToken,
     );
+
+    if (res == null) return null;
+
     final breweries = <Brewery>[];
     final hasMore = res.isNotEmpty;
 
@@ -48,12 +54,21 @@ final class ObdbBreweryRepository implements BreweryRepository {
   }
 
   @override
-  Future<List<Brewery>> search(
+  Future<List<Brewery>?> search(
     String q, {
     int? page = 1,
     int? perPage = 10,
+    CancelToken? cancelToken,
   }) async {
-    final res = await _datasource.search(q, page: page, perPage: perPage);
+    final res = await _datasource.search(
+      q,
+      page: page,
+      perPage: perPage,
+      cancelToken: cancelToken,
+    );
+
+    if (res == null) return null;
+
     final breweries = <Brewery>[];
 
     for (final brewery in res) {
