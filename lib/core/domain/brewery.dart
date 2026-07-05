@@ -59,7 +59,7 @@ final class Brewery {
   final String id;
   final String name;
   final BreweryType breweryType;
-  final Address? address;
+  final Address address;
   final ContactInfo contact;
 
   const Brewery._({
@@ -91,19 +91,18 @@ final class Brewery {
       throw InvalidBreweryEx('name must be defined and non-empty');
     }
 
-    final address = (latitude != null || longitude != null)
-        ? Address(
-            lines: addressLines,
-            city: city,
-            stateProvince: stateProvince,
-            postalCode: postalCode,
-            country: country,
-            coordinates: GeoCoordinates.raw(
-              latitude: latitude,
-              longitude: longitude,
-            ),
-          )
-        : null;
+    if (latitude == null && longitude == null) {
+      throw InvalidBreweryEx('coordinates must be defined');
+    }
+
+    final address = Address(
+      lines: addressLines,
+      city: city,
+      stateProvince: stateProvince,
+      postalCode: postalCode,
+      country: country,
+      coordinates: GeoCoordinates.raw(latitude: latitude, longitude: longitude),
+    );
 
     return Brewery._(
       id: id,

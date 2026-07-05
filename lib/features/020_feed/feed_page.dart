@@ -76,6 +76,14 @@ class _FeedPageState extends State<FeedPage> {
             );
           }),
         ),
+
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.my_location),
+            tooltip: 'Search on current location',
+            onPressed: () => cubit.refreshLocation(),
+          ),
+        ],
       ),
 
       body: BlocBuilder<FeedCubit, FeedState>(
@@ -99,7 +107,7 @@ class _FeedPageState extends State<FeedPage> {
                   title: Text("${index + 1}. ${brewery.name}"),
                   leading: const Icon(Icons.local_offer),
                   subtitle: Text(
-                    'breweryType: ${brewery.breweryType.name}, city: ${brewery.address?.city}, state: ${brewery.address?.stateProvince}',
+                    'breweryType: ${brewery.breweryType.name}, city: ${brewery.address.city}, state: ${brewery.address.stateProvince}',
                   ),
                   onTap: () => context.pushNamed(
                     'brewery-detail',

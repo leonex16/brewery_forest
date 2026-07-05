@@ -13,9 +13,18 @@ final class ObdbBreweryRepository implements BreweryRepository {
   ObdbBreweryRepository(this._datasource, this._errorReporter);
 
   @override
-  Future<List<Brewery>> getAll({int? page = 1, int? perPage = 10}) async {
-    final res = await _datasource.getAll(page: page, perPage: perPage);
+  Future<(List<Brewery> breweries, bool hasMore)> getAll({
+    int? page = 1,
+    int? perPage = 10,
+    GeoCoordinates? near,
+  }) async {
+    final res = await _datasource.getAll(
+      page: page,
+      perPage: perPage,
+      near: near,
+    );
     final breweries = <Brewery>[];
+    final hasMore = res.isNotEmpty;
 
     for (final brewery in res) {
       try {
@@ -29,7 +38,7 @@ final class ObdbBreweryRepository implements BreweryRepository {
       }
     }
 
-    return breweries;
+    return (breweries, hasMore);
   }
 
   @override

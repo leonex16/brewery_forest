@@ -11,6 +11,7 @@ String userMessage(AppEx error) => switch (error) {
   ServerEx() => 'Something went wrong on our end',
   ParsingEx() => 'We had trouble reading the data',
   StorageEx() => 'We had trouble saving your data',
+  LocationUnavailableEx() => 'We couldn\'t get your location',
 
   // AppEx
   BreweryNotFoundEx() => 'We couldn\'t find that brewery',

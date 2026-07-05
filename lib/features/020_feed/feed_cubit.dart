@@ -17,6 +17,7 @@ sealed class FeedState with _$FeedState {
     required int currentPage,
     @Default(PaginationStatus.idle) PaginationStatus paginationStatus,
     AppEx? paginationError,
+    GeoCoordinates? userPosition,
   }) = FeedOk;
 }
 
@@ -26,23 +27,45 @@ class FeedCubit extends Cubit<FeedState> {
   bool _isFetchingNextPage = false;
 
   final BreweryRepository _repository;
+  final LocationRepository _locationRepository;
   final ErrorReporter _errorReporter;
 
-  FeedCubit({required this._repository, required this._errorReporter})
-    : super(const FeedLoading()) {
+  FeedCubit({
+    required this._repository,
+    required this._locationRepository,
+    required this._errorReporter,
+  }) : super(const FeedLoading()) {
     _onStart();
   }
 
+  Future<void> refreshLocation() async {
+    emit(const FeedLoading());
+    await _onStart();
+  }
+
   Future<void> _onStart() async {
+    GeoCoordinates? position;
+
     try {
-      final breweries = await _repository.getAll(page: 1, perPage: _perPage);
+      position = await _locationRepository.getPosition();
+    } on LocationUnavailableEx catch (e, st) {
+      _errorReporter.reportError(e, st);
+    }
+
+    try {
+      final (breweries, hasMore) = await _repository.getAll(
+        page: 1,
+        perPage: _perPage,
+        near: position,
+      );
       emit(
         FeedOk(
           breweries: breweries,
           currentPage: 1,
-          paginationStatus: breweries.length < _perPage
-              ? PaginationStatus.reachedEnd
-              : PaginationStatus.idle,
+          userPosition: position,
+          paginationStatus: hasMore
+              ? PaginationStatus.idle
+              : PaginationStatus.reachedEnd,
         ),
       );
     } on AppEx catch (e, st) {
@@ -64,17 +87,18 @@ class FeedCubit extends Cubit<FeedState> {
 
     try {
       final nextPage = state.currentPage + 1;
-      final newBreweries = await _repository.getAll(
+      final (newBreweries, hasMore) = await _repository.getAll(
         page: nextPage,
         perPage: _perPage,
+        near: state.userPosition,
       );
 
       final newState = state.copyWith(
         breweries: [...state.breweries, ...newBreweries],
         currentPage: nextPage,
-        paginationStatus: newBreweries.length < _perPage
-            ? PaginationStatus.reachedEnd
-            : PaginationStatus.idle,
+        paginationStatus: hasMore
+            ? PaginationStatus.idle
+            : PaginationStatus.reachedEnd,
         paginationError: null,
       );
 

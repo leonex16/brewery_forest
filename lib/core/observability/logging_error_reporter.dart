@@ -6,20 +6,11 @@ import 'package:injectable/injectable.dart';
 @LazySingleton(as: ErrorReporter)
 final class LoggingErrorReporter implements ErrorReporter {
   @override
-  void reportError(
-    Object error,
-    StackTrace stackTrace, {
-    Map<String, Object?>? context,
-  }) {
+  void reportError(Object e, StackTrace st, {Map<String, Object?>? context}) {
     final message = (context == null || context.isEmpty)
-        ? error.toString()
-        : '${error.toString()} | context: $context';
+        ? e.toString()
+        : '${e.toString()} | context: $context';
 
-    developer.log(
-      message,
-      name: 'ErrorReporter',
-      error: error,
-      stackTrace: stackTrace,
-    );
+    developer.log(message, name: 'ErrorReporter', error: e, stackTrace: st);
   }
 }

@@ -123,12 +123,12 @@ return ok(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loading,TResult Function( AppEx error)?  error,TResult Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError)?  ok,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loading,TResult Function( AppEx error)?  error,TResult Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError,  GeoCoordinates? userPosition)?  ok,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case FeedLoading() when loading != null:
 return loading();case FeedError() when error != null:
 return error(_that.error);case FeedOk() when ok != null:
-return ok(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError);case _:
+return ok(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError,_that.userPosition);case _:
   return orElse();
 
 }
@@ -146,12 +146,12 @@ return ok(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginat
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loading,required TResult Function( AppEx error)  error,required TResult Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError)  ok,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loading,required TResult Function( AppEx error)  error,required TResult Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError,  GeoCoordinates? userPosition)  ok,}) {final _that = this;
 switch (_that) {
 case FeedLoading():
 return loading();case FeedError():
 return error(_that.error);case FeedOk():
-return ok(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError);}
+return ok(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError,_that.userPosition);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -165,12 +165,12 @@ return ok(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginat
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loading,TResult? Function( AppEx error)?  error,TResult? Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError)?  ok,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loading,TResult? Function( AppEx error)?  error,TResult? Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError,  GeoCoordinates? userPosition)?  ok,}) {final _that = this;
 switch (_that) {
 case FeedLoading() when loading != null:
 return loading();case FeedError() when error != null:
 return error(_that.error);case FeedOk() when ok != null:
-return ok(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError);case _:
+return ok(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError,_that.userPosition);case _:
   return null;
 
 }
@@ -280,7 +280,7 @@ as AppEx,
 
 
 class FeedOk implements FeedState {
-  const FeedOk({required  List<Brewery> breweries, required this.currentPage, this.paginationStatus = PaginationStatus.idle, this.paginationError}): _breweries = breweries;
+  const FeedOk({required  List<Brewery> breweries, required this.currentPage, this.paginationStatus = PaginationStatus.idle, this.paginationError, this.userPosition}): _breweries = breweries;
   
 
  final  List<Brewery> _breweries;
@@ -293,6 +293,7 @@ class FeedOk implements FeedState {
  final  int currentPage;
 @JsonKey() final  PaginationStatus paginationStatus;
  final  AppEx? paginationError;
+ final  GeoCoordinates? userPosition;
 
 /// Create a copy of FeedState
 /// with the given fields replaced by the non-null parameter values.
@@ -304,16 +305,16 @@ $FeedOkCopyWith<FeedOk> get copyWith => _$FeedOkCopyWithImpl<FeedOk>(this, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FeedOk&&const DeepCollectionEquality().equals(other._breweries, _breweries)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.paginationStatus, paginationStatus) || other.paginationStatus == paginationStatus)&&(identical(other.paginationError, paginationError) || other.paginationError == paginationError));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FeedOk&&const DeepCollectionEquality().equals(other._breweries, _breweries)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.paginationStatus, paginationStatus) || other.paginationStatus == paginationStatus)&&(identical(other.paginationError, paginationError) || other.paginationError == paginationError)&&(identical(other.userPosition, userPosition) || other.userPosition == userPosition));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_breweries),currentPage,paginationStatus,paginationError);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_breweries),currentPage,paginationStatus,paginationError,userPosition);
 
 @override
 String toString() {
-  return 'FeedState.ok(breweries: $breweries, currentPage: $currentPage, paginationStatus: $paginationStatus, paginationError: $paginationError)';
+  return 'FeedState.ok(breweries: $breweries, currentPage: $currentPage, paginationStatus: $paginationStatus, paginationError: $paginationError, userPosition: $userPosition)';
 }
 
 
@@ -324,7 +325,7 @@ abstract mixin class $FeedOkCopyWith<$Res> implements $FeedStateCopyWith<$Res> {
   factory $FeedOkCopyWith(FeedOk value, $Res Function(FeedOk) _then) = _$FeedOkCopyWithImpl;
 @useResult
 $Res call({
- List<Brewery> breweries, int currentPage, PaginationStatus paginationStatus, AppEx? paginationError
+ List<Brewery> breweries, int currentPage, PaginationStatus paginationStatus, AppEx? paginationError, GeoCoordinates? userPosition
 });
 
 
@@ -341,13 +342,14 @@ class _$FeedOkCopyWithImpl<$Res>
 
 /// Create a copy of FeedState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? breweries = null,Object? currentPage = null,Object? paginationStatus = null,Object? paginationError = freezed,}) {
+@pragma('vm:prefer-inline') $Res call({Object? breweries = null,Object? currentPage = null,Object? paginationStatus = null,Object? paginationError = freezed,Object? userPosition = freezed,}) {
   return _then(FeedOk(
 breweries: null == breweries ? _self._breweries : breweries // ignore: cast_nullable_to_non_nullable
 as List<Brewery>,currentPage: null == currentPage ? _self.currentPage : currentPage // ignore: cast_nullable_to_non_nullable
 as int,paginationStatus: null == paginationStatus ? _self.paginationStatus : paginationStatus // ignore: cast_nullable_to_non_nullable
 as PaginationStatus,paginationError: freezed == paginationError ? _self.paginationError : paginationError // ignore: cast_nullable_to_non_nullable
-as AppEx?,
+as AppEx?,userPosition: freezed == userPosition ? _self.userPosition : userPosition // ignore: cast_nullable_to_non_nullable
+as GeoCoordinates?,
   ));
 }
 

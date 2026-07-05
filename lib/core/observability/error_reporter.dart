@@ -1,7 +1,3 @@
 abstract class ErrorReporter {
-  void reportError(
-    Object error,
-    StackTrace stackTrace, {
-    Map<String, Object?>? context,
-  });
+  void reportError(Object e, StackTrace st, {Map<String, Object?>? context});
 }

@@ -22,3 +22,7 @@ final class ParsingEx extends InfraEx {
 final class StorageEx extends InfraEx {
   StorageEx(super.message, {super.cause});
 }
+
+final class LocationUnavailableEx extends InfraEx {
+  LocationUnavailableEx({super.cause}) : super('Location unavailable');
+}

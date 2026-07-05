@@ -1,10 +1,11 @@
-import 'package:brewery_forest/core/managers/location/location_permission_state.dart';
+import 'package:brewery_forest/core/index.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class LocationRepository {
   Future<LocationAccess> checkPermission();
   Future<LocationAccess> requestPermission();
+  Future<GeoCoordinates> getPosition();
 }
 
 @LazySingleton(as: LocationRepository)
@@ -34,4 +35,17 @@ class GeolocatorLocationRepository implements LocationRepository {
     LocationPermission.denied ||
     LocationPermission.unableToDetermine => LocationDenied(),
   };
+
+  @override
+  Future<GeoCoordinates> getPosition() async {
+    try {
+      final position = await Geolocator.getCurrentPosition();
+      return GeoCoordinates.raw(
+        latitude: position.latitude,
+        longitude: position.longitude,
+      );
+    } catch (e) {
+      throw LocationUnavailableEx(cause: e);
+    }
+  }
 }

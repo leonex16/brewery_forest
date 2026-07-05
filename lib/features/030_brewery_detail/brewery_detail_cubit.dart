@@ -23,10 +23,14 @@ final class BreweryDetailError extends BreweryDetailState {
 @injectable
 final class BreweryDetailCubit extends Cubit<BreweryDetailState> {
   final BreweryRepository _repository;
+  final ErrorReporter _errorReporter;
   final String id;
 
-  BreweryDetailCubit(this._repository, @factoryParam this.id)
-    : super(BreweryDetailLoading()) {
+  BreweryDetailCubit(
+    this._repository,
+    this._errorReporter,
+    @factoryParam this.id,
+  ) : super(BreweryDetailLoading()) {
     _onStart();
   }
 
@@ -41,6 +45,15 @@ final class BreweryDetailCubit extends Cubit<BreweryDetailState> {
 
       emit(BreweryDetailReady(brewery));
     } on AppEx catch (e) {
+      _errorReporter.reportError(
+        e,
+        StackTrace.current,
+        context: {
+          'breweryId': id,
+          'cubit': 'BreweryDetailCubit',
+          'method': '_onStart',
+        },
+      );
       emit(BreweryDetailError(e));
     }
   }
