@@ -5,7 +5,6 @@ import 'package:brewery_forest/shared/api/obdb/models/brewery/obdb_brewery_res.d
 import 'package:brewery_forest/shared/api/obdb/models/breweries/obdb_breweries_res.dart';
 import 'package:brewery_forest/shared/api/obdb/models/search/obdb_search_res.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/rendering.dart';
 import 'package:injectable/injectable.dart';
 
 typedef _BreweryRaw = Map<String, dynamic>;
@@ -17,12 +16,18 @@ final class ObdbDatasource {
 
   ObdbDatasource(this._dio, this._logger);
 
+  bool _isCancelled(DioException e, String operation) {
+    if (e.type != DioExceptionType.cancel) return false;
+    _logger.debug('$operation cancelled: ${e.message}');
+    return true;
+  }
+
   Future<List<ObdbBreweriesRes>?> getAll({
     int? page = 1,
     int? perPage = 10,
     GeoCoordinates? near,
     CancelToken? cancelToken,
-  }) => guardDio(() async {
+  }) async {
     try {
       final response = await _dio.get(
         "/breweries",
@@ -41,34 +46,19 @@ final class ObdbDatasource {
           .map((b) => ObdbBreweriesRes.fromJson(b as _BreweryRaw))
           .toList();
     } on DioException catch (e) {
-      if (e.type == .cancel) {
-        _logger.debug('search cancelled: ${e.message}');
-        return null;
-      }
-
+      if (_isCancelled(e, 'getAll')) return null;
       throw mapDioException(e);
     }
-  });
+  }
 
-  Future<ObdbBreweryRes?> getById(String id, {CancelToken? cancelToken}) async {
+  Future<ObdbBreweryRes?> getById(String id) async {
     try {
-      final response = await _dio.get(
-        "/breweries/$id",
-        cancelToken: cancelToken,
-      );
+      final response = await _dio.get("/breweries/$id");
       final data = response.data as _BreweryRaw;
 
       return ObdbBreweryRes.fromJson(data);
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.cancel) {
-        _logger.debug('search cancelled: ${e.message}');
-        return null;
-      }
-
-      if (e.response?.statusCode == 404) {
-        return null;
-      }
-
+      if (e.response?.statusCode == 404) return null;
       throw mapDioException(e);
     }
   }
@@ -78,7 +68,7 @@ final class ObdbDatasource {
     int? page = 1,
     int? perPage = 10,
     CancelToken? cancelToken,
-  }) => guardDio(() async {
+  }) async {
     try {
       final response = await _dio.get(
         "/breweries/search",
@@ -88,12 +78,8 @@ final class ObdbDatasource {
       final data = response.data as List;
       return data.map((b) => ObdbSearchRes.fromJson(b as _BreweryRaw)).toList();
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.cancel) {
-        _logger.debug('search cancelled: ${e.message}');
-        return null;
-      }
-
+      if (_isCancelled(e, 'search')) return null;
       throw mapDioException(e);
     }
-  });
+  }
 }

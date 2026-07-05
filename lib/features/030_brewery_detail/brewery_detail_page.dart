@@ -29,7 +29,7 @@ class BreweryDetailPage extends StatelessWidget {
                 Text("name: ${brewery.name}"),
                 Text("breweryType: ${brewery.breweryType}"),
                 Text("address: ${brewery.address}"),
-                Text("country: ${brewery.address?.country}"),
+                Text("country: ${brewery.address.country}"),
                 Text("websiteUrl: ${brewery.contact.websiteUrl}"),
                 Text("phone: ${brewery.contact.phone}"),
               ],

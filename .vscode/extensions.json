@@ -2,6 +2,7 @@
     "recommendations": [
         "anweber.vscode-httpyac",
         "dart-code.flutter",
-        "ms-vscode.makefile-tools"
+        "ms-vscode.makefile-tools",
+        "vscjava.vscode-gradle"
     ]
 }
