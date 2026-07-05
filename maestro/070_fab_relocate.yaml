@@ -1,0 +1,26 @@
+appId: com.example.brewery_forest
+name: 070_fab_relocate
+tags:
+  - deterministic
+# Flow 7: tap the location FAB -> feed reloads by location and stays operative
+# (brewery list is present again after the refresh).
+---
+- launchApp:
+    clearState: true
+    permissions:
+      location: allow
+- setLocation:
+    latitude: 43.6532
+    longitude: -79.3832
+- extendedWaitUntil:
+    visible: "Search on current location"
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: "brewery_item"
+    timeout: 30000
+- tapOn: "Search on current location"
+- extendedWaitUntil:
+    visible:
+      id: "brewery_item"
+    timeout: 30000

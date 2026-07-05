@@ -1,0 +1,37 @@
+appId: com.example.brewery_forest
+name: 050_pagination
+tags:
+  - deterministic
+# Flow 5: expand the bottom sheet, then scroll the list to its end. Reaching the
+# end of page 1 (10 items) triggers loadNextPage; item 15 only exists once the
+# next page loads, so asserting it proves the list grew past the first page.
+# (Maestro's auto-scroll targets screen center = the full-screen map, so the
+# sheet's inner list must be scrolled with explicit coordinate swipes.)
+---
+- launchApp:
+    clearState: true
+    permissions:
+      location: allow
+- setLocation:
+    latitude: 43.6532
+    longitude: -79.3832
+- extendedWaitUntil:
+    visible:
+      id: "brewery_item"
+    timeout: 30000
+- swipe:
+    start: "50%, 85%"
+    end: "50%, 15%"
+    duration: 600
+- swipe:
+    start: "50%, 80%"
+    end: "50%, 20%"
+    duration: 400
+- swipe:
+    start: "50%, 80%"
+    end: "50%, 20%"
+    duration: 400
+- extendedWaitUntil:
+    visible:
+      text: '(?s)15\..*'
+    timeout: 20000

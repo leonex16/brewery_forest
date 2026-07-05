@@ -1,0 +1,32 @@
+appId: com.example.brewery_forest
+name: 060_list_to_detail
+tags:
+  - deterministic
+  - smoke
+# Flow 6: tap the first list item -> floating card -> 'See more' -> full detail.
+# (Reconciled with the card feature: the item tap now opens the card instead of
+# navigating directly; 'See more' is the path to the detail screen.)
+---
+- launchApp:
+    clearState: true
+    permissions:
+      location: allow
+- setLocation:
+    latitude: 43.6532
+    longitude: -79.3832
+- extendedWaitUntil:
+    visible:
+      id: "brewery_item"
+    timeout: 30000
+- tapOn:
+    id: "brewery_item"
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: "brewery_card"
+    timeout: 10000
+- tapOn: "See more"
+- extendedWaitUntil:
+    visible:
+      text: "name: .*"
+    timeout: 20000

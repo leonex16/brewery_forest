@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
 class LocationDisabledPage extends StatelessWidget {
-  const LocationDisabledPage({super.key, required this.onOpenSettings});
+  const LocationDisabledPage({
+    super.key,
+    required this.onOpenSettings,
+    required this.onExplore,
+  });
 
   final Future<bool> Function() onOpenSettings;
+  final VoidCallback onExplore;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +29,10 @@ class LocationDisabledPage extends StatelessWidget {
               TextButton(
                 onPressed: onOpenSettings,
                 child: const Text('Open settings'),
+              ),
+              TextButton(
+                onPressed: onExplore,
+                child: const Text('Explore without location'),
               ),
             ],
           ),

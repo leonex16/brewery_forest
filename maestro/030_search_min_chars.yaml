@@ -1,0 +1,25 @@
+appId: com.example.brewery_forest
+name: 030_search_min_chars
+tags:
+  - deterministic
+# Flow 3: type <5 chars -> search does not fire (idle): no results, no empty msg.
+---
+- launchApp:
+    clearState: true
+    permissions:
+      location: allow
+- setLocation:
+    latitude: 43.6532
+    longitude: -79.3832
+- extendedWaitUntil:
+    visible: "Search on current location"
+    timeout: 30000
+- tapOn:
+    id: "feed_search_field"
+- inputText: "beer"
+- extendedWaitUntil:
+    visible: "beer"
+    timeout: 8000
+- assertNotVisible:
+    id: "search_result_item"
+- assertNotVisible: "No breweries found"

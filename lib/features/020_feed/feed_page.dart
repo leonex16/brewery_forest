@@ -1,5 +1,6 @@
 import 'package:brewery_forest/core/index.dart';
 import 'package:brewery_forest/features/020_feed/feed_cubit.dart';
+import 'package:brewery_forest/features/020_feed/feed_presentation.dart';
 import 'package:brewery_forest/features/020_feed/search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +41,13 @@ class _FeedPageState extends State<FeedPage> {
     final breweryId = annotation.customData?['brewery_id'] as String?;
     if (breweryId == null) return;
 
-    context.pushNamed('brewery-detail', pathParameters: {'id': breweryId});
+    final state = context.read<FeedCubit>().state;
+    if (state is! FeedOk) return;
+
+    final matches = state.breweries.where((b) => b.id == breweryId);
+    if (matches.isEmpty) return;
+
+    context.read<FeedCubit>().selectBrewery(matches.first);
   }
 
   Future<void> _updateMarkers(FeedState state) async {
@@ -64,6 +71,22 @@ class _FeedPageState extends State<FeedPage> {
         ),
       );
     }
+
+    final userPosition = state.userPosition;
+    if (userPosition != null) {
+      await manager.create(
+        CircleAnnotationOptions(
+          geometry: Point(
+            coordinates: Position(
+              userPosition.longitude,
+              userPosition.latitude,
+            ),
+          ),
+          circleColor: Colors.blue.toARGB32(),
+          circleRadius: 10,
+        ),
+      );
+    }
   }
 
   void _onFeedStateChanged(BuildContext context, FeedState state) {
@@ -82,6 +105,18 @@ class _FeedPageState extends State<FeedPage> {
         ),
       );
     }
+  }
+
+  Widget _flagOrIcon(String? flagUrl) {
+    if (flagUrl == null) return const Icon(Icons.local_offer);
+
+    return Image.network(
+      flagUrl,
+      width: 32,
+      height: 24,
+      fit: BoxFit.contain,
+      errorBuilder: (_, _, _) => const Icon(Icons.local_offer),
+    );
   }
 
   @override
@@ -128,12 +163,15 @@ class _FeedPageState extends State<FeedPage> {
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: SearchAnchor(
-                        builder: (_, controller) => SearchBar(
-                          controller: controller,
-                          hintText: 'Search breweries...',
-                          leading: const Icon(Icons.search),
-                          onTap: () => controller.openView(),
-                          onChanged: (_) => controller.openView(),
+                        builder: (_, controller) => Semantics(
+                          identifier: 'feed_search_field',
+                          child: SearchBar(
+                            controller: controller,
+                            hintText: 'Search breweries...',
+                            leading: const Icon(Icons.search),
+                            onTap: () => controller.openView(),
+                            onChanged: (_) => controller.openView(),
+                          ),
                         ),
                         suggestionsBuilder: (_, controller) async {
                           final query = controller.text;
@@ -162,18 +200,23 @@ class _FeedPageState extends State<FeedPage> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     for (final brewery in breweries)
-                                      ListTile(
-                                        title: Text(brewery.name),
-                                        subtitle: Text(
-                                          brewery.breweryType.name,
+                                      Semantics(
+                                        identifier: 'search_result_item',
+                                        child: ListTile(
+                                          title: Text(brewery.name),
+                                          subtitle: Text(
+                                            brewery.breweryType.name,
+                                          ),
+                                          onTap: () {
+                                            controller.closeView(brewery.name);
+                                            context.pushNamed(
+                                              'brewery-detail',
+                                              pathParameters: {
+                                                'id': brewery.id,
+                                              },
+                                            );
+                                          },
                                         ),
-                                        onTap: () {
-                                          controller.closeView(brewery.name);
-                                          context.pushNamed(
-                                            'brewery-detail',
-                                            pathParameters: {'id': brewery.id},
-                                          );
-                                        },
                                       ),
                                   ],
                                 ),
@@ -190,8 +233,9 @@ class _FeedPageState extends State<FeedPage> {
                           FeedLoading() => const Center(
                             child: CircularProgressIndicator(),
                           ),
-                          FeedError(:final error) => Center(
-                            child: Text(userMessage(error)),
+                          FeedError(:final error) => Semantics(
+                            identifier: 'feed_error',
+                            child: Center(child: Text(userMessage(error))),
                           ),
 
                           FeedOk(:final breweries) when breweries.isEmpty =>
@@ -217,17 +261,20 @@ class _FeedPageState extends State<FeedPage> {
                                 itemBuilder: (_, index) {
                                   if (index < breweries.length) {
                                     final brewery = breweries[index];
-                                    return ListTile(
-                                      title: Text(
-                                        "${index + 1}. ${brewery.name}",
-                                      ),
-                                      leading: const Icon(Icons.local_offer),
-                                      subtitle: Text(
-                                        'breweryType: ${brewery.breweryType.name}, city: ${brewery.address.city}, state: ${brewery.address.stateProvince}',
-                                      ),
-                                      onTap: () => context.pushNamed(
-                                        'brewery-detail',
-                                        pathParameters: {'id': brewery.id},
+                                    return Semantics(
+                                      identifier: 'brewery_item',
+                                      child: ListTile(
+                                        title: Text(
+                                          "${index + 1}. ${brewery.name}",
+                                        ),
+                                        leading: _flagOrIcon(
+                                          brewery.address.flagUrl,
+                                        ),
+                                        subtitle: Text(
+                                          'breweryType: ${brewery.breweryType.name}, city: ${brewery.address.city}, state: ${brewery.address.stateProvince}',
+                                        ),
+                                        onTap: () =>
+                                            feedCubit.selectBrewery(brewery),
                                       ),
                                     );
                                   }
@@ -248,11 +295,14 @@ class _FeedPageState extends State<FeedPage> {
                                     PaginationStatus.error => Center(
                                       child: Padding(
                                         padding: const EdgeInsets.all(16),
-                                        child: TextButton(
-                                          onPressed: () =>
-                                              feedCubit.loadNextPage(),
-                                          child: Text(
-                                            'Reintentar (${userMessage(state.paginationError!)})',
+                                        child: Semantics(
+                                          identifier: 'pagination_retry',
+                                          child: TextButton(
+                                            onPressed: () =>
+                                                feedCubit.loadNextPage(),
+                                            child: Text(
+                                              'Reintentar (${userMessage(state.paginationError!)})',
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -268,6 +318,112 @@ class _FeedPageState extends State<FeedPage> {
                 ),
               );
             },
+          ),
+
+          Positioned(
+            top: MediaQuery.of(context).padding.top + 8,
+            left: 16,
+            right: 16,
+            child: BlocBuilder<FeedCubit, FeedState>(
+              builder: (context, state) {
+                if (state is! FeedOk) return const SizedBox.shrink();
+
+                final text = locationBannerMessage(
+                  state.locationSource,
+                  state.ipLocation,
+                );
+
+                if (text == null) return const SizedBox.shrink();
+
+                return Semantics(
+                  identifier: 'location_banner',
+                  child: Material(
+                    elevation: 2,
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.amber.shade100,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      child: Text(text),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+
+          Positioned.fill(
+            child: BlocBuilder<FeedCubit, FeedState>(
+              builder: (context, state) {
+                final brewery = state is FeedOk ? state.selectedBrewery : null;
+                if (brewery == null) return const SizedBox.shrink();
+
+                return Stack(
+                  children: [
+                    Positioned.fill(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () => feedCubit.clearSelection(),
+                      ),
+                    ),
+                    Positioned(
+                      left: 16,
+                      right: 16,
+                      bottom: 100,
+                      child: Semantics(
+                        identifier: 'brewery_card',
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    _flagOrIcon(brewery.address.flagUrl),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        brewery.name,
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.titleMedium,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 4),
+                                Text('Type: ${brewery.breweryType.name}'),
+                                if (brewery.address.city != null)
+                                  Text('City: ${brewery.address.city}'),
+                                const SizedBox(height: 8),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      final id = brewery.id;
+                                      feedCubit.clearSelection();
+                                      context.pushNamed(
+                                        'brewery-detail',
+                                        pathParameters: {'id': id},
+                                      );
+                                    },
+                                    child: const Text('See more'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
         ],
       ),

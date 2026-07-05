@@ -14,7 +14,7 @@ final class ObdbDatasource {
   final Dio _dio;
   final Logger _logger;
 
-  ObdbDatasource(this._dio, this._logger);
+  ObdbDatasource(@Named('obdb') this._dio, this._logger);
 
   bool _isCancelled(DioException e, String operation) {
     if (e.type != DioExceptionType.cancel) return false;

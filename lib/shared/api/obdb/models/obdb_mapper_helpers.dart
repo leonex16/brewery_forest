@@ -19,9 +19,5 @@ BreweryType parseBreweryType(String? type) {
 }
 
 List<String> parseAddressLines(String? address1, String? address2, String? address3) {
-  return [
-    address1,
-    address2,
-    address3,
-  ].where((line) => line?.isNotEmpty ?? false).cast<String>().toList();
+  return [address1, address2, address3].compact();
 }

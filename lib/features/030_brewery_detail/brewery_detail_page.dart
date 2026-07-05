@@ -30,6 +30,15 @@ class BreweryDetailPage extends StatelessWidget {
                 Text("breweryType: ${brewery.breweryType}"),
                 Text("address: ${brewery.address}"),
                 Text("country: ${brewery.address.country}"),
+                if (brewery.address.flagUrl != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Image.network(
+                      brewery.address.flagUrl!,
+                      width: 48,
+                      errorBuilder: (_, _, _) => const SizedBox.shrink(),
+                    ),
+                  ),
                 Text("websiteUrl: ${brewery.contact.websiteUrl}"),
                 Text("phone: ${brewery.contact.phone}"),
               ],

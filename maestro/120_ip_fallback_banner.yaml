@@ -1,0 +1,22 @@
+appId: com.example.brewery_forest
+name: 120_ip_fallback_banner
+tags:
+  - mvp
+# Flow 12: location denied + network OK. Explore into the feed; with GPS
+# unavailable the app falls back to IP geolocation (ipwho.is) and centers there,
+# showing the 'approximate location by IP' banner (assertable, unlike the map).
+---
+- launchApp:
+    clearState: true
+    permissions:
+      location: deny
+- extendedWaitUntil:
+    visible: "Explore without location"
+    timeout: 30000
+- tapOn: "Explore without location"
+- extendedWaitUntil:
+    visible:
+      id: "location_banner"
+    timeout: 40000
+- assertVisible:
+    text: "Approximate location by IP.*"

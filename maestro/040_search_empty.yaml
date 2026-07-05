@@ -1,0 +1,22 @@
+appId: com.example.brewery_forest
+name: 040_search_empty
+tags:
+  - deterministic
+# Flow 4: type 'zzzzzq' (>=5 chars, no match) -> 'No breweries found'.
+---
+- launchApp:
+    clearState: true
+    permissions:
+      location: allow
+- setLocation:
+    latitude: 43.6532
+    longitude: -79.3832
+- extendedWaitUntil:
+    visible: "Search on current location"
+    timeout: 30000
+- tapOn:
+    id: "feed_search_field"
+- inputText: "zzzzzq"
+- extendedWaitUntil:
+    visible: "No breweries found"
+    timeout: 20000

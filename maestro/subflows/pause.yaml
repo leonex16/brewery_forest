@@ -1,0 +1,11 @@
+appId: com.example.brewery_forest
+name: pause
+# Fixed ~1.5s dwell for narrated demos. Maestro has no native sleep, so we wait
+# on a selector that never matches and continue (optional). Only used by the
+# demo/ flows, never by the CI suite.
+---
+- extendedWaitUntil:
+    visible: "___demo_pause___"
+    timeout: 1500
+    optional: true
+    label: "···"

@@ -1,0 +1,18 @@
+appId: com.example.brewery_forest
+name: 080_feed_error
+tags:
+  - error
+# Flow 8: airplane mode ON before launch -> feed shows an error state.
+# onFlowComplete always restores connectivity, even if the flow fails midway.
+onFlowComplete:
+  - setAirplaneMode: disabled
+---
+- setAirplaneMode: enabled
+- launchApp:
+    clearState: true
+    permissions:
+      location: allow
+- extendedWaitUntil:
+    visible:
+      id: "feed_error"
+    timeout: 40000

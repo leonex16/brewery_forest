@@ -1,0 +1,22 @@
+appId: com.example.brewery_forest
+name: 010_feed_loads
+tags:
+  - deterministic
+  - smoke
+# Flow 1: launch with location granted -> feed reached and the brewery list
+# has items (Open Brewery DB page 1 always returns breweries).
+---
+- launchApp:
+    clearState: true
+    permissions:
+      location: allow
+- setLocation:
+    latitude: 43.6532
+    longitude: -79.3832
+- extendedWaitUntil:
+    visible: "Search on current location"
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: "brewery_item"
+    timeout: 30000

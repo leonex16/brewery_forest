@@ -1,0 +1,77 @@
+appId: com.example.brewery_forest
+name: 010_walkthrough
+tags:
+  - demo
+# Narrated walkthrough of the main journey (feed -> search -> card -> detail ->
+# pagination). Meant for `maestro record --local` or for running with slow
+# animations (make e2e-demo). Not part of the CI suite.
+---
+- launchApp:
+    clearState: true
+    permissions:
+      location: allow
+    label: "Open Brewery Forest (location granted)"
+- setLocation:
+    latitude: 43.6532
+    longitude: -79.3832
+    label: "Set our location to Toronto"
+- extendedWaitUntil:
+    visible:
+      id: "brewery_item"
+    timeout: 30000
+    label: "The feed loads nearby breweries"
+- runFlow: ../subflows/pause.yaml
+- tapOn:
+    id: "feed_search_field"
+    label: "Open the search"
+- inputText:
+    text: "brewing"
+    label: "Type 'brewing'"
+- extendedWaitUntil:
+    visible:
+      id: "search_result_item"
+    timeout: 20000
+    label: "Search results appear"
+- runFlow: ../subflows/pause.yaml
+- back
+- runFlow: ../subflows/pause.yaml
+- tapOn:
+    id: "brewery_item"
+    index: 0
+    label: "Tap the first brewery in the list"
+- extendedWaitUntil:
+    visible:
+      id: "brewery_card"
+    timeout: 10000
+    label: "The floating card opens with its data"
+- runFlow: ../subflows/pause.yaml
+- tapOn:
+    text: "See more"
+    label: "Tap 'See more' on the card"
+- extendedWaitUntil:
+    visible:
+      text: "name: .*"
+    timeout: 20000
+    label: "The full brewery detail is shown"
+- runFlow: ../subflows/pause.yaml
+- back
+- runFlow: ../subflows/pause.yaml
+- swipe:
+    start: "50%, 85%"
+    end: "50%, 15%"
+    duration: 600
+    label: "Expand the sheet and scroll the list"
+- swipe:
+    start: "50%, 80%"
+    end: "50%, 20%"
+    duration: 400
+- swipe:
+    start: "50%, 80%"
+    end: "50%, 20%"
+    duration: 400
+- extendedWaitUntil:
+    visible:
+      text: '(?s)11\..*'
+    timeout: 20000
+    label: "More breweries load at the end (pagination)"
+- runFlow: ../subflows/pause.yaml

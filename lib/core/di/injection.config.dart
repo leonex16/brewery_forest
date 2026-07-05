@@ -10,6 +10,8 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:brewery_forest/core/index.dart' as _i496;
+import 'package:brewery_forest/core/managers/location/ip_location_repository.dart'
+    as _i826;
 import 'package:brewery_forest/core/managers/location/location_repository.dart'
     as _i304;
 import 'package:brewery_forest/core/network/dio_client.dart' as _i209;
@@ -25,6 +27,8 @@ import 'package:brewery_forest/features/020_feed/feed_cubit.dart' as _i347;
 import 'package:brewery_forest/features/020_feed/search_bloc.dart' as _i289;
 import 'package:brewery_forest/features/030_brewery_detail/brewery_detail_cubit.dart'
     as _i931;
+import 'package:brewery_forest/shared/api/ipwhois/ipwhois_datasource.dart'
+    as _i684;
 import 'package:brewery_forest/shared/api/obdb/obdb_brewery_repository.dart'
     as _i846;
 import 'package:brewery_forest/shared/api/obdb/obdb_datasource.dart' as _i609;
@@ -40,7 +44,6 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final networkModule = _$NetworkModule();
-    gh.lazySingleton<_i361.Dio>(() => networkModule.dio());
     gh.lazySingleton<_i113.ErrorReporter>(() => _i275.LoggingErrorReporter());
     gh.lazySingleton<_i304.LocationRepository>(
       () => _i304.GeolocatorLocationRepository(),
@@ -49,14 +52,34 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i175.LocationOnboardingCubit(gh<_i496.LocationRepository>()),
     );
     gh.lazySingleton<_i768.Logger>(() => _i60.DeveloperLogger());
+    gh.lazySingleton<_i361.Dio>(
+      () => networkModule.obdbDio(),
+      instanceName: 'obdb',
+    );
+    gh.lazySingleton<_i361.Dio>(
+      () => networkModule.ipwhoDio(),
+      instanceName: 'ipwho',
+    );
     gh.lazySingleton<_i609.ObdbDatasource>(
-      () => _i609.ObdbDatasource(gh<_i361.Dio>(), gh<_i768.Logger>()),
+      () => _i609.ObdbDatasource(
+        gh<_i361.Dio>(instanceName: 'obdb'),
+        gh<_i768.Logger>(),
+      ),
+    );
+    gh.lazySingleton<_i684.IpWhoisDatasource>(
+      () => _i684.IpWhoisDatasource(
+        gh<_i361.Dio>(instanceName: 'ipwho'),
+        gh<_i768.Logger>(),
+      ),
     );
     gh.lazySingleton<_i496.BreweryRepository>(
       () => _i846.ObdbBreweryRepository(
         gh<_i609.ObdbDatasource>(),
         gh<_i496.ErrorReporter>(),
       ),
+    );
+    gh.lazySingleton<_i826.IpLocationRepository>(
+      () => _i826.IpWhoisLocationRepository(gh<_i684.IpWhoisDatasource>()),
     );
     gh.factoryParam<_i931.BreweryDetailCubit, String, dynamic>(
       (id, _) => _i931.BreweryDetailCubit(
@@ -75,6 +98,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i347.FeedCubit(
         repository: gh<_i496.BreweryRepository>(),
         locationRepository: gh<_i496.LocationRepository>(),
+        ipLocationRepository: gh<_i496.IpLocationRepository>(),
         errorReporter: gh<_i496.ErrorReporter>(),
       ),
     );

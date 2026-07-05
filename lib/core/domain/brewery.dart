@@ -1,3 +1,4 @@
+import 'package:brewery_forest/core/domain/country_flags.dart';
 import 'package:brewery_forest/core/errors/app_ex.dart';
 
 enum BreweryType { unknown, brewpub, closed, large, micro, proprietor }
@@ -26,6 +27,7 @@ final class Address {
   final String? stateProvince;
   final String? postalCode;
   final String? country;
+  final String? countryCode;
   final GeoCoordinates coordinates;
 
   const Address({
@@ -34,8 +36,11 @@ final class Address {
     this.stateProvince,
     this.postalCode,
     this.country,
+    this.countryCode,
     required this.coordinates,
   });
+
+  String? get flagUrl => flagImageUrl(countryCode);
 
   @override
   String toString() => 'Address(${lines.join(', ')}, $city, $country)';
@@ -79,6 +84,7 @@ final class Brewery {
     String? stateProvince,
     String? postalCode,
     String? country,
+    String? countryCode,
     double? latitude,
     double? longitude,
     String? phone,
@@ -101,6 +107,7 @@ final class Brewery {
       stateProvince: stateProvince,
       postalCode: postalCode,
       country: country,
+      countryCode: countryCode,
       coordinates: GeoCoordinates.raw(latitude: latitude, longitude: longitude),
     );
 

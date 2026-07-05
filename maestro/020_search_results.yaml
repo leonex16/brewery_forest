@@ -1,0 +1,24 @@
+appId: com.example.brewery_forest
+name: 020_search_results
+tags:
+  - deterministic
+  - smoke
+# Flow 2: type a query >=5 chars that matches -> results appear.
+---
+- launchApp:
+    clearState: true
+    permissions:
+      location: allow
+- setLocation:
+    latitude: 43.6532
+    longitude: -79.3832
+- extendedWaitUntil:
+    visible: "Search on current location"
+    timeout: 30000
+- tapOn:
+    id: "feed_search_field"
+- inputText: "brewing"
+- extendedWaitUntil:
+    visible:
+      id: "search_result_item"
+    timeout: 20000

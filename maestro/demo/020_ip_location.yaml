@@ -1,0 +1,29 @@
+appId: com.example.brewery_forest
+name: 020_ip_location
+tags:
+  - demo
+# Narrated walkthrough of the IP location fallback: with GPS permission denied,
+# the app locates via IP (ipwho.is) and shows the approximate-location banner.
+---
+- launchApp:
+    clearState: true
+    permissions:
+      location: deny
+    label: "Open the app with location DENIED"
+- extendedWaitUntil:
+    visible: "Explore without location"
+    timeout: 30000
+    label: "Permission screen: we offer to explore anyway"
+- runFlow: ../subflows/pause.yaml
+- tapOn:
+    text: "Explore without location"
+    label: "Tap 'Explore without location'"
+- extendedWaitUntil:
+    visible:
+      id: "location_banner"
+    timeout: 40000
+    label: "With no GPS, the app locates by IP and warns"
+- assertVisible:
+    text: "Approximate location by IP.*"
+    label: "Banner: approximate location by IP"
+- runFlow: ../subflows/pause.yaml

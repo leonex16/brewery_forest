@@ -18,6 +18,9 @@ sealed class FeedState with _$FeedState {
     @Default(PaginationStatus.idle) PaginationStatus paginationStatus,
     AppEx? paginationError,
     GeoCoordinates? userPosition,
+    @Default(LocationSource.none) LocationSource locationSource,
+    IpLocation? ipLocation,
+    Brewery? selectedBrewery,
   }) = FeedOk;
 }
 
@@ -28,11 +31,13 @@ class FeedCubit extends Cubit<FeedState> {
 
   final BreweryRepository _repository;
   final LocationRepository _locationRepository;
+  final IpLocationRepository _ipLocationRepository;
   final ErrorReporter _errorReporter;
 
   FeedCubit({
     required this._repository,
     required this._locationRepository,
+    required this._ipLocationRepository,
     required this._errorReporter,
   }) : super(FeedState.loading()) {
     _onStart();
@@ -43,13 +48,39 @@ class FeedCubit extends Cubit<FeedState> {
     await _onStart();
   }
 
+  void selectBrewery(Brewery brewery) {
+    final state = this.state;
+    if (state is! FeedOk) return;
+    emit(state.copyWith(selectedBrewery: brewery));
+  }
+
+  void clearSelection() {
+    final state = this.state;
+    if (state is! FeedOk || state.selectedBrewery == null) return;
+    emit(state.copyWith(selectedBrewery: null));
+  }
+
   Future<void> _onStart() async {
     GeoCoordinates? position;
+    var locationSource = LocationSource.none;
+    IpLocation? ipLocation;
 
     try {
       position = await _locationRepository.getPosition();
+      locationSource = LocationSource.precise;
     } on LocationUnavailableEx catch (e, st) {
       _errorReporter.reportError(e, st);
+
+      try {
+        final approx = await _ipLocationRepository.resolve();
+        if (approx != null) {
+          position = approx.coordinates;
+          locationSource = LocationSource.approximate;
+          ipLocation = approx;
+        }
+      } on AppEx catch (e2, st2) {
+        _errorReporter.reportError(e2, st2);
+      }
     }
 
     try {
@@ -68,6 +99,8 @@ class FeedCubit extends Cubit<FeedState> {
           breweries: breweries,
           currentPage: 1,
           userPosition: position,
+          locationSource: locationSource,
+          ipLocation: ipLocation,
           paginationStatus: hasMore
               ? PaginationStatus.idle
               : PaginationStatus.reachedEnd,

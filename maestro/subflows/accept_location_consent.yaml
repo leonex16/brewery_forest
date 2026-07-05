@@ -1,0 +1,23 @@
+appId: com.example.brewery_forest
+name: accept_location_consent
+# ONE-TIME device setup (part of Fase 0). The Google Play Services "Location
+# Accuracy" consent dialog appears on first launch whenever the app requests
+# location. Accepting it once persists across clearState, so the suite's
+# location-granted flows never see it. Run this once per fresh emulator before
+# the suite. It is NOT part of the suite run (config.yaml only includes the
+# top-level *.yaml flows, not subflows/).
+---
+- launchApp:
+    clearState: true
+    permissions:
+      location: allow
+- extendedWaitUntil:
+    visible: "Turn on"
+    timeout: 30000
+    optional: true
+- runFlow:
+    when:
+      visible: "Turn on"
+    commands:
+      - tapOn: "Turn on"
+- stopApp

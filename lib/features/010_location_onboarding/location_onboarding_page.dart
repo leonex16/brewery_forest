@@ -24,17 +24,20 @@ class LocationOnboardingPage extends StatelessWidget {
         LocationDenied() => EnableLocationPage(
           onEnable: () =>
               context.read<LocationOnboardingCubit>().requestPermission(),
+          onExplore: () => context.goNamed('feed'),
         ),
 
         LocationServiceDisabled() => LocationDisabledPage(
           onOpenSettings: context
               .read<LocationOnboardingCubit>()
               .openLocationSettings,
+          onExplore: () => context.goNamed('feed'),
         ),
         LocationDeniedForever() => LocationDisabledPage(
           onOpenSettings: context
               .read<LocationOnboardingCubit>()
               .openAppSettings,
+          onExplore: () => context.goNamed('feed'),
         ),
       },
     );

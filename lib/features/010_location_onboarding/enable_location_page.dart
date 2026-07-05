@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
 class EnableLocationPage extends StatelessWidget {
-  const EnableLocationPage({super.key, required this.onEnable});
+  const EnableLocationPage({
+    super.key,
+    required this.onEnable,
+    required this.onExplore,
+  });
 
   final VoidCallback onEnable;
+  final VoidCallback onExplore;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +30,10 @@ class EnableLocationPage extends StatelessWidget {
               ElevatedButton(
                 onPressed: onEnable,
                 child: const Text('Enable location'),
+              ),
+              TextButton(
+                onPressed: onExplore,
+                child: const Text('Explore without location'),
               ),
             ],
           ),

@@ -1,0 +1,19 @@
+appId: com.example.brewery_forest
+name: 100_explore_without_location
+tags:
+  - mvp
+# Flow 10: launch with location denied -> permission screen -> tap
+# 'Explore without location' -> feed is reached with items.
+---
+- launchApp:
+    clearState: true
+    permissions:
+      location: deny
+- extendedWaitUntil:
+    visible: "Explore without location"
+    timeout: 30000
+- tapOn: "Explore without location"
+- extendedWaitUntil:
+    visible:
+      id: "brewery_item"
+    timeout: 40000
