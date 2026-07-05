@@ -1,4 +1,5 @@
 import 'package:brewery_forest/app/router.dart';
+import 'package:brewery_forest/ui/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class Application extends StatelessWidget {
@@ -7,7 +8,9 @@ class Application extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: appRouter,
-      theme: ThemeData(fontFamily: 'Outfit'),
+      theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
+      themeMode: .system,
     );
   }
 }
