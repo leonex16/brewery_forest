@@ -9,6 +9,7 @@ class IconCircle extends StatelessWidget {
     this.background,
     this.foreground,
     this.shape = BoxShape.circle,
+    this.borderRadius,
   });
 
   final IconData icon;
@@ -16,6 +17,7 @@ class IconCircle extends StatelessWidget {
   final Color? background;
   final Color? foreground;
   final BoxShape shape;
+  final BorderRadius? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,11 @@ class IconCircle extends StatelessWidget {
       width: size,
       height: size,
       alignment: Alignment.center,
-      decoration: BoxDecoration(color: bg, shape: shape),
+      decoration: BoxDecoration(
+        color: bg,
+        shape: shape,
+        borderRadius: borderRadius,
+      ),
       child: Icon(icon, size: size * 0.5, color: fg),
     );
   }

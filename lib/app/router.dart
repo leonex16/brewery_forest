@@ -1,6 +1,6 @@
 import 'package:brewery_forest/core/di/injection.dart';
-import 'package:brewery_forest/features/010_location_onboarding/location_onboarding_cubit.dart';
-import 'package:brewery_forest/features/010_location_onboarding/location_onboarding_page.dart';
+import 'package:brewery_forest/features/010_location_onboarding/application/location_onboarding_cubit.dart';
+import 'package:brewery_forest/features/010_location_onboarding/presentation/location_onboarding_page.dart';
 import 'package:brewery_forest/features/020_feed/feed_cubit.dart';
 import 'package:brewery_forest/features/020_feed/feed_page.dart';
 import 'package:brewery_forest/features/020_feed/search_bloc.dart';

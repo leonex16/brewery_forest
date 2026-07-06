@@ -18,3 +18,4 @@ export 'widgets/loading_view.dart';
 export 'widgets/sheet_handle.dart';
 export 'widgets/skeleton.dart';
 export 'widgets/status_view.dart';
+export 'widgets/gap.dart';

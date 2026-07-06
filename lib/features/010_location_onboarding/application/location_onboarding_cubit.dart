@@ -16,6 +16,14 @@ class LocationOnboardingCubit extends Cubit<LocationOnboardingState> {
     _checkAccess();
   }
 
+  Future<void> recheck() async {
+    final result = await _locationRepository.checkPermission();
+
+    if (state is LocationDeniedForever && result is LocationDenied) return;
+
+    emit(result);
+  }
+
   Future<void> _checkAccess() async =>
       emit(await _locationRepository.checkPermission());
 

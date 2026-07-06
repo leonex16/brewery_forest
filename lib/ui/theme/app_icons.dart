@@ -12,6 +12,7 @@ abstract final class AppIcons {
   // Feed / Map
   static const IconData search = PhosphorIconsRegular.magnifyingGlass;
   static const IconData myLocation = PhosphorIconsRegular.crosshair;
+  static const IconData myLocationOff = PhosphorIconsRegular.gpsSlash;
   static const IconData userPin =
       PhosphorIconsFill.mapPin; // pin del usuario (FILL)
   static const IconData searchArea = PhosphorIconsRegular.arrowClockwise;

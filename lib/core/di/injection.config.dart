@@ -21,7 +21,7 @@ import 'package:brewery_forest/core/observability/error_reporter.dart' as _i113;
 import 'package:brewery_forest/core/observability/logger.dart' as _i768;
 import 'package:brewery_forest/core/observability/logging_error_reporter.dart'
     as _i275;
-import 'package:brewery_forest/features/010_location_onboarding/location_onboarding_cubit.dart'
+import 'package:brewery_forest/features/010_location_onboarding/application/location_onboarding_cubit.dart'
     as _i175;
 import 'package:brewery_forest/features/020_feed/feed_cubit.dart' as _i347;
 import 'package:brewery_forest/features/020_feed/search_bloc.dart' as _i289;
