@@ -9,8 +9,10 @@ import 'package:brewery_forest/features/030_brewery_detail/presentation/brewery_
 import 'package:brewery_forest/ui/dev/dev_gallery_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 final appRouter = GoRouter(
+  observers: [SentryNavigatorObserver()],
   routes: [
     GoRoute(
       path: "/",

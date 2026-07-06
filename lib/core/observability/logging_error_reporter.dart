@@ -3,6 +3,7 @@ import 'dart:developer' as developer;
 import 'package:brewery_forest/core/observability/error_reporter.dart';
 import 'package:injectable/injectable.dart';
 
+@test
 @LazySingleton(as: ErrorReporter)
 final class LoggingErrorReporter implements ErrorReporter {
   @override
@@ -19,5 +20,18 @@ final class LoggingErrorReporter implements ErrorReporter {
       stackTrace: st,
     );
     return eventId;
+  }
+
+  @override
+  void addBreadcrumb(
+    String message, {
+    String? category,
+    Map<String, Object?>? data,
+  }) {
+    developer.log(
+      'breadcrumb${category != null ? ' [$category]' : ''}: $message'
+      '${data != null ? ' | $data' : ''}',
+      name: 'ErrorReporter',
+    );
   }
 }

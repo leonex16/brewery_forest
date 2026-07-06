@@ -17,10 +17,14 @@ import 'package:brewery_forest/core/managers/location/location_repository.dart'
 import 'package:brewery_forest/core/network/dio_client.dart' as _i209;
 import 'package:brewery_forest/core/observability/developer_logger.dart'
     as _i60;
+import 'package:brewery_forest/core/observability/device_identity_service.dart'
+    as _i810;
 import 'package:brewery_forest/core/observability/error_reporter.dart' as _i113;
 import 'package:brewery_forest/core/observability/logger.dart' as _i768;
 import 'package:brewery_forest/core/observability/logging_error_reporter.dart'
     as _i275;
+import 'package:brewery_forest/core/observability/sentry_error_reporter.dart'
+    as _i429;
 import 'package:brewery_forest/features/010_location_onboarding/application/location_onboarding_cubit.dart'
     as _i708;
 import 'package:brewery_forest/features/020_feed/application/feed_cubit.dart'
@@ -38,6 +42,10 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+const String _dev = 'dev';
+const String _prod = 'prod';
+const String _test = 'test';
+
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
   _i174.GetIt init({
@@ -46,7 +54,6 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final networkModule = _$NetworkModule();
-    gh.lazySingleton<_i113.ErrorReporter>(() => _i275.LoggingErrorReporter());
     gh.lazySingleton<_i304.LocationRepository>(
       () => _i304.GeolocatorLocationRepository(),
     );
@@ -54,6 +61,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i708.LocationOnboardingCubit(gh<_i496.LocationRepository>()),
     );
     gh.lazySingleton<_i768.Logger>(() => _i60.DeveloperLogger());
+    gh.lazySingleton<_i113.ErrorReporter>(
+      () => _i429.SentryErrorReporter(),
+      registerFor: {_dev, _prod},
+    );
     gh.lazySingleton<_i361.Dio>(
       () => networkModule.obdbDio(),
       instanceName: 'obdb',
@@ -61,6 +72,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(
       () => networkModule.ipwhoDio(),
       instanceName: 'ipwho',
+    );
+    gh.lazySingleton<_i113.ErrorReporter>(
+      () => _i275.LoggingErrorReporter(),
+      registerFor: {_test},
+    );
+    gh.lazySingleton<_i810.DeviceIdentityService>(
+      () => _i810.DeviceIdentityServiceImpl(),
     );
     gh.lazySingleton<_i609.ObdbDatasource>(
       () => _i609.ObdbDatasource(

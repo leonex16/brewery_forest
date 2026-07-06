@@ -1,3 +1,5 @@
 {
-    "MAPBOX_ACCESS_TOKEN": "access-token"
+    "APP_ENV": "local",
+    "MAPBOX_ACCESS_TOKEN": "pk.eyJ1IjoiaGYtbGVvbmVsLWVzcGlub3phIiwiYSI6ImNtcjVrNGZkMjA2djcyeHB1YjJjMGtpaWgifQ.5oInRA6yKbUPJhv_u2GZ1A",
+    "SENTRY_DSN": "https://example.ingest.sentry.io/api/123456789/"
 }
