@@ -226,11 +226,11 @@ abstract class AppLocalizations {
   /// **'Try a different search or clear your filters.'**
   String get feedEmptyBody;
 
-  /// Feed: action to reset filters from the empty state
+  /// Feed map pill: re-search around the current map center
   ///
   /// In en, this message translates to:
-  /// **'Clear all filters'**
-  String get feedClearFilters;
+  /// **'Search in this area'**
+  String get searchThisArea;
 
   /// Feed: retry action (pagination error, feed error)
   ///
@@ -253,8 +253,14 @@ abstract class AppLocalizations {
   /// Search: hint shown when the query is too short
   ///
   /// In en, this message translates to:
-  /// **'Type at least 3 characters to search'**
+  /// **'Type at least 5 characters to search'**
   String get searchMinChars;
+
+  /// Floating brewery card: opens the full detail
+  ///
+  /// In en, this message translates to:
+  /// **'View details'**
+  String get breweryCardCta;
 
   /// Feed banner: location came from IP geolocation, with resolved place
   ///
@@ -267,6 +273,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'We couldn\'t get your location'**
   String get locationBannerNone;
+
+  /// No description provided for @detailLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Brewing details…'**
+  String get detailLoading;
+
+  /// No description provided for @detailAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get detailAddress;
+
+  /// No description provided for @detailPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get detailPhone;
+
+  /// No description provided for @detailWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get detailWebsite;
+
+  /// No description provided for @detailErrorBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re having trouble loading the brewery details. Please try again.'**
+  String get detailErrorBody;
+
+  /// No description provided for @detailGoHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Go back home'**
+  String get detailGoHome;
+
+  /// No description provided for @detailDiagnosticTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We hit a snag loading the cellar.'**
+  String get detailDiagnosticTitle;
+
+  /// No description provided for @detailDiagnosticBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Our team has been notified. We\'re working to get the taps flowing again.'**
+  String get detailDiagnosticBody;
+
+  /// No description provided for @detailTryRefreshing.
+  ///
+  /// In en, this message translates to:
+  /// **'Try refreshing'**
+  String get detailTryRefreshing;
 }
 
 class _AppLocalizationsDelegate

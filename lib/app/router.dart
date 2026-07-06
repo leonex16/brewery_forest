@@ -1,11 +1,11 @@
 import 'package:brewery_forest/core/di/injection.dart';
 import 'package:brewery_forest/features/010_location_onboarding/application/location_onboarding_cubit.dart';
 import 'package:brewery_forest/features/010_location_onboarding/presentation/location_onboarding_page.dart';
-import 'package:brewery_forest/features/020_feed/feed_cubit.dart';
-import 'package:brewery_forest/features/020_feed/feed_page.dart';
-import 'package:brewery_forest/features/020_feed/search_bloc.dart';
-import 'package:brewery_forest/features/030_brewery_detail/brewery_detail_cubit.dart';
-import 'package:brewery_forest/features/030_brewery_detail/brewery_detail_page.dart';
+import 'package:brewery_forest/features/020_feed/application/feed_cubit.dart';
+import 'package:brewery_forest/features/020_feed/application/search_bloc.dart';
+import 'package:brewery_forest/features/020_feed/presentation/feed_page.dart';
+import 'package:brewery_forest/features/030_brewery_detail/application/brewery_detail_cubit.dart';
+import 'package:brewery_forest/features/030_brewery_detail/presentation/brewery_detail_page.dart';
 import 'package:brewery_forest/ui/dev/dev_gallery_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

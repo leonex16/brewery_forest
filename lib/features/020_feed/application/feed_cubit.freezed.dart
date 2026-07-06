@@ -123,12 +123,12 @@ return success(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loading,TResult Function( AppEx error)?  failure,TResult Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError,  GeoCoordinates? userPosition,  LocationSource locationSource,  IpLocation? ipLocation,  Brewery? selectedBrewery)?  success,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loading,TResult Function( AppEx error)?  failure,TResult Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError,  GeoCoordinates? userPosition,  GeoCoordinates? lastQueryCenter,  LocationSource locationSource,  IpLocation? ipLocation,  Brewery? selectedBrewery)?  success,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case FeedLoading() when loading != null:
 return loading();case FeedError() when failure != null:
 return failure(_that.error);case FeedOk() when success != null:
-return success(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError,_that.userPosition,_that.locationSource,_that.ipLocation,_that.selectedBrewery);case _:
+return success(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError,_that.userPosition,_that.lastQueryCenter,_that.locationSource,_that.ipLocation,_that.selectedBrewery);case _:
   return orElse();
 
 }
@@ -146,12 +146,12 @@ return success(_that.breweries,_that.currentPage,_that.paginationStatus,_that.pa
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loading,required TResult Function( AppEx error)  failure,required TResult Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError,  GeoCoordinates? userPosition,  LocationSource locationSource,  IpLocation? ipLocation,  Brewery? selectedBrewery)  success,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loading,required TResult Function( AppEx error)  failure,required TResult Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError,  GeoCoordinates? userPosition,  GeoCoordinates? lastQueryCenter,  LocationSource locationSource,  IpLocation? ipLocation,  Brewery? selectedBrewery)  success,}) {final _that = this;
 switch (_that) {
 case FeedLoading():
 return loading();case FeedError():
 return failure(_that.error);case FeedOk():
-return success(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError,_that.userPosition,_that.locationSource,_that.ipLocation,_that.selectedBrewery);}
+return success(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError,_that.userPosition,_that.lastQueryCenter,_that.locationSource,_that.ipLocation,_that.selectedBrewery);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -165,12 +165,12 @@ return success(_that.breweries,_that.currentPage,_that.paginationStatus,_that.pa
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loading,TResult? Function( AppEx error)?  failure,TResult? Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError,  GeoCoordinates? userPosition,  LocationSource locationSource,  IpLocation? ipLocation,  Brewery? selectedBrewery)?  success,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loading,TResult? Function( AppEx error)?  failure,TResult? Function( List<Brewery> breweries,  int currentPage,  PaginationStatus paginationStatus,  AppEx? paginationError,  GeoCoordinates? userPosition,  GeoCoordinates? lastQueryCenter,  LocationSource locationSource,  IpLocation? ipLocation,  Brewery? selectedBrewery)?  success,}) {final _that = this;
 switch (_that) {
 case FeedLoading() when loading != null:
 return loading();case FeedError() when failure != null:
 return failure(_that.error);case FeedOk() when success != null:
-return success(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError,_that.userPosition,_that.locationSource,_that.ipLocation,_that.selectedBrewery);case _:
+return success(_that.breweries,_that.currentPage,_that.paginationStatus,_that.paginationError,_that.userPosition,_that.lastQueryCenter,_that.locationSource,_that.ipLocation,_that.selectedBrewery);case _:
   return null;
 
 }
@@ -280,7 +280,7 @@ as AppEx,
 
 
 class FeedOk implements FeedState {
-  const FeedOk({required  List<Brewery> breweries, required this.currentPage, this.paginationStatus = PaginationStatus.idle, this.paginationError, this.userPosition, this.locationSource = LocationSource.none, this.ipLocation, this.selectedBrewery}): _breweries = breweries;
+  const FeedOk({required  List<Brewery> breweries, required this.currentPage, this.paginationStatus = PaginationStatus.idle, this.paginationError, this.userPosition, this.lastQueryCenter, this.locationSource = LocationSource.none, this.ipLocation, this.selectedBrewery}): _breweries = breweries;
   
 
  final  List<Brewery> _breweries;
@@ -294,6 +294,7 @@ class FeedOk implements FeedState {
 @JsonKey() final  PaginationStatus paginationStatus;
  final  AppEx? paginationError;
  final  GeoCoordinates? userPosition;
+ final  GeoCoordinates? lastQueryCenter;
 @JsonKey() final  LocationSource locationSource;
  final  IpLocation? ipLocation;
  final  Brewery? selectedBrewery;
@@ -308,16 +309,16 @@ $FeedOkCopyWith<FeedOk> get copyWith => _$FeedOkCopyWithImpl<FeedOk>(this, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FeedOk&&const DeepCollectionEquality().equals(other._breweries, _breweries)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.paginationStatus, paginationStatus) || other.paginationStatus == paginationStatus)&&(identical(other.paginationError, paginationError) || other.paginationError == paginationError)&&(identical(other.userPosition, userPosition) || other.userPosition == userPosition)&&(identical(other.locationSource, locationSource) || other.locationSource == locationSource)&&(identical(other.ipLocation, ipLocation) || other.ipLocation == ipLocation)&&(identical(other.selectedBrewery, selectedBrewery) || other.selectedBrewery == selectedBrewery));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FeedOk&&const DeepCollectionEquality().equals(other._breweries, _breweries)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.paginationStatus, paginationStatus) || other.paginationStatus == paginationStatus)&&(identical(other.paginationError, paginationError) || other.paginationError == paginationError)&&(identical(other.userPosition, userPosition) || other.userPosition == userPosition)&&(identical(other.lastQueryCenter, lastQueryCenter) || other.lastQueryCenter == lastQueryCenter)&&(identical(other.locationSource, locationSource) || other.locationSource == locationSource)&&(identical(other.ipLocation, ipLocation) || other.ipLocation == ipLocation)&&(identical(other.selectedBrewery, selectedBrewery) || other.selectedBrewery == selectedBrewery));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_breweries),currentPage,paginationStatus,paginationError,userPosition,locationSource,ipLocation,selectedBrewery);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_breweries),currentPage,paginationStatus,paginationError,userPosition,lastQueryCenter,locationSource,ipLocation,selectedBrewery);
 
 @override
 String toString() {
-  return 'FeedState.success(breweries: $breweries, currentPage: $currentPage, paginationStatus: $paginationStatus, paginationError: $paginationError, userPosition: $userPosition, locationSource: $locationSource, ipLocation: $ipLocation, selectedBrewery: $selectedBrewery)';
+  return 'FeedState.success(breweries: $breweries, currentPage: $currentPage, paginationStatus: $paginationStatus, paginationError: $paginationError, userPosition: $userPosition, lastQueryCenter: $lastQueryCenter, locationSource: $locationSource, ipLocation: $ipLocation, selectedBrewery: $selectedBrewery)';
 }
 
 
@@ -328,7 +329,7 @@ abstract mixin class $FeedOkCopyWith<$Res> implements $FeedStateCopyWith<$Res> {
   factory $FeedOkCopyWith(FeedOk value, $Res Function(FeedOk) _then) = _$FeedOkCopyWithImpl;
 @useResult
 $Res call({
- List<Brewery> breweries, int currentPage, PaginationStatus paginationStatus, AppEx? paginationError, GeoCoordinates? userPosition, LocationSource locationSource, IpLocation? ipLocation, Brewery? selectedBrewery
+ List<Brewery> breweries, int currentPage, PaginationStatus paginationStatus, AppEx? paginationError, GeoCoordinates? userPosition, GeoCoordinates? lastQueryCenter, LocationSource locationSource, IpLocation? ipLocation, Brewery? selectedBrewery
 });
 
 
@@ -345,13 +346,14 @@ class _$FeedOkCopyWithImpl<$Res>
 
 /// Create a copy of FeedState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? breweries = null,Object? currentPage = null,Object? paginationStatus = null,Object? paginationError = freezed,Object? userPosition = freezed,Object? locationSource = null,Object? ipLocation = freezed,Object? selectedBrewery = freezed,}) {
+@pragma('vm:prefer-inline') $Res call({Object? breweries = null,Object? currentPage = null,Object? paginationStatus = null,Object? paginationError = freezed,Object? userPosition = freezed,Object? lastQueryCenter = freezed,Object? locationSource = null,Object? ipLocation = freezed,Object? selectedBrewery = freezed,}) {
   return _then(FeedOk(
 breweries: null == breweries ? _self._breweries : breweries // ignore: cast_nullable_to_non_nullable
 as List<Brewery>,currentPage: null == currentPage ? _self.currentPage : currentPage // ignore: cast_nullable_to_non_nullable
 as int,paginationStatus: null == paginationStatus ? _self.paginationStatus : paginationStatus // ignore: cast_nullable_to_non_nullable
 as PaginationStatus,paginationError: freezed == paginationError ? _self.paginationError : paginationError // ignore: cast_nullable_to_non_nullable
 as AppEx?,userPosition: freezed == userPosition ? _self.userPosition : userPosition // ignore: cast_nullable_to_non_nullable
+as GeoCoordinates?,lastQueryCenter: freezed == lastQueryCenter ? _self.lastQueryCenter : lastQueryCenter // ignore: cast_nullable_to_non_nullable
 as GeoCoordinates?,locationSource: null == locationSource ? _self.locationSource : locationSource // ignore: cast_nullable_to_non_nullable
 as LocationSource,ipLocation: freezed == ipLocation ? _self.ipLocation : ipLocation // ignore: cast_nullable_to_non_nullable
 as IpLocation?,selectedBrewery: freezed == selectedBrewery ? _self.selectedBrewery : selectedBrewery // ignore: cast_nullable_to_non_nullable

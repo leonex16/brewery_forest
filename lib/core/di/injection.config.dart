@@ -22,11 +22,13 @@ import 'package:brewery_forest/core/observability/logger.dart' as _i768;
 import 'package:brewery_forest/core/observability/logging_error_reporter.dart'
     as _i275;
 import 'package:brewery_forest/features/010_location_onboarding/application/location_onboarding_cubit.dart'
-    as _i175;
-import 'package:brewery_forest/features/020_feed/feed_cubit.dart' as _i347;
-import 'package:brewery_forest/features/020_feed/search_bloc.dart' as _i289;
-import 'package:brewery_forest/features/030_brewery_detail/brewery_detail_cubit.dart'
-    as _i931;
+    as _i708;
+import 'package:brewery_forest/features/020_feed/application/feed_cubit.dart'
+    as _i305;
+import 'package:brewery_forest/features/020_feed/application/search_bloc.dart'
+    as _i711;
+import 'package:brewery_forest/features/030_brewery_detail/application/brewery_detail_cubit.dart'
+    as _i685;
 import 'package:brewery_forest/shared/api/ipwhois/ipwhois_datasource.dart'
     as _i684;
 import 'package:brewery_forest/shared/api/obdb/obdb_brewery_repository.dart'
@@ -48,8 +50,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i304.LocationRepository>(
       () => _i304.GeolocatorLocationRepository(),
     );
-    gh.factory<_i175.LocationOnboardingCubit>(
-      () => _i175.LocationOnboardingCubit(gh<_i496.LocationRepository>()),
+    gh.factory<_i708.LocationOnboardingCubit>(
+      () => _i708.LocationOnboardingCubit(gh<_i496.LocationRepository>()),
     );
     gh.lazySingleton<_i768.Logger>(() => _i60.DeveloperLogger());
     gh.lazySingleton<_i361.Dio>(
@@ -81,21 +83,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i826.IpLocationRepository>(
       () => _i826.IpWhoisLocationRepository(gh<_i684.IpWhoisDatasource>()),
     );
-    gh.factoryParam<_i931.BreweryDetailCubit, String, dynamic>(
-      (id, _) => _i931.BreweryDetailCubit(
+    gh.factoryParam<_i685.BreweryDetailCubit, String, dynamic>(
+      (id, _) => _i685.BreweryDetailCubit(
         gh<_i496.BreweryRepository>(),
         gh<_i496.ErrorReporter>(),
         id,
       ),
     );
-    gh.factory<_i289.SearchBloc>(
-      () => _i289.SearchBloc(
+    gh.factory<_i711.SearchBloc>(
+      () => _i711.SearchBloc(
         repository: gh<_i496.BreweryRepository>(),
         errorReporter: gh<_i496.ErrorReporter>(),
       ),
     );
-    gh.factory<_i347.FeedCubit>(
-      () => _i347.FeedCubit(
+    gh.factory<_i305.FeedCubit>(
+      () => _i305.FeedCubit(
         repository: gh<_i496.BreweryRepository>(),
         locationRepository: gh<_i496.LocationRepository>(),
         ipLocationRepository: gh<_i496.IpLocationRepository>(),

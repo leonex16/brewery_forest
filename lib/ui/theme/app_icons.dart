@@ -13,11 +13,13 @@ abstract final class AppIcons {
   static const IconData search = PhosphorIconsRegular.magnifyingGlass;
   static const IconData myLocation = PhosphorIconsRegular.crosshair;
   static const IconData myLocationOff = PhosphorIconsRegular.gpsSlash;
-  static const IconData userPin =
-      PhosphorIconsFill.mapPin; // pin del usuario (FILL)
+  static const IconData userPin = PhosphorIconsFill.mapPin;
+  static const IconData location = PhosphorIconsRegular.mapPin;
+
   static const IconData searchArea = PhosphorIconsRegular.arrowClockwise;
   static const IconData info = PhosphorIconsRegular.info;
   static const IconData noResults = PhosphorIconsRegular.mapPinLine;
+  static const IconData openExternal = PhosphorIconsRegular.arrowUpRight;
 
   // States / details
   static const IconData error = PhosphorIconsRegular.warningCircle;

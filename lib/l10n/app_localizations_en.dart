@@ -77,7 +77,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedEmptyBody => 'Try a different search or clear your filters.';
 
   @override
-  String get feedClearFilters => 'Clear all filters';
+  String get searchThisArea => 'Search in this area';
 
   @override
   String get feedRetry => 'Retry';
@@ -89,7 +89,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fabSearchHere => 'Search on current location';
 
   @override
-  String get searchMinChars => 'Type at least 3 characters to search';
+  String get searchMinChars => 'Type at least 5 characters to search';
+
+  @override
+  String get breweryCardCta => 'View details';
 
   @override
   String locationBannerApproximate(String city, String country) {
@@ -98,4 +101,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get locationBannerNone => 'We couldn\'t get your location';
+
+  @override
+  String get detailLoading => 'Brewing details…';
+
+  @override
+  String get detailAddress => 'Address';
+
+  @override
+  String get detailPhone => 'Phone';
+
+  @override
+  String get detailWebsite => 'Website';
+
+  @override
+  String get detailErrorBody =>
+      'We\'re having trouble loading the brewery details. Please try again.';
+
+  @override
+  String get detailGoHome => 'Go back home';
+
+  @override
+  String get detailDiagnosticTitle => 'We hit a snag loading the cellar.';
+
+  @override
+  String get detailDiagnosticBody =>
+      'Our team has been notified. We\'re working to get the taps flowing again.';
+
+  @override
+  String get detailTryRefreshing => 'Try refreshing';
 }

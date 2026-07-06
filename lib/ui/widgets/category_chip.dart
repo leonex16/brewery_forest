@@ -10,16 +10,19 @@ class CategoryChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.stackSm,
-        vertical: 4,
+    return Align(
+      alignment: .centerLeft,
+      child: Container(
+        padding: const .symmetric(horizontal: AppSpacing.stackSm, vertical: 4),
+        decoration: BoxDecoration(
+          color: context.colors.secondaryContainer,
+          borderRadius: .circular(AppRadius.pill),
+        ),
+        child: AppText.labelSm(
+          label,
+          color: context.colors.onSecondaryContainer,
+        ),
       ),
-      decoration: BoxDecoration(
-        color: context.colors.secondaryContainer,
-        borderRadius: BorderRadius.circular(AppRadius.pill),
-      ),
-      child: AppText.labelSm(label, color: context.colors.onSecondaryContainer),
     );
   }
 }

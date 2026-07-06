@@ -29,17 +29,19 @@ final class ObdbDatasource {
     CancelToken? cancelToken,
   }) async {
     try {
-      final response = await _dio.get(
-        "/breweries",
-        cancelToken: cancelToken,
-        queryParameters: {
-          'page': page,
-          'per_page': perPage,
-          if (near != null) ...{
-            'by_dist': '${near.latitude},${near.longitude}',
-          },
-        },
-      );
+      final response = await _dio
+          .get(
+            "/breweries",
+            cancelToken: cancelToken,
+            queryParameters: {
+              'page': page,
+              'per_page': perPage,
+              if (near != null) ...{
+                'by_dist': '${near.latitude},${near.longitude}',
+              },
+            },
+          )
+          .withMinimumDelay();
       final data = response.data as List;
 
       return data
@@ -53,7 +55,7 @@ final class ObdbDatasource {
 
   Future<ObdbBreweryRes?> getById(String id) async {
     try {
-      final response = await _dio.get("/breweries/$id");
+      final response = await _dio.get("/breweries/$id").withMinimumDelay();
       final data = response.data as _BreweryRaw;
 
       return ObdbBreweryRes.fromJson(data);
@@ -70,16 +72,28 @@ final class ObdbDatasource {
     CancelToken? cancelToken,
   }) async {
     try {
-      final response = await _dio.get(
-        "/breweries/search",
-        cancelToken: cancelToken,
-        queryParameters: {'query': q, 'page': page, 'per_page': perPage},
-      );
+      final response = await _dio
+          .get(
+            "/breweries/search",
+            cancelToken: cancelToken,
+            queryParameters: {'query': q, 'page': page, 'per_page': perPage},
+          )
+          .withMinimumDelay();
       final data = response.data as List;
       return data.map((b) => ObdbSearchRes.fromJson(b as _BreweryRaw)).toList();
     } on DioException catch (e) {
       if (_isCancelled(e, 'search')) return null;
       throw mapDioException(e);
     }
+  }
+}
+
+extension DioResponseDelayX on Future<Response<dynamic>> {
+  Future<Response<dynamic>> withMinimumDelay({
+    Duration duration = const Duration(milliseconds: 2000),
+  }) async {
+    final [response, _] = await Future.wait([this, Future.delayed(duration)]);
+
+    return response as Response<dynamic>;
   }
 }

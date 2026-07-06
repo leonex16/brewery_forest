@@ -92,9 +92,9 @@
   "@feedEmptyBody": {
     "description": "Feed: empty-state supporting body"
   },
-  "feedClearFilters": "Clear all filters",
-  "@feedClearFilters": {
-    "description": "Feed: action to reset filters from the empty state"
+  "searchThisArea": "Search in this area",
+  "@searchThisArea": {
+    "description": "Feed map pill: re-search around the current map center"
   },
   "feedRetry": "Retry",
   "@feedRetry": {
@@ -108,10 +108,12 @@
   "@fabSearchHere": {
     "description": "Feed: FAB tooltip/label to re-search at the current map center"
   },
-  "searchMinChars": "Type at least 3 characters to search",
+  "searchMinChars": "Type at least 5 characters to search",
   "@searchMinChars": {
     "description": "Search: hint shown when the query is too short"
   },
+  "breweryCardCta": "View details",
+  "@breweryCardCta": { "description": "Floating brewery card: opens the full detail" },
 
   "locationBannerApproximate": "Approximate location by IP: {city}, {country}",
   "@locationBannerApproximate": {
@@ -124,5 +126,15 @@
   "locationBannerNone": "We couldn't get your location",
   "@locationBannerNone": {
     "description": "Feed banner: no location at all (neither GPS nor IP)"
-  }
+  },
+
+  "detailLoading": "Brewing details…",
+  "detailAddress": "Address",
+  "detailPhone": "Phone",
+  "detailWebsite": "Website",
+  "detailErrorBody": "We're having trouble loading the brewery details. Please try again.",
+  "detailGoHome": "Go back home",
+  "detailDiagnosticTitle": "We hit a snag loading the cellar.",
+  "detailDiagnosticBody": "Our team has been notified. We're working to get the taps flowing again.",
+  "detailTryRefreshing": "Try refreshing"
 }

@@ -1,6 +1,3 @@
-// Design system barrel. Importa `package:brewery_forest/ui/index.dart` y tienes
-// tema + componentes. (Sigue el patrón de `lib/core/index.dart`.)
-
 export 'theme/app_icons.dart';
 export 'theme/app_theme.dart';
 export 'theme/app_typography.dart';
@@ -19,3 +16,4 @@ export 'widgets/sheet_handle.dart';
 export 'widgets/skeleton.dart';
 export 'widgets/status_view.dart';
 export 'widgets/gap.dart';
+export 'widgets/brewery_tile_skeleton.dart';

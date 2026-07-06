@@ -18,6 +18,7 @@ sealed class FeedState with _$FeedState {
     @Default(PaginationStatus.idle) PaginationStatus paginationStatus,
     AppEx? paginationError,
     GeoCoordinates? userPosition,
+    GeoCoordinates? lastQueryCenter,
     @Default(LocationSource.none) LocationSource locationSource,
     IpLocation? ipLocation,
     Brewery? selectedBrewery,
@@ -99,6 +100,7 @@ class FeedCubit extends Cubit<FeedState> {
           breweries: breweries,
           currentPage: 1,
           userPosition: position,
+          lastQueryCenter: position,
           locationSource: locationSource,
           ipLocation: ipLocation,
           paginationStatus: hasMore
@@ -128,7 +130,7 @@ class FeedCubit extends Cubit<FeedState> {
       final result = await _repository.getAll(
         page: nextPage,
         perPage: _perPage,
-        near: state.userPosition,
+        near: state.lastQueryCenter,
       );
 
       if (result == null) return;
@@ -160,6 +162,41 @@ class FeedCubit extends Cubit<FeedState> {
       emit(newState);
     } finally {
       _isFetchingNextPage = false;
+    }
+  }
+
+  Future<void> searchArea(GeoCoordinates target) async {
+    if (state is! FeedOk) return;
+
+    final current = state as FeedOk;
+
+    emit(FeedState.loading());
+
+    try {
+      final result = await _repository.getAll(
+        page: 1,
+        perPage: _perPage,
+        near: target,
+      );
+      if (result == null) return;
+      final (breweries, hasMore) = result;
+
+      emit(
+        FeedState.success(
+          breweries: breweries,
+          currentPage: 1,
+          userPosition: current.userPosition,
+          locationSource: current.locationSource,
+          ipLocation: current.ipLocation,
+          lastQueryCenter: target,
+          paginationStatus: hasMore
+              ? PaginationStatus.idle
+              : PaginationStatus.reachedEnd,
+        ),
+      );
+    } on AppEx catch (e, st) {
+      _errorReporter.reportError(e, st);
+      emit(FeedState.failure(error: e));
     }
   }
 }

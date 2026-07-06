@@ -6,18 +6,19 @@ sealed class BreweryDetailState {}
 
 final class BreweryDetailLoading extends BreweryDetailState {}
 
-final class BreweryDetailReady extends BreweryDetailState {
+final class BreweryDetailSuccess extends BreweryDetailState {
   final Brewery brewery;
 
-  BreweryDetailReady(this.brewery);
+  BreweryDetailSuccess(this.brewery);
 }
 
 final class BreweryDetailNotFound extends BreweryDetailState {}
 
-final class BreweryDetailError extends BreweryDetailState {
+final class BreweryDetailFailure extends BreweryDetailState {
   final AppEx error;
+  final String eventId;
 
-  BreweryDetailError(this.error);
+  BreweryDetailFailure(this.error, this.eventId);
 }
 
 @injectable
@@ -34,6 +35,11 @@ final class BreweryDetailCubit extends Cubit<BreweryDetailState> {
     _onStart();
   }
 
+  Future<void> retry() async {
+    emit(BreweryDetailLoading());
+    await _onStart();
+  }
+
   Future<void> _onStart() async {
     try {
       final brewery = await _repository.getById(id);
@@ -43,9 +49,9 @@ final class BreweryDetailCubit extends Cubit<BreweryDetailState> {
         return;
       }
 
-      emit(BreweryDetailReady(brewery));
+      emit(BreweryDetailSuccess(brewery));
     } on AppEx catch (e) {
-      _errorReporter.reportError(
+      final eventId = _errorReporter.reportError(
         e,
         StackTrace.current,
         context: {
@@ -54,7 +60,7 @@ final class BreweryDetailCubit extends Cubit<BreweryDetailState> {
           'method': '_onStart',
         },
       );
-      emit(BreweryDetailError(e));
+      emit(BreweryDetailFailure(e, eventId));
     }
   }
 }
