@@ -13,7 +13,7 @@ anlz:
 
 ## Maestro e2e (Android only — Maestro doesn't support Flutter Desktop)
 
-.PHONY: build watch anlz e2e e2e-smoke e2e-report e2e-build e2e-setup e2e-demo e2e-demo-reset e2e-record
+.PHONY: build
 
 # Resolve adb from PATH, falling back to the default macOS SDK location.
 ADB ?= $(shell command -v adb 2>/dev/null || echo $(HOME)/Library/Android/sdk/platform-tools/adb)
@@ -41,10 +41,11 @@ e2e-report:
 	maestro test $(MAESTRO_DIR) --format HTML-DETAILED --output maestro-report
 
 e2e-demo:
-	$(ADB) shell settings put global window_animation_scale 3
-	$(ADB) shell settings put global transition_animation_scale 3
-	$(ADB) shell settings put global animator_duration_scale 3
-	maestro test $(MAESTRO_DIR)/demo
+	$(ADB) shell settings put global window_animation_scale 1.5
+	$(ADB) shell settings put global transition_animation_scale 1.5
+	$(ADB) shell settings put global animator_duration_scale 1.5
+	maestro test $(MAESTRO_DIR)/demo/010_walkthrough.yaml
+	maestro test $(MAESTRO_DIR)/demo/020_ip_location.yaml
 
 e2e-demo-reset:
 	$(ADB) shell settings put global window_animation_scale 0

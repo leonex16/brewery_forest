@@ -18,7 +18,7 @@ class BreweryDetailPage extends StatelessWidget {
             child: Text('Brewery not found'),
           ),
           BreweryDetailError(:final error) => Center(
-            child: Text(userMessage(error)),
+            child: Text(userMessage(context, error)),
           ),
           BreweryDetailReady(:final brewery) => Center(
             child: Column(

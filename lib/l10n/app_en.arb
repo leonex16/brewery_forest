@@ -1,0 +1,128 @@
+{
+  "@@locale": "en",
+
+  "errInvalidBrewery": "This brewery information is invalid",
+  "@errInvalidBrewery": {
+    "description": "InvalidBreweryEx: brewery failed domain validation"
+  },
+  "errInvalidCoordinates": "This brewery has invalid location data",
+  "@errInvalidCoordinates": {
+    "description": "InvalidCoordinatesEx: brewery coordinates are missing/invalid"
+  },
+  "errInvalidContact": "This brewery has no contact information",
+  "@errInvalidContact": {
+    "description": "InvalidContactEx: brewery has no usable contact data"
+  },
+  "errNetwork": "No internet connection",
+  "@errNetwork": {
+    "description": "NetworkEx: device is offline / request never left"
+  },
+  "errServer": "Something went wrong on our end",
+  "@errServer": {
+    "description": "ServerEx: backend returned an error status"
+  },
+  "errParsing": "We had trouble reading the data",
+  "@errParsing": {
+    "description": "ParsingEx: response body could not be deserialized"
+  },
+  "errStorage": "We had trouble saving your data",
+  "@errStorage": {
+    "description": "StorageEx: local persistence failed"
+  },
+  "errLocationUnavailable": "We couldn't get your location",
+  "@errLocationUnavailable": {
+    "description": "LocationUnavailableEx: could not resolve device location"
+  },
+  "errBreweryNotFound": "We couldn't find that brewery",
+  "@errBreweryNotFound": {
+    "description": "BreweryNotFoundEx: requested brewery id does not exist"
+  },
+
+  "onboardingTitle": "Enable location to see breweries near you",
+  "@onboardingTitle": {
+    "description": "Onboarding: headline inviting the user to enable location"
+  },
+  "onboardingBody": "We use your location only to find breweries near you. You can change this any time.",
+  "@onboardingBody": {
+    "description": "Onboarding: supporting body under the headline"
+  },
+  "onboardingEnable": "Enable location",
+  "@onboardingEnable": {
+    "description": "Onboarding: primary button that requests the OS permission"
+  },
+  "onboardingExplore": "Explore without location",
+  "@onboardingExplore": {
+    "description": "Onboarding: secondary action to skip and browse anyway"
+  },
+  "onboardingPrivacy": "Your data stays private",
+  "@onboardingPrivacy": {
+    "description": "Onboarding: reassurance line about privacy"
+  },
+
+  "deniedTitle": "No problem!",
+  "@deniedTitle": {
+    "description": "Permission-denied screen: friendly headline"
+  },
+  "deniedBody": "You can still explore breweries by searching manually, or enable location in your settings later to see what's nearby.",
+  "@deniedBody": {
+    "description": "Permission-denied screen: explains the fallbacks available"
+  },
+  "deniedOpenSettings": "Open settings",
+  "@deniedOpenSettings": {
+    "description": "Permission-denied screen: opens OS/app settings"
+  },
+  "deniedExplore": "Explore without location",
+  "@deniedExplore": {
+    "description": "Permission-denied screen: skip and browse anyway"
+  },
+  "deniedPrivacyFirst": "Privacy first",
+  "@deniedPrivacyFirst": {
+    "description": "Permission-denied screen: reassurance line"
+  },
+
+  "feedSearchHint": "Search breweries...",
+  "@feedSearchHint": {
+    "description": "Feed: placeholder text inside the search field"
+  },
+  "feedEmptyTitle": "No breweries found",
+  "@feedEmptyTitle": {
+    "description": "Feed/search: empty-state headline when no results"
+  },
+  "feedEmptyBody": "Try a different search or clear your filters.",
+  "@feedEmptyBody": {
+    "description": "Feed: empty-state supporting body"
+  },
+  "feedClearFilters": "Clear all filters",
+  "@feedClearFilters": {
+    "description": "Feed: action to reset filters from the empty state"
+  },
+  "feedRetry": "Retry",
+  "@feedRetry": {
+    "description": "Feed: retry action (pagination error, feed error)"
+  },
+  "paginationEnd": "You've reached the end",
+  "@paginationEnd": {
+    "description": "Feed: footer shown when there are no more pages"
+  },
+  "fabSearchHere": "Search on current location",
+  "@fabSearchHere": {
+    "description": "Feed: FAB tooltip/label to re-search at the current map center"
+  },
+  "searchMinChars": "Type at least 3 characters to search",
+  "@searchMinChars": {
+    "description": "Search: hint shown when the query is too short"
+  },
+
+  "locationBannerApproximate": "Approximate location by IP: {city}, {country}",
+  "@locationBannerApproximate": {
+    "description": "Feed banner: location came from IP geolocation, with resolved place",
+    "placeholders": {
+      "city": { "type": "String" },
+      "country": { "type": "String" }
+    }
+  },
+  "locationBannerNone": "We couldn't get your location",
+  "@locationBannerNone": {
+    "description": "Feed banner: no location at all (neither GPS nor IP)"
+  }
+}

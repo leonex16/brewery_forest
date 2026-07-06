@@ -1,3 +1,4 @@
+import 'package:brewery_forest/ui/theme/l10n_context.dart';
 import 'package:flutter/material.dart';
 
 class LocationDisabledPage extends StatelessWidget {
@@ -19,20 +20,15 @@ class LocationDisabledPage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                "No problem! You can still explore breweries by searching "
-                "manually, or enable location in your settings later to "
-                "see what's nearby.",
-                textAlign: TextAlign.center,
-              ),
+              Text(context.l10n.deniedBody, textAlign: TextAlign.center),
               const SizedBox(height: 24),
               TextButton(
                 onPressed: onOpenSettings,
-                child: const Text('Open settings'),
+                child: Text(context.l10n.deniedOpenSettings),
               ),
               TextButton(
                 onPressed: onExplore,
-                child: const Text('Explore without location'),
+                child: Text(context.l10n.deniedExplore),
               ),
             ],
           ),

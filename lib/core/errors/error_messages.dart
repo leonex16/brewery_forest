@@ -1,18 +1,20 @@
 import 'package:brewery_forest/core/index.dart';
+import 'package:brewery_forest/ui/theme/l10n_context.dart';
+import 'package:flutter/material.dart';
 
-String userMessage(AppEx error) => switch (error) {
+String userMessage(BuildContext context, AppEx error) => switch (error) {
   // DomainEx
-  InvalidBreweryEx() => 'This brewery information is invalid',
-  InvalidCoordinatesEx() => 'This brewery has invalid location data',
-  InvalidContactEx() => 'This brewery has no contact information',
+  InvalidBreweryEx() => context.l10n.errInvalidBrewery,
+  InvalidCoordinatesEx() => context.l10n.errInvalidCoordinates,
+  InvalidContactEx() => context.l10n.errInvalidContact,
 
   // InfraEx
-  NetworkEx() => 'No internet connection',
-  ServerEx() => 'Something went wrong on our end',
-  ParsingEx() => 'We had trouble reading the data',
-  StorageEx() => 'We had trouble saving your data',
-  LocationUnavailableEx() => 'We couldn\'t get your location',
+  NetworkEx() => context.l10n.errNetwork,
+  ServerEx() => context.l10n.errServer,
+  ParsingEx() => context.l10n.errParsing,
+  StorageEx() => context.l10n.errStorage,
+  LocationUnavailableEx() => context.l10n.errLocationUnavailable,
 
-  // AppEx
-  BreweryNotFoundEx() => 'We couldn\'t find that brewery',
+  // ApplicationEx
+  BreweryNotFoundEx() => context.l10n.errBreweryNotFound,
 };

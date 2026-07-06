@@ -2,6 +2,7 @@ import 'package:brewery_forest/core/index.dart';
 import 'package:brewery_forest/features/020_feed/feed_cubit.dart';
 import 'package:brewery_forest/features/020_feed/feed_presentation.dart';
 import 'package:brewery_forest/features/020_feed/search_bloc.dart';
+import 'package:brewery_forest/ui/theme/l10n_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -126,7 +127,7 @@ class _FeedPageState extends State<FeedPage> {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        tooltip: 'Search on current location',
+        tooltip: context.l10n.fabSearchHere,
         onPressed: () => feedCubit.refreshLocation(),
         child: const Icon(Icons.my_location),
       ),
@@ -167,7 +168,7 @@ class _FeedPageState extends State<FeedPage> {
                           identifier: 'feed_search_field',
                           child: SearchBar(
                             controller: controller,
-                            hintText: 'Search breweries...',
+                            hintText: context.l10n.feedSearchHint,
                             leading: const Icon(Icons.search),
                             onTap: () => controller.openView(),
                             onChanged: (_) => controller.openView(),
@@ -189,12 +190,12 @@ class _FeedPageState extends State<FeedPage> {
                                   ),
                                 ),
                                 SearchFailure(:final error) => ListTile(
-                                  title: Text(userMessage(error)),
+                                  title: Text(userMessage(context, error)),
                                 ),
                                 SearchSuccess(:final breweries)
                                     when breweries.isEmpty =>
-                                  const ListTile(
-                                    title: Text('No breweries found'),
+                                  ListTile(
+                                    title: Text(context.l10n.feedEmptyTitle),
                                   ),
                                 SearchSuccess(:final breweries) => Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -235,11 +236,11 @@ class _FeedPageState extends State<FeedPage> {
                           ),
                           FeedError(:final error) => Semantics(
                             identifier: 'feed_error',
-                            child: Center(child: Text(userMessage(error))),
+                            child: Center(child: Text(userMessage(context, error))),
                           ),
 
                           FeedOk(:final breweries) when breweries.isEmpty =>
-                            const Center(child: Text('No breweries found')),
+                            Center(child: Text(context.l10n.feedEmptyTitle)),
 
                           FeedOk(:final breweries) =>
                             NotificationListener<ScrollNotification>(
@@ -301,7 +302,7 @@ class _FeedPageState extends State<FeedPage> {
                                             onPressed: () =>
                                                 feedCubit.loadNextPage(),
                                             child: Text(
-                                              'Reintentar (${userMessage(state.paginationError!)})',
+                                              '${context.l10n.feedRetry} (${userMessage(context, state.paginationError!)})',
                                             ),
                                           ),
                                         ),
@@ -329,6 +330,7 @@ class _FeedPageState extends State<FeedPage> {
                 if (state is! FeedOk) return const SizedBox.shrink();
 
                 final text = locationBannerMessage(
+                  context,
                   state.locationSource,
                   state.ipLocation,
                 );

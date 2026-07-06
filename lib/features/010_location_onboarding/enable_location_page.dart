@@ -1,3 +1,4 @@
+import 'package:brewery_forest/ui/theme/l10n_context.dart';
 import 'package:flutter/material.dart';
 
 class EnableLocationPage extends StatelessWidget {
@@ -21,19 +22,22 @@ class EnableLocationPage extends StatelessWidget {
             children: [
               const Icon(Icons.location_on_outlined, size: 64),
               const SizedBox(height: 16),
-              const Text(
-                'Enable location to see breweries near you',
+              Text(
+                context.l10n.onboardingTitle,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: onEnable,
-                child: const Text('Enable location'),
+                child: Text(context.l10n.onboardingEnable),
               ),
               TextButton(
                 onPressed: onExplore,
-                child: const Text('Explore without location'),
+                child: Text(context.l10n.onboardingExplore),
               ),
             ],
           ),
