@@ -1,6 +1,6 @@
 import 'package:brewery_forest/core/domain/brewery.dart';
 import 'package:flutter/widgets.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 abstract final class AppIcons {
   // Navigation

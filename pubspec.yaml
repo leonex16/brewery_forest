@@ -50,7 +50,7 @@ dependencies:
   pretty_dio_logger: ^1.4.0
   stream_transform: ^2.1.1
   mapbox_maps_flutter: ^3.0.0-alpha.1
-  phosphor_flutter: ^2.1.0
+  phosphoricons_flutter: ^1.0.0
 
 dev_dependencies:
   flutter_test:
