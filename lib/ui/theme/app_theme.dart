@@ -1,5 +1,6 @@
 import 'package:brewery_forest/ui/theme/app_typography.dart';
 import 'package:brewery_forest/ui/theme/color_schemes.dart';
+import 'package:brewery_forest/ui/theme/dimensions.dart';
 import 'package:flutter/material.dart';
 
 abstract final class AppTheme {
@@ -37,15 +38,15 @@ abstract final class AppTheme {
         filled: true,
         fillColor: scheme.surfaceContainerLow,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppRadius.md),
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppRadius.md),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppRadius.md),
           borderSide: BorderSide(color: scheme.primary, width: 2),
         ),
       ),
@@ -53,7 +54,9 @@ abstract final class AppTheme {
       cardTheme: CardThemeData(
         color: scheme.surfaceContainerLowest,
         elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.xl),
+        ),
       ),
 
       listTileTheme: const ListTileThemeData(minTileHeight: 64),
