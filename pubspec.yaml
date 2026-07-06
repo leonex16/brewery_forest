@@ -51,6 +51,8 @@ dependencies:
   stream_transform: ^2.1.1
   mapbox_maps_flutter: ^3.0.0-alpha.1
   phosphoricons_flutter: ^1.0.0
+  url_launcher: ^6.3.2
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +68,30 @@ dev_dependencies:
   injectable_generator: ^3.1.0
   json_serializable: ^6.14.0
   freezed: ^4.0.0-dev.3
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.8
+
+flutter_launcher_icons:
+  android: true
+  min_sdk_android: 21
+
+  ios: true
+  remove_alpha_ios: true
+  
+  image_path: "assets/icon/ic_launcher.png"
+  adaptive_icon_foreground: "assets/icon/foreground.png"
+  adaptive_icon_background: "assets/icon/background.png"
+  adaptive_icon_monochrome: "assets/icon/monochrome.png"
+
+flutter_native_splash:
+  color: "#FF5722"
+  color_dark: "#250d00"
+  image: "assets/icon/foreground.png"
+  android_12:
+    color: "#FF5722"
+    color_dark: "#250d00"
+    image: "assets/icon/foreground.png"
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
