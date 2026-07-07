@@ -1,0 +1,71 @@
+appId: app.laes.brewery_forest
+name: capture_screenshots
+---
+# --- 1-2) Feed (map) + list of nearby breweries ---
+- launchApp:
+    clearState: true
+    permissions:
+      location: allow
+- setLocation:
+    latitude: 43.6532
+    longitude: -79.3832
+- extendedWaitUntil:
+    visible: "Turn on"
+    timeout: 8000
+    optional: true
+- runFlow:
+    when:
+      visible: "Turn on"
+    commands:
+      - tapOn: "Turn on"
+- extendedWaitUntil:
+    visible: "Search near you"
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: "brewery_item"
+    timeout: 30000
+- takeScreenshot: ${OUTPUT_DIR}/01_feed
+- swipe:
+    start: 50%, 82%
+    end: 50%, 22%
+- waitForAnimationToEnd
+- takeScreenshot: ${OUTPUT_DIR}/02_list
+# --- 3-4) Floating card + full detail ---
+- tapOn:
+    id: "brewery_item"
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: "brewery_card"
+    timeout: 15000
+- takeScreenshot: ${OUTPUT_DIR}/03_card
+- tapOn: "View details"
+- extendedWaitUntil:
+    visible: "(?s)ADDRESS.*"
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: "detail_map"
+    timeout: 20000
+- takeScreenshot: ${OUTPUT_DIR}/04_detail
+# --- 5) Search with results (relaunch for clean state) ---
+- launchApp:
+    clearState: true
+    permissions:
+      location: allow
+- setLocation:
+    latitude: 43.6532
+    longitude: -79.3832
+- extendedWaitUntil:
+    visible: "Search near you"
+    timeout: 30000
+- tapOn:
+    id: "feed_search_field"
+- inputText: "brewing"
+- extendedWaitUntil:
+    visible:
+      id: "search_result_item"
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: ${OUTPUT_DIR}/05_search
