@@ -51,6 +51,8 @@ class _FeedMapState extends State<FeedMap> {
 
   Future<void> _onMapCreated(MapboxMap map) async {
     _map = map;
+
+    await map.scaleBar.updateSettings(ScaleBarSettings(enabled: false));
     _markers = await map.annotations.createCircleAnnotationManager();
     _markers?.tapEvents(onTap: _onMarkerTap);
 
