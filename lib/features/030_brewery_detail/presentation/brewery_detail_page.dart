@@ -72,6 +72,7 @@ class _DetailContent extends StatelessWidget {
           onTap: () {
             final c = brewery.address.coordinates;
             _launch(
+              context,
               Uri.parse(
                 'https://www.google.com/maps/search/?api=1&query=${c.latitude},${c.longitude}',
               ),
@@ -87,7 +88,7 @@ class _DetailContent extends StatelessWidget {
             iconForeground: colors.onSecondaryContainer,
             label: context.l10n.detailPhone,
             value: phone,
-            onTap: () => _launch(Uri.parse('tel:$phone')),
+            onTap: () => _launch(context, Uri.parse('tel:$phone')),
           ),
           const Gap.group(),
         ],
@@ -99,7 +100,7 @@ class _DetailContent extends StatelessWidget {
             iconForeground: colors.onTertiaryContainer,
             label: context.l10n.detailWebsite,
             value: web,
-            onTap: () => _launch(_webUri(web)),
+            onTap: () => _launch(context, _webUri(web)),
           ),
           const Gap.group(),
         ],
@@ -172,10 +173,15 @@ class _MapHero extends StatelessWidget {
   }
 }
 
-Future<void> _launch(Uri uri) async {
+Future<void> _launch(BuildContext context, Uri uri) async {
+  final messenger = ScaffoldMessenger.of(context);
+  final errorText = context.l10n.detailLaunchError;
+
   try {
     await launchUrl(uri, mode: LaunchMode.externalApplication);
-  } catch (e) {}
+  } catch (_) {
+    messenger.showSnackBar(SnackBar(content: Text(errorText)));
+  }
 }
 
 Uri _webUri(String url) =>
