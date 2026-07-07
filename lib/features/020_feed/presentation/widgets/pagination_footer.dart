@@ -30,9 +30,12 @@ class PaginationFooter extends StatelessWidget {
         ),
       ),
 
-      PaginationStatus.loadingMore => const Padding(
-        padding: EdgeInsets.all(AppSpacing.gutter),
-        child: LoadingView(),
+      PaginationStatus.loadingMore => Padding(
+        padding: const EdgeInsets.all(AppSpacing.gutter),
+        child: Semantics(
+          identifier: 'pagination_loading',
+          child: const LoadingView(),
+        ),
       ),
 
       PaginationStatus.error => Padding(

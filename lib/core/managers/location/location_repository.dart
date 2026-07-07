@@ -39,7 +39,9 @@ class GeolocatorLocationRepository implements LocationRepository {
   @override
   Future<GeoCoordinates> getPosition() async {
     try {
-      final position = await Geolocator.getCurrentPosition();
+      final position = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(accuracy: .high),
+      );
       return GeoCoordinates.raw(
         latitude: position.latitude,
         longitude: position.longitude,
