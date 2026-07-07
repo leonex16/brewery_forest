@@ -54,3 +54,6 @@ e2e-demo-reset:
 
 e2e-record:
 	maestro record --local $(MAESTRO_DIR)/demo/010_walkthrough.yaml walkthrough.mp4
+
+build-aab:
+	flutter build appbundle --release --dart-define-from-file=env/production.json
