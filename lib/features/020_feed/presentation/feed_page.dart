@@ -22,9 +22,10 @@ class FeedPage extends StatelessWidget {
       body: const Stack(
         children: [
           FeedMap(),
+          SelectedBreweryScrim(),
           FeedBottomSheet(),
           LocationFloatingBanner(),
-          SelectedBreweryOverlay(),
+          SelectedBreweryCard(),
         ],
       ),
     );
