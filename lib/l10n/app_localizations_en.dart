@@ -130,4 +130,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get detailTryRefreshing => 'Try refreshing';
+
+  @override
+  String get detailLaunchError => 'Couldn\'t open that link';
 }

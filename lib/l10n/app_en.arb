@@ -136,5 +136,6 @@
   "detailGoHome": "Back to breweries",
   "detailDiagnosticTitle": "We hit a snag loading the cellar.",
   "detailDiagnosticBody": "Our team has been notified. We're working to get the taps flowing again.",
-  "detailTryRefreshing": "Try refreshing"
+  "detailTryRefreshing": "Try refreshing",
+  "detailLaunchError": "Couldn't open that link"
 }

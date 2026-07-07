@@ -327,6 +327,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try refreshing'**
   String get detailTryRefreshing;
+
+  /// No description provided for @detailLaunchError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open that link'**
+  String get detailLaunchError;
 }
 
 class _AppLocalizationsDelegate
