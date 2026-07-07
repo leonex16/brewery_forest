@@ -1,12 +1,14 @@
-appId: com.example.brewery_forest
+appId: app.laes.brewery_forest
 name: 050_pagination
 tags:
   - deterministic
-# Flow 5: scroll the sheet's list to the very end. Reaching the end of a page
-# (10 items) triggers loadNextPage; the "That's all for now" footer only appears
-# once every page has loaded, so asserting it proves pagination ran to completion.
+# Flow 5: scrolling to the bottom of the loaded list fires loadNextPage. The feed
+# uses `by_dist`, which paginates the ENTIRE database ordered by distance, so the
+# list has no reachable "end" — instead we prove pagination *fired* by catching the
+# loading indicator shown while the next page is fetched (the API enforces a ~2s
+# minimum delay, so the spinner is reliably on-screen).
 # (Maestro's auto-scroll targets screen center = the full-screen map, so the
-# sheet's inner list must be scrolled with explicit coordinate swipes.)
+# sheet's inner list is scrolled with explicit coordinate swipes.)
 ---
 - launchApp:
     clearState: true
@@ -19,12 +21,16 @@ tags:
     visible:
       id: "brewery_item"
     timeout: 30000
+# First swipe expands the sheet; the next two scroll the 10-item first page to its
+# bottom, which fires loadNextPage.
 - repeat:
-    while:
-      notVisible: "That's all for now"
+    times: 3
     commands:
       - swipe:
           start: "50%, 80%"
-          end: "50%, 25%"
-          duration: 400
-- assertVisible: "That's all for now"
+          end: "50%, 30%"
+          duration: 300
+- extendedWaitUntil:
+    visible:
+      id: "pagination_loading"
+    timeout: 8000

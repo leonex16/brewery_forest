@@ -1,4 +1,4 @@
-appId: com.example.brewery_forest
+appId: app.laes.brewery_forest
 name: accept_location_consent
 # ONE-TIME device setup (part of Fase 0). The Google Play Services "Location
 # Accuracy" consent dialog appears on first launch whenever the app requests

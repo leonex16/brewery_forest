@@ -1,4 +1,4 @@
-appId: com.example.brewery_forest
+appId: app.laes.brewery_forest
 name: pause
 # Fixed ~1.5s dwell for narrated demos. Maestro has no native sleep, so we wait
 # on a selector that never matches and continue (optional). Only used by the

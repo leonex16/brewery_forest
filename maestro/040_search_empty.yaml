@@ -1,4 +1,4 @@
-appId: com.example.brewery_forest
+appId: app.laes.brewery_forest
 name: 040_search_empty
 tags:
   - deterministic
