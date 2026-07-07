@@ -97,19 +97,19 @@ abstract class AppLocalizations {
   /// InvalidBreweryEx: brewery failed domain validation
   ///
   /// In en, this message translates to:
-  /// **'This brewery information is invalid'**
+  /// **'We couldn\'t read this brewery\'s details'**
   String get errInvalidBrewery;
 
   /// InvalidCoordinatesEx: brewery coordinates are missing/invalid
   ///
   /// In en, this message translates to:
-  /// **'This brewery has invalid location data'**
+  /// **'This brewery is missing location data'**
   String get errInvalidCoordinates;
 
   /// InvalidContactEx: brewery has no usable contact data
   ///
   /// In en, this message translates to:
-  /// **'This brewery has no contact information'**
+  /// **'This brewery has no contact info yet'**
   String get errInvalidContact;
 
   /// NetworkEx: device is offline / request never left
@@ -223,7 +223,7 @@ abstract class AppLocalizations {
   /// Feed: empty-state supporting body
   ///
   /// In en, this message translates to:
-  /// **'Try a different search or clear your filters.'**
+  /// **'Try moving the map or searching another area.'**
   String get feedEmptyBody;
 
   /// Feed map pill: re-search around the current map center
@@ -241,13 +241,13 @@ abstract class AppLocalizations {
   /// Feed: footer shown when there are no more pages
   ///
   /// In en, this message translates to:
-  /// **'You\'ve reached the end'**
+  /// **'That\'s all for now'**
   String get paginationEnd;
 
-  /// Feed: FAB tooltip/label to re-search at the current map center
+  /// Feed: FAB tooltip/label to re-search at the user's current location
   ///
   /// In en, this message translates to:
-  /// **'Search on current location'**
+  /// **'Search near you'**
   String get fabSearchHere;
 
   /// Search: hint shown when the query is too short
@@ -265,7 +265,7 @@ abstract class AppLocalizations {
   /// Feed banner: location came from IP geolocation, with resolved place
   ///
   /// In en, this message translates to:
-  /// **'Approximate location by IP: {city}, {country}'**
+  /// **'Approximate location: {city}, {country}'**
   String locationBannerApproximate(String city, String country);
 
   /// Feed banner: no location at all (neither GPS nor IP)
@@ -307,7 +307,7 @@ abstract class AppLocalizations {
   /// No description provided for @detailGoHome.
   ///
   /// In en, this message translates to:
-  /// **'Go back home'**
+  /// **'Back to breweries'**
   String get detailGoHome;
 
   /// No description provided for @detailDiagnosticTitle.

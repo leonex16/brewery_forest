@@ -2,7 +2,7 @@ appId: com.example.brewery_forest
 name: 110_list_item_via_card
 tags:
   - mvp
-# Flow 11: tap a list item -> the floating card appears -> 'See more' -> detail.
+# Flow 11: tap a list item -> the floating card appears -> 'View details' -> detail.
 # Emphasizes that the card is shown (vs. a direct navigation).
 ---
 - launchApp:
@@ -23,9 +23,8 @@ tags:
     visible:
       id: "brewery_card"
     timeout: 10000
-- assertVisible: "See more"
-- tapOn: "See more"
+- assertVisible: "View details"
+- tapOn: "View details"
 - extendedWaitUntil:
-    visible:
-      text: "name: .*"
+    visible: "(?s)ADDRESS.*"
     timeout: 20000

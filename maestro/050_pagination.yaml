@@ -2,9 +2,9 @@ appId: com.example.brewery_forest
 name: 050_pagination
 tags:
   - deterministic
-# Flow 5: expand the bottom sheet, then scroll the list to its end. Reaching the
-# end of page 1 (10 items) triggers loadNextPage; item 15 only exists once the
-# next page loads, so asserting it proves the list grew past the first page.
+# Flow 5: scroll the sheet's list to the very end. Reaching the end of a page
+# (10 items) triggers loadNextPage; the "That's all for now" footer only appears
+# once every page has loaded, so asserting it proves pagination ran to completion.
 # (Maestro's auto-scroll targets screen center = the full-screen map, so the
 # sheet's inner list must be scrolled with explicit coordinate swipes.)
 ---
@@ -19,19 +19,12 @@ tags:
     visible:
       id: "brewery_item"
     timeout: 30000
-- swipe:
-    start: "50%, 85%"
-    end: "50%, 15%"
-    duration: 600
-- swipe:
-    start: "50%, 80%"
-    end: "50%, 20%"
-    duration: 400
-- swipe:
-    start: "50%, 80%"
-    end: "50%, 20%"
-    duration: 400
-- extendedWaitUntil:
-    visible:
-      text: '(?s)15\..*'
-    timeout: 20000
+- repeat:
+    while:
+      notVisible: "That's all for now"
+    commands:
+      - swipe:
+          start: "50%, 80%"
+          end: "50%, 25%"
+          duration: 400
+- assertVisible: "That's all for now"

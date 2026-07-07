@@ -4,7 +4,7 @@ tags:
   - mvp
 # Flow 12: location denied + network OK. Explore into the feed; with GPS
 # unavailable the app falls back to IP geolocation (ipwho.is) and centers there,
-# showing the 'approximate location by IP' banner (assertable, unlike the map).
+# showing the 'approximate location' banner (assertable, unlike the map).
 ---
 - launchApp:
     clearState: true
@@ -19,4 +19,4 @@ tags:
       id: "location_banner"
     timeout: 40000
 - assertVisible:
-    text: "Approximate location by IP.*"
+    text: "Approximate location:.*"

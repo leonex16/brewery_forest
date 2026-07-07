@@ -1,0 +1,40 @@
+appId: com.example.brewery_forest
+name: 130_search_this_area
+tags:
+  - deterministic
+# Flow 13: pan the map >3 km from the initial query center -> the "Search in this
+# area" pill appears -> tap it -> the feed re-queries around the new center and the
+# pill clears. Proves the search-this-area feature end to end.
+# (The map canvas isn't targetable, but panning via coordinate swipes on the map
+# area is, and the pill is a normal widget with visible text.)
+---
+- launchApp:
+    clearState: true
+    permissions:
+      location: allow
+- setLocation:
+    latitude: 43.6532
+    longitude: -79.3832
+- extendedWaitUntil:
+    visible:
+      id: "brewery_item"
+    timeout: 30000
+# The map is the top ~60% of the screen (the sheet covers the bottom 40%). Pan
+# east several times to exceed the 3 km threshold; tune count/magnitude on-device.
+- repeat:
+    times: 3
+    commands:
+      - swipe:
+          start: "80%, 30%"
+          end: "20%, 30%"
+          duration: 500
+- extendedWaitUntil:
+    visible: "Search in this area"
+    timeout: 15000
+- tapOn: "Search in this area"
+# Re-searching resets lastQueryCenter -> the pill clears and the list stays populated.
+- extendedWaitUntil:
+    notVisible: "Search in this area"
+    timeout: 15000
+- assertVisible:
+    id: "brewery_item"

@@ -1,15 +1,15 @@
 {
   "@@locale": "en",
 
-  "errInvalidBrewery": "This brewery information is invalid",
+  "errInvalidBrewery": "We couldn't read this brewery's details",
   "@errInvalidBrewery": {
     "description": "InvalidBreweryEx: brewery failed domain validation"
   },
-  "errInvalidCoordinates": "This brewery has invalid location data",
+  "errInvalidCoordinates": "This brewery is missing location data",
   "@errInvalidCoordinates": {
     "description": "InvalidCoordinatesEx: brewery coordinates are missing/invalid"
   },
-  "errInvalidContact": "This brewery has no contact information",
+  "errInvalidContact": "This brewery has no contact info yet",
   "@errInvalidContact": {
     "description": "InvalidContactEx: brewery has no usable contact data"
   },
@@ -88,7 +88,7 @@
   "@feedEmptyTitle": {
     "description": "Feed/search: empty-state headline when no results"
   },
-  "feedEmptyBody": "Try a different search or clear your filters.",
+  "feedEmptyBody": "Try moving the map or searching another area.",
   "@feedEmptyBody": {
     "description": "Feed: empty-state supporting body"
   },
@@ -100,13 +100,13 @@
   "@feedRetry": {
     "description": "Feed: retry action (pagination error, feed error)"
   },
-  "paginationEnd": "You've reached the end",
+  "paginationEnd": "That's all for now",
   "@paginationEnd": {
     "description": "Feed: footer shown when there are no more pages"
   },
-  "fabSearchHere": "Search on current location",
+  "fabSearchHere": "Search near you",
   "@fabSearchHere": {
-    "description": "Feed: FAB tooltip/label to re-search at the current map center"
+    "description": "Feed: FAB tooltip/label to re-search at the user's current location"
   },
   "searchMinChars": "Type at least 5 characters to search",
   "@searchMinChars": {
@@ -115,7 +115,7 @@
   "breweryCardCta": "View details",
   "@breweryCardCta": { "description": "Floating brewery card: opens the full detail" },
 
-  "locationBannerApproximate": "Approximate location by IP: {city}, {country}",
+  "locationBannerApproximate": "Approximate location: {city}, {country}",
   "@locationBannerApproximate": {
     "description": "Feed banner: location came from IP geolocation, with resolved place",
     "placeholders": {
@@ -133,7 +133,7 @@
   "detailPhone": "Phone",
   "detailWebsite": "Website",
   "detailErrorBody": "We're having trouble loading the brewery details. Please try again.",
-  "detailGoHome": "Go back home",
+  "detailGoHome": "Back to breweries",
   "detailDiagnosticTitle": "We hit a snag loading the cellar.",
   "detailDiagnosticBody": "Our team has been notified. We're working to get the taps flowing again.",
   "detailTryRefreshing": "Try refreshing"

@@ -13,13 +13,13 @@ tags:
     latitude: 43.6532
     longitude: -79.3832
 - extendedWaitUntil:
-    visible: "Search on current location"
+    visible: "Search near you"
     timeout: 30000
 - extendedWaitUntil:
     visible:
       id: "brewery_item"
     timeout: 30000
-- tapOn: "Search on current location"
+- tapOn: "Search near you"
 - extendedWaitUntil:
     visible:
       id: "brewery_item"

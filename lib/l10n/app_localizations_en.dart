@@ -9,13 +9,13 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get errInvalidBrewery => 'This brewery information is invalid';
+  String get errInvalidBrewery => 'We couldn\'t read this brewery\'s details';
 
   @override
-  String get errInvalidCoordinates => 'This brewery has invalid location data';
+  String get errInvalidCoordinates => 'This brewery is missing location data';
 
   @override
-  String get errInvalidContact => 'This brewery has no contact information';
+  String get errInvalidContact => 'This brewery has no contact info yet';
 
   @override
   String get errNetwork => 'No internet connection';
@@ -74,7 +74,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedEmptyTitle => 'No breweries found';
 
   @override
-  String get feedEmptyBody => 'Try a different search or clear your filters.';
+  String get feedEmptyBody => 'Try moving the map or searching another area.';
 
   @override
   String get searchThisArea => 'Search in this area';
@@ -83,10 +83,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedRetry => 'Retry';
 
   @override
-  String get paginationEnd => 'You\'ve reached the end';
+  String get paginationEnd => 'That\'s all for now';
 
   @override
-  String get fabSearchHere => 'Search on current location';
+  String get fabSearchHere => 'Search near you';
 
   @override
   String get searchMinChars => 'Type at least 5 characters to search';
@@ -96,7 +96,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String locationBannerApproximate(String city, String country) {
-    return 'Approximate location by IP: $city, $country';
+    return 'Approximate location: $city, $country';
   }
 
   @override
@@ -119,7 +119,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'We\'re having trouble loading the brewery details. Please try again.';
 
   @override
-  String get detailGoHome => 'Go back home';
+  String get detailGoHome => 'Back to breweries';
 
   @override
   String get detailDiagnosticTitle => 'We hit a snag loading the cellar.';
