@@ -195,7 +195,7 @@ String _staticMapUrl(GeoCoordinates c, Brightness brightness) {
       '?access_token=${Env.mapboxAccessToken}';
 }
 
-extension _ on BreweryType {
+extension on BreweryType {
   String get label =>
       name.isEmpty ? name : '${name[0].toUpperCase()}${name.substring(1)}';
 }

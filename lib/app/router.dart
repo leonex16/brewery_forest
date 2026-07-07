@@ -6,7 +6,6 @@ import 'package:brewery_forest/features/020_feed/application/search_bloc.dart';
 import 'package:brewery_forest/features/020_feed/presentation/feed_page.dart';
 import 'package:brewery_forest/features/030_brewery_detail/application/brewery_detail_cubit.dart';
 import 'package:brewery_forest/features/030_brewery_detail/presentation/brewery_detail_page.dart';
-import 'package:brewery_forest/ui/dev/dev_gallery_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -43,12 +42,6 @@ final appRouter = GoRouter(
             getIt<BreweryDetailCubit>(param1: state.pathParameters['id']!),
         child: const BreweryDetailPage(),
       ),
-    ),
-
-    GoRoute(
-      path: "/dev-gallery",
-      name: 'dev-gallery',
-      builder: (context, state) => const DevGalleryPage(),
     ),
   ],
 );
