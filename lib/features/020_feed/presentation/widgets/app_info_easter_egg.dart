@@ -18,10 +18,7 @@ Future<void> showAppInfoEasterEgg(BuildContext context) async {
     ),
   );
 
-  Confetti.launch(
-    context,
-    options: const ConfettiOptions(particleCount: 140, spread: 80, startVelocity: 32, y: 0.7),
-  );
+  Confetti.launch(context, options: const ConfettiOptions(particleCount: 140, spread: 100, y: 0.7));
 }
 
 class _AppInfoDialog extends StatelessWidget {

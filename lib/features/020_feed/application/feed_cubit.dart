@@ -176,11 +176,14 @@ class FeedCubit extends Cubit<FeedState> {
   }
 
   Future<void> searchArea(GeoCoordinates target) async {
+    final state = this.state;
+
+    if (_isFetchingNextPage) return;
     if (state is! FeedOk) return;
 
-    final current = state as FeedOk;
+    _isFetchingNextPage = true;
 
-    emit(FeedState.loading());
+    emit(state.copyWith(paginationStatus: .loadingMore, paginationError: null));
 
     try {
       final result = await _repository.getAll(
@@ -189,24 +192,32 @@ class FeedCubit extends Cubit<FeedState> {
         near: target,
       );
       if (result == null) return;
-      final (breweries, hasMore) = result;
+      final (newBreweries, hasMore) = result;
 
       emit(
-        FeedState.success(
-          breweries: breweries,
+        state.copyWith(
+          breweries: _mergeBreweries(state.breweries, newBreweries),
           currentPage: 1,
-          userPosition: current.userPosition,
-          locationSource: current.locationSource,
-          ipLocation: current.ipLocation,
           lastQueryCenter: target,
           paginationStatus: hasMore
               ? PaginationStatus.idle
               : PaginationStatus.reachedEnd,
+          paginationError: null,
         ),
       );
     } on AppEx catch (e, st) {
       _errorReporter.reportError(e, st);
-      emit(FeedState.failure(error: e));
+      emit(state.copyWith(paginationStatus: .error, paginationError: e));
+    } finally {
+      _isFetchingNextPage = false;
     }
+  }
+
+  List<Brewery> _mergeBreweries(
+    List<Brewery> existing,
+    List<Brewery> incoming,
+  ) {
+    final ids = existing.map((b) => b.id).toSet();
+    return [...existing, ...incoming.where((b) => ids.add(b.id))];
   }
 }

@@ -46,13 +46,13 @@ class _FeedMapState extends State<FeedMap> {
     super.dispose();
   }
 
-  String _styleFor(Brightness b) =>
-      b == Brightness.dark ? MapboxStyles.DARK : MapboxStyles.LIGHT;
+  String _styleFor(Brightness b) => b == Brightness.dark ? MapboxStyles.DARK : MapboxStyles.LIGHT;
 
   Future<void> _onMapCreated(MapboxMap map) async {
     _map = map;
 
     await map.scaleBar.updateSettings(ScaleBarSettings(enabled: false));
+    await map.compass.updateSettings(CompassSettings(enabled: false));
     _markers = await map.annotations.createCircleAnnotationManager();
     _markers?.tapEvents(onTap: _onMarkerTap);
 
@@ -86,10 +86,7 @@ class _FeedMapState extends State<FeedMap> {
 
     final futureMarkers = <Future<CircleAnnotation>>[];
     for (final b in state.breweries) {
-      final (bgColor, strokeColor) = (
-        _colors.primary.toARGB32(),
-        _colors.surface.toARGB32(),
-      );
+      final (bgColor, strokeColor) = (_colors.primary.toARGB32(), _colors.surface.toARGB32());
       final data = {'brewery_id': b.id};
 
       final marker = m.create(
@@ -151,7 +148,7 @@ class _FeedMapState extends State<FeedMap> {
       p.lat.toDouble(),
       p.lng.toDouble(),
     );
-    final show = meters > 3000;
+    final show = meters > 1000;
 
     if (mounted && show != _showSearchArea) {
       setState(() => _showSearchArea = show);
@@ -169,10 +166,7 @@ class _FeedMapState extends State<FeedMap> {
 
     setState(() => _showSearchArea = false);
     context.read<FeedCubit>().searchArea(
-      GeoCoordinates.raw(
-        latitude: p.lat.toDouble(),
-        longitude: p.lng.toDouble(),
-      ),
+      GeoCoordinates.raw(latitude: p.lat.toDouble(), longitude: p.lng.toDouble()),
     );
   }
 
@@ -188,10 +182,7 @@ class _FeedMapState extends State<FeedMap> {
             onMapIdleListener: _onMapIdle,
             styleUri: _styleFor(Theme.of(context).brightness),
             viewportController: _viewport,
-            viewport: CameraViewportState(
-              center: Point(coordinates: _fallback),
-              zoom: 12,
-            ),
+            viewport: CameraViewportState(center: Point(coordinates: _fallback), zoom: 12),
           ),
 
           if (_showSearchArea)

@@ -21,15 +21,11 @@ class _LocationFloatingBannerState extends State<LocationFloatingBanner> {
       builder: (context, state) {
         if (_dismissed || state is! FeedOk) return const SizedBox.shrink();
 
-        final msg = locationBannerMessage(
-          context,
-          state.locationSource,
-          state.ipLocation,
-        );
+        final msg = locationBannerMessage(context, state.locationSource, state.ipLocation);
         if (msg == null) return const SizedBox.shrink();
 
         return Positioned(
-          top: AppSpacing.stackSm,
+          top: MediaQuery.paddingOf(context).top + AppSpacing.stackLg,
           left: AppSpacing.gutter,
           right: AppSpacing.gutter,
           child: BfBanner(

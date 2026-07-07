@@ -15,12 +15,15 @@ class FeedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: GestureDetector(
-        onLongPress: () => showAppInfoEasterEgg(context),
-        child: FloatingActionButton(
-          tooltip: context.l10n.fabSearchHere,
-          onPressed: () => context.read<FeedCubit>().refreshLocation(),
-          child: const Icon(AppIcons.myLocation),
+      floatingActionButton: Semantics(
+        button: true,
+        label: context.l10n.fabSearchHere,
+        child: GestureDetector(
+          onLongPress: () => showAppInfoEasterEgg(context),
+          child: FloatingActionButton(
+            onPressed: () => context.read<FeedCubit>().refreshLocation(),
+            child: const Icon(AppIcons.myLocation),
+          ),
         ),
       ),
       body: const Stack(
