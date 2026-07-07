@@ -13,6 +13,7 @@ extension ObdbSearchMapper on ObdbSearchRes {
       stateProvince: stateProvince ?? state,
       postalCode: postalCode,
       country: country,
+      countryCode: countryCodeFromName(country),
       latitude: latitude,
       longitude: longitude,
       phone: phone,
