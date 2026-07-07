@@ -3,19 +3,22 @@ import 'package:brewery_forest/ui/theme/app_icons.dart';
 import 'package:brewery_forest/ui/theme/theme_context.dart';
 import 'package:brewery_forest/ui/widgets/app_text.dart';
 import 'package:brewery_forest/ui/widgets/icon_circle.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class BreweryListItem extends StatelessWidget {
+  final Brewery brewery;
+  final VoidCallback? onTap;
+  final String? semanticsIdentifier;
+  final bool showChevron;
+
   const BreweryListItem({
     super.key,
     required this.brewery,
     this.onTap,
     this.semanticsIdentifier,
+    this.showChevron = true,
   });
-
-  final Brewery brewery;
-  final VoidCallback? onTap;
-  final String? semanticsIdentifier;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,9 @@ class BreweryListItem extends StatelessWidget {
         _subtitle,
         color: context.colors.onSurfaceVariant,
       ),
-      trailing: Icon(AppIcons.chevronRight, color: context.colors.outline),
+      trailing: showChevron
+          ? Icon(AppIcons.chevronRight, color: context.colors.outline)
+          : null,
     );
 
     if (semanticsIdentifier == null) return tile;
@@ -67,12 +72,12 @@ class _Leading extends StatelessWidget {
           bottom: -2,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(3),
-            child: Image.network(
-              flagUrl,
+            child: CachedNetworkImage(
+              imageUrl: flagUrl,
               width: 18,
               height: 12,
               fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => const SizedBox.shrink(),
+              errorWidget: (_, _, _) => const SizedBox.shrink(),
             ),
           ),
         ),

@@ -18,6 +18,10 @@ BreweryType parseBreweryType(String? type) {
   }
 }
 
-List<String> parseAddressLines(String? address1, String? address2, String? address3) {
+List<String> parseAddressLines(
+  String? address1,
+  String? address2,
+  String? address3,
+) {
   return [address1, address2, address3].compact();
 }

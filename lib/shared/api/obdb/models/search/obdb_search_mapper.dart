@@ -1,6 +1,6 @@
 import 'package:brewery_forest/core/index.dart';
-import 'package:brewery_forest/shared/api/obdb/models/search/obdb_search_res.dart';
 import 'package:brewery_forest/shared/api/obdb/models/obdb_mapper_helpers.dart';
+import 'package:brewery_forest/shared/api/obdb/models/search/obdb_search_res.dart';
 
 extension ObdbSearchMapper on ObdbSearchRes {
   Brewery toEntity() {

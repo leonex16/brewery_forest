@@ -4,51 +4,51 @@ part 'ipwhois_res.g.dart';
 
 @JsonSerializable()
 class IpWhoisRes {
-  @JsonKey(name: "ip")
+  @JsonKey(name: 'ip')
   final String? ip;
-  @JsonKey(name: "success")
+  @JsonKey(name: 'success')
   final bool? success;
-  @JsonKey(name: "type")
+  @JsonKey(name: 'type')
   final String? type;
-  @JsonKey(name: "continent")
+  @JsonKey(name: 'continent')
   final String? continent;
-  @JsonKey(name: "continent_code")
+  @JsonKey(name: 'continent_code')
   final String? continentCode;
-  @JsonKey(name: "country")
+  @JsonKey(name: 'country')
   final String? country;
-  @JsonKey(name: "country_code")
+  @JsonKey(name: 'country_code')
   final String? countryCode;
-  @JsonKey(name: "region")
+  @JsonKey(name: 'region')
   final String? region;
-  @JsonKey(name: "region_code")
+  @JsonKey(name: 'region_code')
   final String? regionCode;
-  @JsonKey(name: "city")
+  @JsonKey(name: 'city')
   final String? city;
-  @JsonKey(name: "latitude")
+  @JsonKey(name: 'latitude')
   final double? latitude;
-  @JsonKey(name: "longitude")
+  @JsonKey(name: 'longitude')
   final double? longitude;
-  @JsonKey(name: "is_eu")
+  @JsonKey(name: 'is_eu')
   final bool? isEu;
-  @JsonKey(name: "postal")
+  @JsonKey(name: 'postal')
   final String? postal;
-  @JsonKey(name: "calling_code")
+  @JsonKey(name: 'calling_code')
   final String? callingCode;
-  @JsonKey(name: "capital")
+  @JsonKey(name: 'capital')
   final String? capital;
-  @JsonKey(name: "borders")
+  @JsonKey(name: 'borders')
   final String? borders;
-  @JsonKey(name: "flag")
+  @JsonKey(name: 'flag')
   final Flag? flag;
-  @JsonKey(name: "connection")
+  @JsonKey(name: 'connection')
   final Connection? connection;
-  @JsonKey(name: "timezone")
+  @JsonKey(name: 'timezone')
   final Timezone? timezone;
-  @JsonKey(name: "currency")
+  @JsonKey(name: 'currency')
   final Currency? currency;
-  @JsonKey(name: "security")
+  @JsonKey(name: 'security')
   final Security? security;
-  @JsonKey(name: "rate")
+  @JsonKey(name: 'rate')
   final Rate? rate;
 
   IpWhoisRes({
@@ -85,13 +85,13 @@ class IpWhoisRes {
 
 @JsonSerializable()
 class Connection {
-  @JsonKey(name: "asn")
+  @JsonKey(name: 'asn')
   final int? asn;
-  @JsonKey(name: "org")
+  @JsonKey(name: 'org')
   final String? org;
-  @JsonKey(name: "isp")
+  @JsonKey(name: 'isp')
   final String? isp;
-  @JsonKey(name: "domain")
+  @JsonKey(name: 'domain')
   final String? domain;
 
   Connection({this.asn, this.org, this.isp, this.domain});
@@ -104,15 +104,15 @@ class Connection {
 
 @JsonSerializable()
 class Currency {
-  @JsonKey(name: "name")
+  @JsonKey(name: 'name')
   final String? name;
-  @JsonKey(name: "code")
+  @JsonKey(name: 'code')
   final String? code;
-  @JsonKey(name: "symbol")
+  @JsonKey(name: 'symbol')
   final String? symbol;
-  @JsonKey(name: "plural")
+  @JsonKey(name: 'plural')
   final String? plural;
-  @JsonKey(name: "exchange_rate")
+  @JsonKey(name: 'exchange_rate')
   final double? exchangeRate;
 
   Currency({this.name, this.code, this.symbol, this.plural, this.exchangeRate});
@@ -125,11 +125,11 @@ class Currency {
 
 @JsonSerializable()
 class Flag {
-  @JsonKey(name: "img")
+  @JsonKey(name: 'img')
   final String? img;
-  @JsonKey(name: "emoji")
+  @JsonKey(name: 'emoji')
   final String? emoji;
-  @JsonKey(name: "emoji_unicode")
+  @JsonKey(name: 'emoji_unicode')
   final String? emojiUnicode;
 
   Flag({this.img, this.emoji, this.emojiUnicode});
@@ -141,9 +141,9 @@ class Flag {
 
 @JsonSerializable()
 class Rate {
-  @JsonKey(name: "limit")
+  @JsonKey(name: 'limit')
   final int? limit;
-  @JsonKey(name: "remaining")
+  @JsonKey(name: 'remaining')
   final int? remaining;
 
   Rate({this.limit, this.remaining});
@@ -155,15 +155,15 @@ class Rate {
 
 @JsonSerializable()
 class Security {
-  @JsonKey(name: "anonymous")
+  @JsonKey(name: 'anonymous')
   final bool? anonymous;
-  @JsonKey(name: "proxy")
+  @JsonKey(name: 'proxy')
   final bool? proxy;
-  @JsonKey(name: "vpn")
+  @JsonKey(name: 'vpn')
   final bool? vpn;
-  @JsonKey(name: "tor")
+  @JsonKey(name: 'tor')
   final bool? tor;
-  @JsonKey(name: "hosting")
+  @JsonKey(name: 'hosting')
   final bool? hosting;
 
   Security({this.anonymous, this.proxy, this.vpn, this.tor, this.hosting});
@@ -176,17 +176,17 @@ class Security {
 
 @JsonSerializable()
 class Timezone {
-  @JsonKey(name: "id")
+  @JsonKey(name: 'id')
   final String? id;
-  @JsonKey(name: "abbr")
+  @JsonKey(name: 'abbr')
   final String? abbr;
-  @JsonKey(name: "is_dst")
+  @JsonKey(name: 'is_dst')
   final bool? isDst;
-  @JsonKey(name: "offset")
+  @JsonKey(name: 'offset')
   final int? offset;
-  @JsonKey(name: "utc")
+  @JsonKey(name: 'utc')
   final String? utc;
-  @JsonKey(name: "current_time")
+  @JsonKey(name: 'current_time')
   final DateTime? currentTime;
 
   Timezone({

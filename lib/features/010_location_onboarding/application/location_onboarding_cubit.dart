@@ -1,8 +1,6 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:brewery_forest/core/index.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-
 import 'package:injectable/injectable.dart';
 
 typedef LocationOnboardingState = LocationAccess;

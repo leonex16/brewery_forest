@@ -4,7 +4,7 @@ tags:
   - demo
 # Narrated walkthrough of the main journey (feed -> search -> card -> detail ->
 # pagination). Meant for `maestro record --local` or for running with slow
-# animations (make e2e-demo). Not part of the CI suite.
+# animations (make demo). Not part of the CI suite.
 ---
 - launchApp:
     clearState: true

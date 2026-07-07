@@ -29,7 +29,7 @@ class _LocationFloatingBannerState extends State<LocationFloatingBanner> {
         if (msg == null) return const SizedBox.shrink();
 
         return Positioned(
-          bottom: AppSpacing.stackSm,
+          top: AppSpacing.stackSm,
           left: AppSpacing.gutter,
           right: AppSpacing.gutter,
           child: BfBanner(

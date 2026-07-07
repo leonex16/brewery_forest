@@ -14,7 +14,7 @@ final appRouter = GoRouter(
   observers: [SentryNavigatorObserver()],
   routes: [
     GoRoute(
-      path: "/",
+      path: '/',
       name: 'location-onboarding',
       builder: (context, state) => BlocProvider(
         create: (_) => getIt<LocationOnboardingCubit>(),
@@ -23,7 +23,7 @@ final appRouter = GoRouter(
     ),
 
     GoRoute(
-      path: "/feed",
+      path: '/feed',
       name: 'feed',
       builder: (context, state) => MultiBlocProvider(
         providers: [
@@ -35,7 +35,7 @@ final appRouter = GoRouter(
     ),
 
     GoRoute(
-      path: "/brewery-detail/:id",
+      path: '/brewery-detail/:id',
       name: 'brewery-detail',
       builder: (context, state) => BlocProvider(
         create: (_) =>

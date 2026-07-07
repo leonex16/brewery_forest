@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:brewery_forest/ui/index.dart';
+import 'package:flutter/material.dart';
 
 class BreweryTileSkeleton extends StatelessWidget {
   const BreweryTileSkeleton({super.key});

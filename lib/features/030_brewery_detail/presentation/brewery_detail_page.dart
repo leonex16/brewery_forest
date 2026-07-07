@@ -132,9 +132,13 @@ class _MapHero extends StatelessWidget {
           children: [
             CachedNetworkImage(
               imageUrl: _staticMapUrl(brewery.address.coordinates, b),
-              fit: BoxFit.cover,
               placeholder: (_, _) => const Skeleton(),
               errorWidget: (_, _, _) => const SizedBox.shrink(),
+              imageBuilder: (context, imageProvider) => Semantics(
+                identifier: 'detail_map',
+                image: true,
+                child: Image(image: imageProvider, fit: BoxFit.cover),
+              ),
             ),
             DecoratedBox(
               decoration: BoxDecoration(

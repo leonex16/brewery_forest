@@ -69,6 +69,7 @@ class _LoadedList extends StatelessWidget {
             return BreweryListItem(
               brewery: b,
               semanticsIdentifier: 'brewery_item',
+              showChevron: false,
               onTap: () => context.read<FeedCubit>().selectBrewery(b),
             );
           }

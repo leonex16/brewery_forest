@@ -1,8 +1,8 @@
 import 'package:brewery_forest/core/domain/brewery.dart';
 import 'package:brewery_forest/core/network/dio_error_mapper.dart';
 import 'package:brewery_forest/core/observability/logger.dart';
-import 'package:brewery_forest/shared/api/obdb/models/brewery/obdb_brewery_res.dart';
 import 'package:brewery_forest/shared/api/obdb/models/breweries/obdb_breweries_res.dart';
+import 'package:brewery_forest/shared/api/obdb/models/brewery/obdb_brewery_res.dart';
 import 'package:brewery_forest/shared/api/obdb/models/search/obdb_search_res.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -31,7 +31,7 @@ final class ObdbDatasource {
     try {
       final response = await _dio
           .get(
-            "/breweries",
+            '/breweries',
             cancelToken: cancelToken,
             queryParameters: {
               'page': page,
@@ -55,7 +55,7 @@ final class ObdbDatasource {
 
   Future<ObdbBreweryRes?> getById(String id) async {
     try {
-      final response = await _dio.get("/breweries/$id").withMinimumDelay();
+      final response = await _dio.get('/breweries/$id').withMinimumDelay();
       final data = response.data as _BreweryRaw;
 
       return ObdbBreweryRes.fromJson(data);
@@ -74,7 +74,7 @@ final class ObdbDatasource {
     try {
       final response = await _dio
           .get(
-            "/breweries/search",
+            '/breweries/search',
             cancelToken: cancelToken,
             queryParameters: {'query': q, 'page': page, 'per_page': perPage},
           )
