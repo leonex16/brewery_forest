@@ -1,4 +1,5 @@
 import 'package:brewery_forest/features/020_feed/application/feed_cubit.dart';
+import 'package:brewery_forest/features/020_feed/presentation/widgets/app_info_easter_egg.dart';
 import 'package:brewery_forest/features/020_feed/presentation/widgets/feed_bottom_sheet.dart';
 import 'package:brewery_forest/features/020_feed/presentation/widgets/feed_map.dart';
 import 'package:brewery_forest/features/020_feed/presentation/widgets/location_floating_banner.dart';
@@ -14,10 +15,13 @@ class FeedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        tooltip: context.l10n.fabSearchHere,
-        onPressed: () => context.read<FeedCubit>().refreshLocation(),
-        child: const Icon(AppIcons.myLocation),
+      floatingActionButton: GestureDetector(
+        onLongPress: () => showAppInfoEasterEgg(context),
+        child: FloatingActionButton(
+          tooltip: context.l10n.fabSearchHere,
+          onPressed: () => context.read<FeedCubit>().refreshLocation(),
+          child: const Icon(AppIcons.myLocation),
+        ),
       ),
       body: const Stack(
         children: [

@@ -9,6 +9,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:brewery_forest/core/app_info/app_info_service.dart' as _i272;
 import 'package:brewery_forest/core/index.dart' as _i496;
 import 'package:brewery_forest/core/managers/location/ip_location_repository.dart'
     as _i826;
@@ -77,6 +78,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i275.LoggingErrorReporter(),
       registerFor: {_test},
     );
+    gh.lazySingleton<_i272.AppInfoService>(() => _i272.AppInfoServiceImpl());
     gh.lazySingleton<_i810.DeviceIdentityService>(
       () => _i810.DeviceIdentityServiceImpl(),
     );
