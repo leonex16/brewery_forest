@@ -4,11 +4,15 @@ tags:
   - deterministic
 # Flow 5: scrolling to the bottom of the loaded list fires loadNextPage. The feed
 # uses `by_dist`, which paginates the ENTIRE database ordered by distance, so the
-# list has no reachable "end" — instead we prove pagination *fired* by catching the
-# loading indicator shown while the next page is fetched (the API enforces a ~2s
-# minimum delay, so the spinner is reliably on-screen).
-# (Maestro's auto-scroll targets screen center = the full-screen map, so the
-# sheet's inner list is scrolled with explicit coordinate swipes.)
+# list has no reachable "end". A spinner (id: pagination_loading) does show during
+# each fetch, but the list prefetches the next page ~200 px before the end, so the
+# spinner renders just below the fold at the very bottom of the sheet for only ~2 s
+# and can't be pinned fully on-screen reliably across devices/screen sizes.
+# So instead of racing that transient spinner we prove pagination *fired* by a
+# stable signal: a second-page brewery loading in. "Mill Street Brew Pub & Beer
+# Hall" is the 11th result by distance from the query centre, so it can only exist
+# once loadNextPage has fetched page 2. Deterministic for the fixed Toronto query.
+# (If the OpenBreweryDB dataset shifts and this name leaves page 2, update it.)
 ---
 - launchApp:
     clearState: true
@@ -21,16 +25,24 @@ tags:
     visible:
       id: "brewery_item"
     timeout: 30000
-# First swipe expands the sheet; the next two scroll the 10-item first page to its
-# bottom, which fires loadNextPage.
-- repeat:
-    times: 3
-    commands:
-      - swipe:
-          start: "50%, 80%"
-          end: "50%, 30%"
-          duration: 300
+# Drag the handle up to expand the sheet to full height. Start inside the handle
+# strip (~82%), not at its very top edge (80% = the sheet's top), or the full-screen
+# map behind it captures the gesture and the sheet never expands.
+- swipe:
+    start: "50%, 82%"
+    end: "50%, 12%"
+    duration: 500
 - extendedWaitUntil:
-    visible:
-      id: "pagination_loading"
-    timeout: 8000
+    visible: "__settle__"
+    timeout: 500
+    optional: true
+    label: "let the sheet settle"
+# Scroll the list down until a page-2 brewery appears. With the sheet expanded the
+# screen centre sits over the list, so scrollUntilVisible scrolls the list (not the
+# map). Reaching the bottom forces loadNextPage, so this item's presence proves it.
+- scrollUntilVisible:
+    element:
+      text: "(?s)Mill Street Brew Pub.*"
+    direction: DOWN
+    timeout: 20000
+    speed: 40

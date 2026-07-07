@@ -46,32 +46,30 @@ tags:
     label: "The floating card opens with its data"
 - runFlow: ../subflows/pause.yaml
 - tapOn:
-    text: "See more"
-    label: "Tap 'See more' on the card"
+    text: "View details"
+    label: "Tap 'View details' on the card"
 - extendedWaitUntil:
     visible:
-      text: "name: .*"
+      id: "detail_map"
     timeout: 20000
     label: "The full brewery detail is shown"
 - runFlow: ../subflows/pause.yaml
 - back
 - runFlow: ../subflows/pause.yaml
+# Grab the handle (start ~82%, inside the strip) to expand the sheet — starting at
+# its top edge lets the full-screen map behind it eat the gesture.
 - swipe:
-    start: "50%, 85%"
-    end: "50%, 15%"
+    start: "50%, 82%"
+    end: "50%, 12%"
     duration: 600
-    label: "Expand the sheet and scroll the list"
-- swipe:
-    start: "50%, 80%"
-    end: "50%, 20%"
-    duration: 400
-- swipe:
-    start: "50%, 80%"
-    end: "50%, 20%"
-    duration: 400
-- extendedWaitUntil:
-    visible:
-      text: '(?s)11\..*'
+    label: "Expand the list sheet"
+- runFlow: ../subflows/pause.yaml
+# Scroll to the bottom until a second-page brewery appears (proves pagination).
+- scrollUntilVisible:
+    element:
+      text: "(?s)Mill Street Brew Pub.*"
+    direction: DOWN
     timeout: 20000
+    speed: 30
     label: "More breweries load at the end (pagination)"
 - runFlow: ../subflows/pause.yaml

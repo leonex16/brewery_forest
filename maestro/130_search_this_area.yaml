@@ -19,15 +19,23 @@ tags:
     visible:
       id: "brewery_item"
     timeout: 30000
-# The map is the top ~60% of the screen (the sheet covers the bottom 40%). Pan
-# east several times to exceed the 3 km threshold; tune count/magnitude on-device.
+# The map fills the screen; the sheet only covers the bottom ~20%, so y=28% lands
+# on the map. Pan east until the centre is >3 km from the initial query centre.
+# Mapbox only commits a pan once the gesture settles — rapid back-to-back swipes
+# barely move the camera — so use slow swipes with a short pause between each so the
+# pans accumulate and onMapIdle fires with the new centre.
 - repeat:
-    times: 3
+    times: 6
     commands:
       - swipe:
-          start: "80%, 30%"
-          end: "20%, 30%"
-          duration: 500
+          start: "85%, 28%"
+          end: "18%, 28%"
+          duration: 600
+      - extendedWaitUntil:
+          visible: "__settle__"
+          timeout: 300
+          optional: true
+          label: "let the map settle"
 - extendedWaitUntil:
     visible: "Search in this area"
     timeout: 15000
