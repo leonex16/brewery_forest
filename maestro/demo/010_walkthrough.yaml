@@ -48,9 +48,11 @@ tags:
 - tapOn:
     text: "View details"
     label: "Tap 'View details' on the card"
+# Assert on the address card (rendered from local data) rather than the hero map,
+# whose static image is a separate network request that can be slow/fail to load.
 - extendedWaitUntil:
     visible:
-      id: "detail_map"
+      text: "(?s)Address.*"
     timeout: 20000
     label: "The full brewery detail is shown"
 - runFlow: ../subflows/pause.yaml

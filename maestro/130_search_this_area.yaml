@@ -19,30 +19,42 @@ tags:
     visible:
       id: "brewery_item"
     timeout: 30000
-# The map fills the screen; the sheet only covers the bottom ~20%, so y=28% lands
+# Let the initial camera fly-to (userPosition -> Toronto) finish before panning, or
+# the animation eats the first swipes.
+- extendedWaitUntil:
+    visible: "__settle__"
+    timeout: 1500
+    optional: true
+    label: "let the initial camera move settle"
+# The map fills the screen; the sheet only covers the bottom ~20%, so y=30% lands
 # on the map. Pan east until the centre is >3 km from the initial query centre.
 # Mapbox only commits a pan once the gesture settles — rapid back-to-back swipes
-# barely move the camera — so use slow swipes with a short pause between each so the
-# pans accumulate and onMapIdle fires with the new centre.
+# barely move the camera — so use several slow swipes with a short pause between each
+# so the pans accumulate (with margin over the 3 km threshold) and onMapIdle fires.
 - repeat:
-    times: 6
+    times: 8
     commands:
       - swipe:
-          start: "85%, 28%"
-          end: "18%, 28%"
-          duration: 600
+          start: "90%, 30%"
+          end: "10%, 30%"
+          duration: 700
       - extendedWaitUntil:
           visible: "__settle__"
-          timeout: 300
+          timeout: 400
           optional: true
           label: "let the map settle"
 - extendedWaitUntil:
     visible: "Search in this area"
     timeout: 15000
 - tapOn: "Search in this area"
-# Re-searching resets lastQueryCenter -> the pill clears and the list stays populated.
+# Re-searching resets lastQueryCenter -> the pill clears immediately (setState).
 - extendedWaitUntil:
     notVisible: "Search in this area"
     timeout: 15000
-- assertVisible:
-    id: "brewery_item"
+# searchArea then re-queries around the new centre (~2 s loading -> skeletons), so
+# wait for the breweries to come back rather than asserting instantly.
+- extendedWaitUntil:
+    visible:
+      id: "brewery_item"
+    timeout: 15000
+    label: "the re-query around the new centre loads breweries"
