@@ -23,21 +23,4 @@ class SentryErrorReporter implements ErrorReporter {
     );
     return eventId;
   }
-
-  @override
-  void addBreadcrumb(
-    String message, {
-    String? category,
-    Map<String, Object?>? data,
-  }) {
-    unawaited(
-      Sentry.addBreadcrumb(
-        Breadcrumb(
-          message: message,
-          category: category,
-          data: data == null ? null : Map<String, dynamic>.from(data),
-        ),
-      ),
-    );
-  }
 }

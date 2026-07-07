@@ -14,11 +14,3 @@ InfraEx mapDioException(DioException e) {
     _ => NetworkEx(cause: e),
   };
 }
-
-Future<T> guardDio<T>(Future<T> Function() call) async {
-  try {
-    return await call();
-  } on DioException catch (e) {
-    throw mapDioException(e);
-  }
-}

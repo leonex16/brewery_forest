@@ -54,6 +54,13 @@ tidy: ## Apply lint fixes then format lib/ and test/
 	dart fix --apply
 	dart format lib test
 
+##@ Run locally
+run-debug: ## Run the debug APK
+	flutter run --dart-define-from-file=env/local.json
+
+run-release: ## Run the release APK
+	flutter run --dart-define-from-file=env/production.json
+
 ##@ Build & install (onto a connected Android device)
 install-debug: ## Build + install the debug APK
 	flutter build apk --debug --dart-define-from-file=$(ENV_FILE)

@@ -11,10 +11,5 @@ String userMessage(BuildContext context, AppEx error) => switch (error) {
   // InfraEx
   NetworkEx() => context.l10n.errNetwork,
   ServerEx() => context.l10n.errServer,
-  ParsingEx() => context.l10n.errParsing,
-  StorageEx() => context.l10n.errStorage,
   LocationUnavailableEx() => context.l10n.errLocationUnavailable,
-
-  // ApplicationEx
-  BreweryNotFoundEx() => context.l10n.errBreweryNotFound,
 };

@@ -21,14 +21,6 @@
   "@errServer": {
     "description": "ServerEx: backend returned an error status"
   },
-  "errParsing": "We had trouble reading the data",
-  "@errParsing": {
-    "description": "ParsingEx: response body could not be deserialized"
-  },
-  "errStorage": "We had trouble saving your data",
-  "@errStorage": {
-    "description": "StorageEx: local persistence failed"
-  },
   "errLocationUnavailable": "We couldn't get your location",
   "@errLocationUnavailable": {
     "description": "LocationUnavailableEx: could not resolve device location"
@@ -54,10 +46,6 @@
   "@onboardingExplore": {
     "description": "Onboarding: secondary action to skip and browse anyway"
   },
-  "onboardingPrivacy": "Your data stays private",
-  "@onboardingPrivacy": {
-    "description": "Onboarding: reassurance line about privacy"
-  },
 
   "deniedTitle": "No problem!",
   "@deniedTitle": {
@@ -74,10 +62,6 @@
   "deniedExplore": "Explore without location",
   "@deniedExplore": {
     "description": "Permission-denied screen: skip and browse anyway"
-  },
-  "deniedPrivacyFirst": "Privacy first",
-  "@deniedPrivacyFirst": {
-    "description": "Permission-denied screen: reassurance line"
   },
 
   "feedSearchHint": "Search breweries...",

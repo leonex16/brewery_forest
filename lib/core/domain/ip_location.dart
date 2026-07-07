@@ -1,6 +1,4 @@
 import 'package:brewery_forest/core/domain/brewery.dart';
-import 'package:brewery_forest/core/domain/country_flags.dart';
-import 'package:brewery_forest/core/utils/strings.dart';
 
 /// Approximate location resolved from the device's public IP (ipwho.is).
 /// Enriched domain entity: keeps the fields the app finds valuable, decoupled
@@ -53,8 +51,4 @@ final class IpLocation {
       timezone: timezone,
     );
   }
-
-  String? get flagUrl => flagImageUrl(countryCode);
-
-  String? get placeLabel => [city, country].joinNonEmpty();
 }

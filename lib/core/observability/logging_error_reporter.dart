@@ -21,17 +21,4 @@ final class LoggingErrorReporter implements ErrorReporter {
     );
     return eventId;
   }
-
-  @override
-  void addBreadcrumb(
-    String message, {
-    String? category,
-    Map<String, Object?>? data,
-  }) {
-    developer.log(
-      'breadcrumb${category != null ? ' [$category]' : ''}: $message'
-      '${data != null ? ' | $data' : ''}',
-      name: 'ErrorReporter',
-    );
-  }
 }

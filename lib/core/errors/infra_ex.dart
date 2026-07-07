@@ -15,14 +15,6 @@ final class ServerEx extends InfraEx {
     : super('Server error with status code $statusCode');
 }
 
-final class ParsingEx extends InfraEx {
-  ParsingEx(super.message, {super.cause});
-}
-
-final class StorageEx extends InfraEx {
-  StorageEx(super.message, {super.cause});
-}
-
 final class LocationUnavailableEx extends InfraEx {
   LocationUnavailableEx({super.cause}) : super('Location unavailable');
 }

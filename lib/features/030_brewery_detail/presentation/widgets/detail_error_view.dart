@@ -16,7 +16,7 @@ class DetailErrorView extends StatelessWidget {
     required this.onGoHome,
   });
 
-  bool get _isDiagnostic => error is ServerEx || error is ParsingEx;
+  bool get _isDiagnostic => error is ServerEx;
 
   @override
   Widget build(BuildContext context) {

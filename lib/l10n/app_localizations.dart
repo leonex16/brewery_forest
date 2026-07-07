@@ -61,8 +61,7 @@ import 'app_localizations_en.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -70,8 +69,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -124,18 +122,6 @@ abstract class AppLocalizations {
   /// **'Something went wrong on our end'**
   String get errServer;
 
-  /// ParsingEx: response body could not be deserialized
-  ///
-  /// In en, this message translates to:
-  /// **'We had trouble reading the data'**
-  String get errParsing;
-
-  /// StorageEx: local persistence failed
-  ///
-  /// In en, this message translates to:
-  /// **'We had trouble saving your data'**
-  String get errStorage;
-
   /// LocationUnavailableEx: could not resolve device location
   ///
   /// In en, this message translates to:
@@ -172,12 +158,6 @@ abstract class AppLocalizations {
   /// **'Explore without location'**
   String get onboardingExplore;
 
-  /// Onboarding: reassurance line about privacy
-  ///
-  /// In en, this message translates to:
-  /// **'Your data stays private'**
-  String get onboardingPrivacy;
-
   /// Permission-denied screen: friendly headline
   ///
   /// In en, this message translates to:
@@ -201,12 +181,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Explore without location'**
   String get deniedExplore;
-
-  /// Permission-denied screen: reassurance line
-  ///
-  /// In en, this message translates to:
-  /// **'Privacy first'**
-  String get deniedPrivacyFirst;
 
   /// Feed: placeholder text inside the search field
   ///
@@ -335,8 +309,7 @@ abstract class AppLocalizations {
   String get detailLaunchError;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -345,8 +318,7 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;

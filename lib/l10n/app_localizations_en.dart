@@ -24,12 +24,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errServer => 'Something went wrong on our end';
 
   @override
-  String get errParsing => 'We had trouble reading the data';
-
-  @override
-  String get errStorage => 'We had trouble saving your data';
-
-  @override
   String get errLocationUnavailable => 'We couldn\'t get your location';
 
   @override
@@ -49,9 +43,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingExplore => 'Explore without location';
 
   @override
-  String get onboardingPrivacy => 'Your data stays private';
-
-  @override
   String get deniedTitle => 'No problem!';
 
   @override
@@ -63,9 +54,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deniedExplore => 'Explore without location';
-
-  @override
-  String get deniedPrivacyFirst => 'Privacy first';
 
   @override
   String get feedSearchHint => 'Search breweries...';

@@ -16,12 +16,6 @@ class _FakeErrorReporter implements ErrorReporter {
     StackTrace st, {
     Map<String, Object?>? context,
   }) => 'bf-test';
-  @override
-  void addBreadcrumb(
-    String message, {
-    String? category,
-    Map<String, Object?>? data,
-  }) {}
 }
 
 void main() {
