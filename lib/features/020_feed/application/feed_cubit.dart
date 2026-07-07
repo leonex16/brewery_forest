@@ -45,6 +45,16 @@ class FeedCubit extends Cubit<FeedState> {
   }
 
   Future<void> refreshLocation() async {
+    var access = await _locationRepository.checkPermission();
+
+    if (access is LocationDenied) {
+      access = await _locationRepository.requestPermission();
+    }
+
+    if (access is LocationDeniedForever || access is LocationServiceDisabled) {
+      return;
+    }
+
     emit(FeedState.loading());
     await _onStart();
   }
