@@ -1,6 +1,7 @@
 import 'package:brewery_forest/core/di/injection.dart';
 import 'package:brewery_forest/core/env.dart';
 import 'package:brewery_forest/core/observability/device_identity_service.dart';
+import 'package:brewery_forest/core/storage/hive_setup.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -9,8 +10,6 @@ import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> bootstrap(Widget Function() builder) async {
-  setupDI(environment: Env.isProduction ? Environment.prod : Environment.dev);
-
   await SentryFlutter.init(
     (options) {
       options.dsn = Env.sentryDsn;
@@ -23,6 +22,10 @@ Future<void> bootstrap(Widget Function() builder) async {
     },
     appRunner: () async {
       WidgetsFlutterBinding.ensureInitialized();
+
+      await initHive();
+      await setupDI(environment: Env.isProduction ? Environment.prod : Environment.dev);
+
       MapboxOptions.setAccessToken(Env.mapboxAccessToken);
 
       await SystemChrome.setPreferredOrientations([
@@ -35,11 +38,7 @@ Future<void> bootstrap(Widget Function() builder) async {
         (scope) => scope.setUser(
           SentryUser(
             id: identity.installationId,
-            data: {
-              'model': identity.model,
-              'os': identity.osVersion,
-              'environment': Env.appEnv,
-            },
+            data: {'model': identity.model, 'os': identity.osVersion, 'environment': Env.appEnv},
           ),
         ),
       );

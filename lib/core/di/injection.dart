@@ -6,4 +6,4 @@ import 'injection.config.dart';
 final getIt = GetIt.instance;
 
 @InjectableInit()
-void setupDI({String? environment}) => getIt.init(environment: environment);
+Future<void> setupDI({String? environment}) async => getIt.init(environment: environment);

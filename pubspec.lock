@@ -297,6 +297,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.10.0"
+  dio_cache_interceptor:
+    dependency: "direct main"
+    description:
+      name: dio_cache_interceptor
+      sha256: "9472f9f3dcaa384ae68e60606c1d04e6314dea5eab39f18d94ff9b0a300dbbe4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.7"
   dio_web_adapter:
     dependency: transitive
     description:
@@ -557,6 +565,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.8"
+  hive_ce:
+    dependency: "direct main"
+    description:
+      name: hive_ce
+      sha256: "8e9980e68643afb1e765d3af32b47996552a64e190d03faf622cea07c1294418"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.19.3"
+  hive_ce_flutter:
+    dependency: "direct main"
+    description:
+      name: hive_ce_flutter
+      sha256: "2677e95a333ff15af43ccd06af7eb7abbf1a4f154ea071997f3de4346cae913a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.4"
   hooks:
     dependency: transitive
     description:
@@ -589,6 +613,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.6.0"
+  http_cache_core:
+    dependency: transitive
+    description:
+      name: http_cache_core
+      sha256: d6de4ca6680e70f4eacd79e073d6a73734eb1da86305409e495adfabf404eddf
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.4"
+  http_cache_hive_store:
+    dependency: "direct main"
+    description:
+      name: http_cache_hive_store
+      sha256: "074518de4b4548d4e18bd799700fa2d58179931cec2520dfe190b6fb60983682"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.0"
   http_multi_server:
     dependency: transitive
     description:
@@ -645,6 +685,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  isolate_channel:
+    dependency: transitive
+    description:
+      name: isolate_channel
+      sha256: a9d3d620695bc984244dafae00b95e4319d6974b2d77f4b9e1eb4f2efe099094
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.1"
   jni:
     dependency: transitive
     description:

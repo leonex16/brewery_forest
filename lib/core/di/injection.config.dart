@@ -15,6 +15,8 @@ import 'package:brewery_forest/core/managers/location/ip_location_repository.dar
     as _i826;
 import 'package:brewery_forest/core/managers/location/location_repository.dart'
     as _i304;
+import 'package:brewery_forest/core/network/cache/hive_cache_store_module.dart'
+    as _i100;
 import 'package:brewery_forest/core/network/dio_client.dart' as _i209;
 import 'package:brewery_forest/core/observability/developer_logger.dart'
     as _i60;
@@ -32,6 +34,8 @@ import 'package:brewery_forest/features/020_feed/application/feed_cubit.dart'
     as _i305;
 import 'package:brewery_forest/features/020_feed/application/search_bloc.dart'
     as _i711;
+import 'package:brewery_forest/features/020_feed/data/feed_local_data_source.dart'
+    as _i1030;
 import 'package:brewery_forest/features/030_brewery_detail/application/brewery_detail_cubit.dart'
     as _i685;
 import 'package:brewery_forest/shared/api/ipwhois/ipwhois_datasource.dart'
@@ -40,6 +44,7 @@ import 'package:brewery_forest/shared/api/obdb/obdb_brewery_repository.dart'
     as _i846;
 import 'package:brewery_forest/shared/api/obdb/obdb_datasource.dart' as _i609;
 import 'package:dio/dio.dart' as _i361;
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart' as _i695;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
@@ -49,12 +54,17 @@ const String _test = 'test';
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
-  _i174.GetIt init({
+  Future<_i174.GetIt> init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
-  }) {
+  }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    final cacheStoreModule = _$CacheStoreModule();
     final networkModule = _$NetworkModule();
+    await gh.factoryAsync<_i695.CacheStore>(
+      () => cacheStoreModule.hiveCacheStore(),
+      preResolve: true,
+    );
     gh.lazySingleton<_i304.LocationRepository>(
       () => _i304.GeolocatorLocationRepository(),
     );
@@ -66,21 +76,24 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i429.SentryErrorReporter(),
       registerFor: {_dev, _prod},
     );
-    gh.lazySingleton<_i361.Dio>(
-      () => networkModule.obdbDio(),
-      instanceName: 'obdb',
-    );
-    gh.lazySingleton<_i361.Dio>(
-      () => networkModule.ipwhoDio(),
-      instanceName: 'ipwho',
-    );
     gh.lazySingleton<_i113.ErrorReporter>(
       () => _i275.LoggingErrorReporter(),
       registerFor: {_test},
     );
     gh.lazySingleton<_i272.AppInfoService>(() => _i272.AppInfoServiceImpl());
+    gh.lazySingleton<_i361.Dio>(
+      () => networkModule.ipwhoDio(gh<_i695.CacheStore>()),
+      instanceName: 'ipwho',
+    );
+    gh.lazySingleton<_i361.Dio>(
+      () => networkModule.obdbDio(gh<_i695.CacheStore>()),
+      instanceName: 'obdb',
+    );
     gh.lazySingleton<_i810.DeviceIdentityService>(
       () => _i810.DeviceIdentityServiceImpl(),
+    );
+    gh.lazySingleton<_i1030.FeedLocalDataSource>(
+      () => _i1030.HiveFeedLocalDataSource(gh<_i113.ErrorReporter>()),
     );
     gh.lazySingleton<_i609.ObdbDatasource>(
       () => _i609.ObdbDatasource(
@@ -88,16 +101,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i768.Logger>(),
       ),
     );
+    gh.lazySingleton<_i496.BreweryRepository>(
+      () => _i846.ObdbBreweryRepository(
+        gh<_i609.ObdbDatasource>(),
+        gh<_i1030.FeedLocalDataSource>(),
+        gh<_i496.ErrorReporter>(),
+      ),
+    );
     gh.lazySingleton<_i684.IpWhoisDatasource>(
       () => _i684.IpWhoisDatasource(
         gh<_i361.Dio>(instanceName: 'ipwho'),
         gh<_i768.Logger>(),
-      ),
-    );
-    gh.lazySingleton<_i496.BreweryRepository>(
-      () => _i846.ObdbBreweryRepository(
-        gh<_i609.ObdbDatasource>(),
-        gh<_i496.ErrorReporter>(),
       ),
     );
     gh.lazySingleton<_i826.IpLocationRepository>(
@@ -127,5 +141,7 @@ extension GetItInjectableX on _i174.GetIt {
     return this;
   }
 }
+
+class _$CacheStoreModule extends _i100.CacheStoreModule {}
 
 class _$NetworkModule extends _i209.NetworkModule {}
