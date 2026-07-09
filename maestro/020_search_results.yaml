@@ -5,10 +5,22 @@ tags:
   - smoke
 # Flow 2: type a query >=5 chars that matches -> results appear.
 ---
-- launchApp:
-    clearState: true
-    permissions:
-      location: allow
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: allow
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: always
 - setLocation:
     latitude: 43.6532
     longitude: -79.3832

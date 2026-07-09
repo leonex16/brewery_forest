@@ -6,10 +6,22 @@ tags:
 # Flow 1: launch with location granted -> feed reached and the brewery list
 # has items (Open Brewery DB page 1 always returns breweries).
 ---
-- launchApp:
-    clearState: true
-    permissions:
-      location: allow
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: allow
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: always
 - setLocation:
     latitude: 43.6532
     longitude: -79.3832

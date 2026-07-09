@@ -1,0 +1,58 @@
+appId: app.laes.brewery_forest
+name: 150_detail_offline_cache_miss
+tags:
+  - offline
+# Flow 15: L29 offline cache, negative case. Android only - see 140.
+# Warms item 0's detail online, goes offline, cold starts, then opens item 1
+# - never visited, so its detail was never fetched and can't be cached. The
+# cache must not invent data: this should still fail with
+# BreweryDetailFailure, rendered as the generic errServer headline (NetworkEx
+# isn't a ServerEx, so DetailErrorView falls back to the non-diagnostic copy).
+# onFlowComplete always restores connectivity, even if the flow fails midway.
+onFlowComplete:
+  - setAirplaneMode: disabled
+---
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: allow
+      - setLocation:
+          latitude: 43.6532
+          longitude: -79.3832
+      - extendedWaitUntil:
+          visible:
+            id: "brewery_item"
+          timeout: 30000
+      - tapOn:
+          id: "brewery_item"
+          index: 0
+      - extendedWaitUntil:
+          visible:
+            id: "brewery_card"
+          timeout: 10000
+      - tapOn: "View details"
+      - extendedWaitUntil:
+          visible: "(?s)ADDRESS.*"
+          timeout: 20000
+      - setAirplaneMode: enabled
+      - launchApp:
+          clearState: false
+      - extendedWaitUntil:
+          visible:
+            id: "brewery_item"
+          timeout: 30000
+      - tapOn:
+          id: "brewery_item"
+          index: 1
+      - extendedWaitUntil:
+          visible:
+            id: "brewery_card"
+          timeout: 10000
+      - tapOn: "View details"
+      - extendedWaitUntil:
+          visible: "Something went wrong on our end"
+          timeout: 20000

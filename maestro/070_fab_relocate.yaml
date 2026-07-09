@@ -5,10 +5,22 @@ tags:
 # Flow 7: tap the location FAB -> feed reloads by location and stays operative
 # (brewery list is present again after the refresh).
 ---
-- launchApp:
-    clearState: true
-    permissions:
-      location: allow
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: allow
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: always
 - setLocation:
     latitude: 43.6532
     longitude: -79.3832

@@ -7,6 +7,16 @@
 ADB ?= $(shell command -v adb 2>/dev/null || echo $(HOME)/Library/Android/sdk/platform-tools/adb)
 MAESTRO_DIR := maestro
 
+# PLATFORM selects which OS install/e2e targets act on: Android (default) or
+# iOS (case-sensitive - matches Maestro's own --platform values exactly).
+# DEVICE optionally pins one emulator/simulator UDID when more than one is
+# connected (`maestro list-devices` / `flutter devices` to find it).
+PLATFORM ?= Android
+DEVICE ?=
+# Flutter wants "-d <id>"; Maestro wants "--device=<id>" - same DEVICE, two flags.
+FLUTTER_DEVICE_FLAG := $(if $(DEVICE),-d $(DEVICE),)
+MAESTRO_DEVICE_FLAG := $(if $(DEVICE),--device=$(DEVICE),)
+
 # production.json carries the required Mapbox token (the app crashes at launch without it).
 ENV_FILE := env/production.json
 
@@ -61,34 +71,59 @@ run-debug: ## Run the debug APK
 run-release: ## Run the release APK
 	flutter run --dart-define-from-file=env/production.json
 
-##@ Build & install (onto a connected Android device)
-install-debug: ## Build + install the debug APK
+##@ Build & install (onto a connected Android device/emulator, or PLATFORM=iOS for a Simulator)
+install-debug: ## Build + install the debug build (PLATFORM=iOS to target a Simulator instead)
+ifeq ($(PLATFORM),iOS)
+	flutter build ios --simulator --debug --dart-define-from-file=$(ENV_FILE)
+	flutter install $(FLUTTER_DEVICE_FLAG)
+else
 	flutter build apk --debug --dart-define-from-file=$(ENV_FILE)
 	$(ADB) install -r build/app/outputs/flutter-apk/app-debug.apk
+endif
 
-install-release: ## Build + install the release APK
+install-release: ## Build + install the release build (PLATFORM=iOS to target a Simulator instead)
+ifeq ($(PLATFORM),iOS)
+	flutter build ios --simulator --release --dart-define-from-file=$(ENV_FILE)
+	flutter install $(FLUTTER_DEVICE_FLAG)
+else
 	flutter build apk --release --dart-define-from-file=$(ENV_FILE)
 	$(ADB) install -r build/app/outputs/flutter-apk/app-release.apk
+endif
 
 ##@ Release (Play Store artifact)
 build-appbundle: ## Build the release .aab for the Play Store
 	flutter build appbundle --release --dart-define-from-file=$(ENV_FILE)
 
-##@ E2E tests (Maestro - Android only; Maestro has no Flutter Desktop support)
-e2e-setup: ## One-time device prep (location consent + disable animations)
+##@ E2E tests (Maestro - Android by default; PLATFORM=iOS to target a Simulator)
+# iOS needs its own permission vocabulary: `permissions.location: allow/deny`
+# (Android's) isn't a valid value on iOS, which wants always/inuse/never/unset
+# - every flow that sets this now branches on `runFlow: when: platform:` so
+# each OS gets its own value. iOS also needs NSLocationWhenInUseUsageDescription
+# in ios/Runner/Info.plist (added) - without it, iOS silently refuses any
+# location authorization request, no matter what Maestro or `simctl privacy`
+# pre-grants at the TCC level; that's what looked like a Maestro bug at first.
+# 16/16 pass on iOS with both fixes in place. The android-only-tagged flows
+# (080, 090, 140, 150, 160 - anything needing setAirplaneMode, which has no
+# effect on iOS Simulators) already self-guard with `runFlow: when: platform:
+# Android` and simply no-op on iOS.
+e2e-setup: ## One-time device prep (Android: disable animations + accept location consent; no-op on iOS today)
+ifeq ($(PLATFORM),iOS)
+	@echo "PLATFORM=iOS: no one-time device prep implemented yet (see e2e-setup's comment above)."
+else
 	$(ADB) shell settings put global window_animation_scale 0
 	$(ADB) shell settings put global transition_animation_scale 0
 	$(ADB) shell settings put global animator_duration_scale 0
-	maestro test $(MAESTRO_DIR)/subflows/accept_location_consent.yaml
+	maestro test $(MAESTRO_DEVICE_FLAG) $(MAESTRO_DIR)/subflows/accept_location_consent.yaml
+endif
 
-e2e: ## Run the full e2e suite
-	maestro test $(MAESTRO_DIR)
+e2e: ## Run the full e2e suite (PLATFORM=iOS to target a Simulator)
+	maestro test --platform=$(PLATFORM) $(MAESTRO_DEVICE_FLAG) $(MAESTRO_DIR)
 
-e2e-smoke: ## Run only smoke-tagged flows
-	maestro test $(MAESTRO_DIR) --include-tags smoke
+e2e-smoke: ## Run only smoke-tagged flows (PLATFORM=iOS to target a Simulator)
+	maestro test --platform=$(PLATFORM) $(MAESTRO_DEVICE_FLAG) $(MAESTRO_DIR) --include-tags smoke
 
-e2e-report: ## Run the suite and emit an HTML report
-	maestro test $(MAESTRO_DIR) --format HTML-DETAILED --output maestro-report
+e2e-report: ## Run the suite and emit an HTML report (PLATFORM=iOS to target a Simulator)
+	maestro test --platform=$(PLATFORM) $(MAESTRO_DEVICE_FLAG) $(MAESTRO_DIR) --format HTML-DETAILED --output maestro-report
 
 ##@ Demo (narrated walkthrough, kept out of the suite)
 demo: ## Run the demo flows with slowed animations

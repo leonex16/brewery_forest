@@ -4,10 +4,22 @@ tags:
   - deterministic
 # Flow 4: type 'zzzzzq' (>=5 chars, no match) -> 'No breweries found'.
 ---
-- launchApp:
-    clearState: true
-    permissions:
-      location: allow
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: allow
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: always
 - setLocation:
     latitude: 43.6532
     longitude: -79.3832

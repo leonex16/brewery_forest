@@ -8,10 +8,22 @@ tags:
 # (The map canvas isn't targetable, but panning via coordinate swipes on the map
 # area is, and the pill is a normal widget with visible text.)
 ---
-- launchApp:
-    clearState: true
-    permissions:
-      location: allow
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: allow
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: always
 - setLocation:
     latitude: 43.6532
     longitude: -79.3832

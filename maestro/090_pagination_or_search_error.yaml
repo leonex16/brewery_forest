@@ -4,28 +4,35 @@ tags:
   - error
 # Flow 9: feed loads OK, then airplane mode ON mid-session -> a new search
 # request fails and surfaces the network error message.
+# Android only - setAirplaneMode has no effect on iOS simulators
+# (https://github.com/mobile-dev-inc/maestro/issues/2895), so the whole
+# flow body is guarded by platform: Android and no-ops elsewhere.
 # onFlowComplete always restores connectivity, even if the flow fails midway.
 onFlowComplete:
   - setAirplaneMode: disabled
 ---
-- launchApp:
-    clearState: true
-    permissions:
-      location: allow
-- setLocation:
-    latitude: 43.6532
-    longitude: -79.3832
-- extendedWaitUntil:
-    visible: "Search near you"
-    timeout: 30000
-- extendedWaitUntil:
-    visible:
-      id: "brewery_item"
-    timeout: 30000
-- setAirplaneMode: enabled
-- tapOn:
-    id: "feed_search_field"
-- inputText: "brewing"
-- extendedWaitUntil:
-    visible: "No internet connection"
-    timeout: 25000
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: allow
+      - setLocation:
+          latitude: 43.6532
+          longitude: -79.3832
+      - extendedWaitUntil:
+          visible: "Search near you"
+          timeout: 30000
+      - extendedWaitUntil:
+          visible:
+            id: "brewery_item"
+          timeout: 30000
+      - setAirplaneMode: enabled
+      - tapOn:
+          id: "feed_search_field"
+      - inputText: "brewing"
+      - extendedWaitUntil:
+          visible: "No internet connection"
+          timeout: 25000

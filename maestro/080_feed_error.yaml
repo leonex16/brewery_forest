@@ -3,16 +3,23 @@ name: 080_feed_error
 tags:
   - error
 # Flow 8: airplane mode ON before launch -> feed shows an error state.
+# Android only - setAirplaneMode has no effect on iOS simulators
+# (https://github.com/mobile-dev-inc/maestro/issues/2895), so the whole
+# flow body is guarded by platform: Android and no-ops elsewhere.
 # onFlowComplete always restores connectivity, even if the flow fails midway.
 onFlowComplete:
   - setAirplaneMode: disabled
 ---
-- setAirplaneMode: enabled
-- launchApp:
-    clearState: true
-    permissions:
-      location: allow
-- extendedWaitUntil:
-    visible:
-      id: "feed_error"
-    timeout: 40000
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - setAirplaneMode: enabled
+      - launchApp:
+          clearState: true
+          permissions:
+            location: allow
+      - extendedWaitUntil:
+          visible:
+            id: "feed_error"
+          timeout: 40000

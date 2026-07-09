@@ -6,10 +6,22 @@ tags:
 # unavailable the app falls back to IP geolocation (ipwho.is) and centers there,
 # showing the 'approximate location' banner (assertable, unlike the map).
 ---
-- launchApp:
-    clearState: true
-    permissions:
-      location: deny
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: deny
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: never
 - extendedWaitUntil:
     visible: "Explore without location"
     timeout: 30000

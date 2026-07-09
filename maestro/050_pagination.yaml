@@ -14,10 +14,22 @@ tags:
 # once loadNextPage has fetched page 2. Deterministic for the fixed Toronto query.
 # (If the OpenBreweryDB dataset shifts and this name leaves page 2, update it.)
 ---
-- launchApp:
-    clearState: true
-    permissions:
-      location: allow
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: allow
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: always
 - setLocation:
     latitude: 43.6532
     longitude: -79.3832

@@ -5,10 +5,22 @@ tags:
 # Flow 10: launch with location denied -> permission screen -> tap
 # 'Explore without location' -> feed is reached with items.
 ---
-- launchApp:
-    clearState: true
-    permissions:
-      location: deny
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: deny
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: never
 - extendedWaitUntil:
     visible: "Explore without location"
     timeout: 30000

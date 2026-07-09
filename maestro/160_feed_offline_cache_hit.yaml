@@ -1,0 +1,37 @@
+appId: app.laes.brewery_forest
+name: 160_feed_offline_cache_hit
+tags:
+  - offline
+# Flow 16: L29 offline cache, feed domain cache. Android only - see 140.
+# Loads the feed online (warms the Hive page-1 cache), goes offline, cold
+# starts: must show the last successful page-1 list, not feed_error. The
+# feed only caches page 1 (see L29 lesson SS9), so this only proves the
+# cold-start case, not loadNextPage() while offline.
+# onFlowComplete always restores connectivity, even if the flow fails midway.
+onFlowComplete:
+  - setAirplaneMode: disabled
+---
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: allow
+      - setLocation:
+          latitude: 43.6532
+          longitude: -79.3832
+      - extendedWaitUntil:
+          visible:
+            id: "brewery_item"
+          timeout: 30000
+      - setAirplaneMode: enabled
+      - launchApp:
+          clearState: false
+      - extendedWaitUntil:
+          visible:
+            id: "brewery_item"
+          timeout: 30000
+      - assertNotVisible:
+          id: "feed_error"

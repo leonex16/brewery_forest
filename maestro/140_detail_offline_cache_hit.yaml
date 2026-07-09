@@ -1,0 +1,58 @@
+appId: app.laes.brewery_forest
+name: 140_detail_offline_cache_hit
+tags:
+  - offline
+# Flow 14: L29 offline cache, detail HTTP cache hit. Android only - relies on
+# setAirplaneMode, which has no effect on iOS simulators
+# (https://github.com/mobile-dev-inc/maestro/issues/2895).
+# Loads item 0's detail online (warms the HTTP cache), goes offline, cold
+# starts (launchApp stops+relaunches by default) and reopens the SAME item:
+# must still load, not show BreweryDetailFailure.
+# onFlowComplete always restores connectivity, even if the flow fails midway.
+onFlowComplete:
+  - setAirplaneMode: disabled
+---
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: allow
+      - setLocation:
+          latitude: 43.6532
+          longitude: -79.3832
+      - extendedWaitUntil:
+          visible:
+            id: "brewery_item"
+          timeout: 30000
+      - tapOn:
+          id: "brewery_item"
+          index: 0
+      - extendedWaitUntil:
+          visible:
+            id: "brewery_card"
+          timeout: 10000
+      - tapOn: "View details"
+      - extendedWaitUntil:
+          visible: "(?s)ADDRESS.*"
+          timeout: 20000
+      - setAirplaneMode: enabled
+      - launchApp:
+          clearState: false
+      - extendedWaitUntil:
+          visible:
+            id: "brewery_item"
+          timeout: 30000
+      - tapOn:
+          id: "brewery_item"
+          index: 0
+      - extendedWaitUntil:
+          visible:
+            id: "brewery_card"
+          timeout: 10000
+      - tapOn: "View details"
+      - extendedWaitUntil:
+          visible: "(?s)ADDRESS.*"
+          timeout: 20000

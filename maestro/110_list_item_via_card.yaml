@@ -5,10 +5,22 @@ tags:
 # Flow 11: tap a list item -> the floating card appears -> 'View details' -> detail.
 # Emphasizes that the card is shown (vs. a direct navigation).
 ---
-- launchApp:
-    clearState: true
-    permissions:
-      location: allow
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: allow
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: always
 - setLocation:
     latitude: 43.6532
     longitude: -79.3832
