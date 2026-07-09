@@ -1,7 +1,7 @@
 name: brewery_forest
 description: "Discover craft breweries near you, powered by the Open Brewery DB."
 publish_to: 'none'
-version: 1.1.0+5
+version: 1.1.1+7
 
 environment:
   sdk: 3.12.2

@@ -91,8 +91,9 @@ else
 endif
 
 ##@ Release (Play Store artifact)
-build-appbundle: ## Build the release .aab for the Play Store
+build-appbundle: ## Build the release .aab for the Play Store, then reveal it in Finder
 	flutter build appbundle --release --dart-define-from-file=$(ENV_FILE)
+	open build/app/outputs/bundle/release
 
 ##@ E2E tests (Maestro - Android by default; PLATFORM=iOS to target a Simulator)
 # iOS needs its own permission vocabulary: `permissions.location: allow/deny`
